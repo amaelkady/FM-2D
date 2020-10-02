@@ -1,13 +1,13 @@
 function Process_EigenAnalysis ()
 global MainDirectory ProjectName ProjectPath
 clc
-cd (ProjectPath)
-load (ProjectName)
-cd(MainDirectory)
+cd (ProjectPath);
+load (ProjectName);
+cd(MainDirectory);
 
-cd (RFpath)
-cd ('Results')
-cd ('EigenAnalysis')
+cd (RFpath);
+cd ('Results');
+cd ('EigenAnalysis');
 
 % Read the Mode Shapes
 for i=1:NStory

@@ -19,18 +19,18 @@ grid on; box on; hold on;
 plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]);
 for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
     if noGM>=3 || nRealizations>1
-        plot (PFA_MF(GM_No,:), ELEVATION,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
+        plot (PFA_MF(GM_No,:), Elevation,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
     elseif noGM==1
-        plot (PFA_MF(GM_No,:), ELEVATION,'-ok','LineWidth',1.5);
+        plot (PFA_MF(GM_No,:), Elevation,'-ok','LineWidth',1.5);
     elseif noGM==2
-        plot (PFA_MF(GM_No,:), ELEVATION,'-*b','LineWidth',1.5);
+        plot (PFA_MF(GM_No,:), Elevation,'-*b','LineWidth',1.5);
     end
 end
-if noGM>=3 || nRealizations>1; plot (median(PFA_MF), ELEVATION,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
+if noGM>=3 || nRealizations>1; plot (median(PFA_MF), Elevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
 set(gca,'XLim',[0 1.5*max(max(PFA_MF))]);
-set(gca,'YLim',[0  max(ELEVATION)]);
-set(gca,'YTick',ELEVATION);
-set(gca,'YTickLabel',YTICKLABEL);
+set(gca,'YLim',[0  max(Elevation)]);
+set(gca,'YTick',Elevation);
+set(gca,'YTickLabel',YTickLabel);
 set(gca,'FontName','Times','FontSize',14);
 ylabel ('Elevation');
 if FloorLink==1; xlabel ('\itPFA\rm [g]'); else; xlabel ('\itPFA\rm_{MF} [g]'); end
@@ -42,18 +42,18 @@ if FloorLink~=1
     plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]);
     for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
         if noGM>=3 || nRealizations>1
-            plot (PFA_EGF(GM_No,:), ELEVATION,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
+            plot (PFA_EGF(GM_No,:), Elevation,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
         elseif noGM==1
-            plot (PFA_EGF(GM_No,:), ELEVATION,'-ok','LineWidth',1.5);
+            plot (PFA_EGF(GM_No,:), Elevation,'-ok','LineWidth',1.5);
         elseif noGM==2
-            plot (PFA_EGF(GM_No,:), ELEVATION,'-*b','LineWidth',1.5);
+            plot (PFA_EGF(GM_No,:), Elevation,'-*b','LineWidth',1.5);
         end
     end
-    if noGM>=3 || nRealizations>1; plot (median(PFA_EGF), ELEVATION,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
+    if noGM>=3 || nRealizations>1; plot (median(PFA_EGF), Elevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
     set(gca,'XLim',[0 1.5*max(max(PFA_EGF))]);
-    set(gca,'YLim',[0  max(ELEVATION)]);
-    set(gca,'YTick',ELEVATION);
-    set(gca,'YTickLabel',YTICKLABEL);
+    set(gca,'YLim',[0  max(Elevation)]);
+    set(gca,'YTick',Elevation);
+    set(gca,'YTickLabel',YTickLabel);
     set(gca,'FontName','Times','FontSize',14);
     ylabel ('Elevation');
     xlabel ('\itPFA\rm_{EGF} [g]');

@@ -8,7 +8,7 @@ cd(MainDirectory)
 a=0; b=0; c=0;
 
 [Column_Index, Beam_Index, Brace_Index, XSecID] = Get_Section_Database_Index(FrameType, NStory, NBay, MF_COLUMNS, MF_BEAMS, BRACES, Units);
-[GridX, GridY, AXIS, ELEVATION, HALFELEVATION, XTICKLABEL, YTICKLABEL] = Get_Grid (NStory, NBay,HStory, WBay);
+[GridX, GridY, AXIS, Elevation, HalfElevation, XTickLabel, YTickLabel] = Get_Grid (NStory, NBay,HStory, WBay);
 
 Section=MF_COLUMNS{1,1};
 [SecData]=Load_SecData (Section, Units);
@@ -45,10 +45,10 @@ app.axes1.YGrid='on';
 hold(app.axes1,"on");
 app.axes1.XLim=[0.0-0.5*WBay(1)   GridX(end)+0.5*WBay(1)];
 app.axes1.YLim=[0.0-0.2*HStory(1) HBuilding+0.2*HStory(1)];
-app.axes1.YTick=ELEVATION;
-app.axes1.YTickLabel=YTICKLABEL;
+app.axes1.YTick=Elevation;
+app.axes1.YTickLabel=YTickLabel;
 app.axes1.XTick=AXIS;
-app.axes1.XTickLabel=XTICKLABEL;
+app.axes1.XTickLabel=XTickLabel;
 app.axes1.YLabel.String='Floor';
 app.axes1.XLabel.String='Axis';
 app.axes1.GridLineStyle='-.';

@@ -10,14 +10,18 @@ if Units==1
     massUnit=' kN.sec2/mm';
     dispUnit=' mm';
     forceUnit=' kN';
-    loadUnit=' kN/mm2';
+    loadUnit=' kN/m2';
+    matUnit=' kN/mm2';
     KUnit=' kN/mm';
+    convUnit=1000*1000;
 else
     massUnit=' kip.sec2/in';
     dispUnit=' in';
     forceUnit=' kip';
-    loadUnit=' kip/in2';
+    loadUnit=' psf';
+    matUnit=' ksi';
     KUnit=' kip/in';
+    convUnit=1000*12*12;
 end
 
 if Modelstatus==1
@@ -109,13 +113,13 @@ if Definestatus==1
     SummaryText{i}='';i=i+1;
     SummaryText{i}='LOADS';i=i+1;
     SummaryText{i}='------------------------------------------------------';i=i+1;
-    SummaryText{i}=['- Dead Load, Typical Floor   : ', num2str(TypicalDL),loadUnit];i=i+1;
-    SummaryText{i}=['- Dead Load, Roof            : ', num2str(RoofDL),loadUnit];i=i+1;
-    SummaryText{i}=['- Live Load, Typical Floor   : ', num2str(TypicalLL),loadUnit];i=i+1;
-    SummaryText{i}=['- Live Load, Roof            : ', num2str(RoofLL),loadUnit];i=i+1;
-    SummaryText{i}=['- Generic Load, Typical Floor: ', num2str(TypicalGL),loadUnit];i=i+1;
-    SummaryText{i}=['- Generic Load, Roof         : ', num2str(RoofGL),loadUnit];i=i+1;
-    SummaryText{i}=['- Cladding Load              : ', num2str(Cladding),loadUnit];i=i+1;
+    SummaryText{i}=['- Dead Load, Typical Floor   : ', num2str(TypicalDL*convUnit),loadUnit];i=i+1;
+    SummaryText{i}=['- Dead Load, Roof            : ', num2str(RoofDL   *convUnit),loadUnit];i=i+1;
+    SummaryText{i}=['- Live Load, Typical Floor   : ', num2str(TypicalLL*convUnit),loadUnit];i=i+1;
+    SummaryText{i}=['- Live Load, Roof            : ', num2str(RoofLL   *convUnit),loadUnit];i=i+1;
+    SummaryText{i}=['- Generic Load, Typical Floor: ', num2str(TypicalGL*convUnit),loadUnit];i=i+1;
+    SummaryText{i}=['- Generic Load, Roof         : ', num2str(RoofGL   *convUnit),loadUnit];i=i+1;
+    SummaryText{i}=['- Cladding Load              : ', num2str(Cladding *convUnit),loadUnit];i=i+1;
     SummaryText{i}='';i=i+1;
     SummaryText{i}=['- Load Combination for Seismic Weight:'];i=i+1;
     SummaryText{i}=['    ',num2str(cDL_W),'*DL + ', num2str(cLL_W),'*LL + ', num2str(cGL_W),'*GL +', num2str(cCL_W),'*Cladding'];i=i+1;
@@ -123,12 +127,25 @@ if Definestatus==1
     SummaryText{i}=['    ',num2str(cDL_M),'*DL + ', num2str(cLL_M),'*LL + ', num2str(cGL_M),'*GL +', num2str(cCL_M),'*Cladding'];i=i+1;
     SummaryText{i}='';i=i+1;
 
-    if ColElementOption==1
-        SummaryText{i}=['- Column members are modeled using lumped plasticity approach'];i=i+1;
-    elseif ColElementOption==2
-        SummaryText{i}=['- Column members are modeled using displacement-based fiber elements'];i=i+1;
-    elseif ColElementOption==3
-        SummaryText{i}=['- Column members are modeled using force-based fiber elements'];i=i+1;
+    SummaryText{i}='';i=i+1;
+    SummaryText{i}='MATERIAL';i=i+1;
+    SummaryText{i}='------------------------------------------------------';i=i+1;
+    SummaryText{i}=['- Material type/grade        : ', SteelMatType];       i=i+1;
+    SummaryText{i}=['- Elastic modulus            : ', num2str(E), matUnit];i=i+1;
+    SummaryText{i}=['- Yield stress               : ', num2str(fy),matUnit];i=i+1;
+    if FrameType==2
+    SummaryText{i}=['- Yield stress - Brace       : ', num2str(fyBrace),matUnit];i=i+1;
+    SummaryText{i}=['- Yield stress - Gusset plate: ', num2str(fyGP),matUnit];i=i+1;
+    end
+    SummaryText{i}=['- Poisson ratio              : ', num2str(mu),matUnit];i=i+1;
+    SummaryText{i}='';i=i+1;
+    
+    SummaryText{i}='SUPPORTS & CONNECTIONS';i=i+1;
+    SummaryText{i}='------------------------------------------------------';i=i+1;
+    if Support==1
+        SummaryText{i}=['- Main frame column supports are fixed'];i=i+1;
+    else
+        SummaryText{i}=['- Main frame column supports are pinned'];i=i+1;
     end
     if SpliceConnection==1
         SummaryText{i}=['- Column splices are assumed as pinned connections'];i=i+1;
@@ -160,6 +177,24 @@ if Definestatus==1
         elseif MFconnectionOdd==3
             SummaryText{i}=['- Beam-to-column connections at odd-numbered floors are modeled as moment connections'];i=i+1;
         end
+        SummaryText{i}='';i=i+1;
+        SummaryText{i}=['Brace modeling'];i=i+1;
+        SummaryText{i}=['---------------'];i=i+1;
+        SummaryText{i}=['- number of segments               : ', num2str(nSegments)];   i=i+1;
+        SummaryText{i}=['- number of integration points     : ', num2str(nIntegration)];i=i+1;
+        SummaryText{i}=['- mid-length imperfection          : ', num2str(initialGI),'L'];   i=i+1;
+
+    end
+    SummaryText{i}='';i=i+1;
+    
+    SummaryText{i}='MEMBER MODELING';i=i+1;
+    SummaryText{i}='------------------------------------------------------';i=i+1;
+    if ColElementOption==1
+        SummaryText{i}=['- Column members are modeled using lumped plasticity approach'];i=i+1;
+    elseif ColElementOption==2
+        SummaryText{i}=['- Column members are modeled using displacement-based fiber elements'];i=i+1;
+    elseif ColElementOption==3
+        SummaryText{i}=['- Column members are modeled using force-based fiber elements'];i=i+1;
     end
     SummaryText{i}='------------------------------------------------------';i=i+1;
 end

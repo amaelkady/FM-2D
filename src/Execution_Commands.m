@@ -44,16 +44,14 @@ if ExecutionOption==1
     else
         
         app.ProgressText.Text='Running Preliminary Eigenvalue Analysis...'; drawnow;
-        if BraceLayout==1;  CREATOR_MODEL_CBF_XBRACING(1,0);  end
-        if BraceLayout==2;  CREATOR_MODEL_CBF_CHEVRON (1,0);  end
-                            CREATOR_ANALYSIS          (1,0);
+        CREATOR_MODEL_CBF (1,0); 
+        CREATOR_ANALYSIS  (1,0);
         eval(strcat('! OpenSees.exe TempModel.tcl'));
         fclose all;
 
         app.ProgressText.Text='Creating Main tcl File...'; drawnow;
-        if BraceLayout==1;   CREATOR_MODEL_CBF_XBRACING(AnalysisTypeID,0); end
-        if BraceLayout==2;   CREATOR_MODEL_CBF_CHEVRON(AnalysisTypeID,0);  end
-        CREATOR_ANALYSIS(AnalysisTypeID,0);
+        CREATOR_MODEL_CBF (AnalysisTypeID,0);
+        CREATOR_ANALYSIS  (AnalysisTypeID,0);
         
     end
     
@@ -77,7 +75,8 @@ else
     app.Image.Visible      = 'on';
     app.ProgressText.Text  = 'Running Preliminary Eigenvalue Analysis...'; drawnow;
     
-    CREATOR_MODEL_MRF(1,0);
+    if FrameType==1; CREATOR_MODEL_MRF(1,0); end
+    if FrameType==2; CREATOR_MODEL_CBF(1,0); end
     CREATOR_ANALYSIS (1,0);
     eval(strcat('! OpenSees.exe TempModel.tcl'));
     fclose all;
