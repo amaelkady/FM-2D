@@ -84,6 +84,8 @@ else
     Run_OpenSEES (app);
 end
 
+write2file_ProjectSummary(RFpath);  
+
 % Delete analysis files
 fclose all;
 delete ('LPmode.tcl');

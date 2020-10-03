@@ -34,7 +34,7 @@ for Story=1:min(5,NStory)
     if Story>4;  plot (Eigen_Vectors(Story,:), Elevation,'linewidth',0.5,'Color',[0.65 0.65 0.65]); end
     legendlabel{Story}=['Mode #',num2str(Story),'=',num2str(Eigen_Period(Story)),'sec'];
 end
-set(gca,'XLim',[-1.5*max(max(Eigen_Vectors)) 1.5*max(max(Eigen_Vectors))]);
+set(gca,'XLim',[-1.5*max(max(abs(Eigen_Vectors))) 1.5*max(max(abs(Eigen_Vectors)))]);
 set(gca,'YLim',[0  max(Elevation)]);
 set(gca,'YTick',Elevation);
 set(gca,'YTickLabel',YTickLabel);

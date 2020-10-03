@@ -4,7 +4,7 @@ global MainDirectory ProjectPath
 cd (ProjectPath)
 
 xx={ME.stack.line};
-fid = fopen('Error.txt', 'wt');
+fid = fopen('Error log.txt', 'wt');
 fprintf(fid, 'Error Identifier:   %s\n', ME.identifier);
 fprintf(fid, 'Error Message:      %s\n', ME.message);
 fprintf(fid, '--------------------------------------------------\n');

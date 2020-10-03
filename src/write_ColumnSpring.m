@@ -105,6 +105,7 @@ for Floor=NStory+1:-1:1
     end
     if Floor==NStory+1 && NStory==1
         for Axis=1:NBay+1
+            Bay=max(1,Axis-1);
             Section=MF_COLUMNS{Story,Axis};
             [SecData]=Load_SecData (Section, Units);
             idx=find(contains(SecData.Name,Section));
@@ -133,6 +134,7 @@ for Floor=NStory+1:-1:1
     end
     if Floor==1
         for Axis=1:NBay+1
+            Bay=max(1,Axis-1);
             Section=MF_COLUMNS{Story,Axis};
             [SecData]=Load_SecData (Section, Units);
             idx=find(contains(SecData.Name,Section));

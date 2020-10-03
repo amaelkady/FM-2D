@@ -85,60 +85,55 @@ end
 
 if Definestatus==1
 
-    SummaryText{i}='';i=i+1;
-    SummaryText{i}='BUILDING DATA';i=i+1;
-    SummaryText{i}='------------------------------------------------------';i=i+1;
-    SummaryText{i}=char(BuildingDescription);i=i+1;
-    SummaryText{i}='';i=i+1;
-    SummaryText{i}='------------------------------------------------------';i=i+1;
-    if FrameType==1; SummaryText{i}=['- Frame Type: MRF'];i=i+1; end
-    if FrameType==2
-        if BraceLayout==1
-            SummaryText{i}=['- Frame Type: CBF X-Bracing'];i=i+1;
-        else
-            SummaryText{i}=['- Frame Type: CBF Chevron'];i=i+1;
-        end
-        
-    end
-    SummaryText{i}=['- No. of Stories: ', num2str(NStory)];i=i+1;
-    SummaryText{i}=['- No. of Frames per Direction: ', num2str(nMF)];i=i+1;
-    SummaryText{i}=['- Floor Area: ', num2str(DIM1), dispUnit,' x ', num2str(DIM2), dispUnit];i=i+1;
-    SummaryText{i}=['- Tributary Area of Interior Column: ', num2str(TAin1), dispUnit,' x ', num2str(TAin2), dispUnit];i=i+1;
-    SummaryText{i}=['- Tributary Area of Exterior Column: ', num2str(TAex1), dispUnit,' x ', num2str(TAex2), dispUnit];i=i+1;
-    if GFX==1
-        SummaryText{i}=['- No. of Gravity Columns: ', num2str(nGC*nMF)];i=i+1;
-        SummaryText{i}=['- No. of Gravity Beams:   ', num2str(nGB*nMF)];i=i+1;
-    end
-    
-    SummaryText{i}='';i=i+1;
-    SummaryText{i}='LOADS';i=i+1;
-    SummaryText{i}='------------------------------------------------------';i=i+1;
-    SummaryText{i}=['- Dead Load, Typical Floor   : ', num2str(TypicalDL*convUnit),loadUnit];i=i+1;
-    SummaryText{i}=['- Dead Load, Roof            : ', num2str(RoofDL   *convUnit),loadUnit];i=i+1;
-    SummaryText{i}=['- Live Load, Typical Floor   : ', num2str(TypicalLL*convUnit),loadUnit];i=i+1;
-    SummaryText{i}=['- Live Load, Roof            : ', num2str(RoofLL   *convUnit),loadUnit];i=i+1;
-    SummaryText{i}=['- Generic Load, Typical Floor: ', num2str(TypicalGL*convUnit),loadUnit];i=i+1;
-    SummaryText{i}=['- Generic Load, Roof         : ', num2str(RoofGL   *convUnit),loadUnit];i=i+1;
-    SummaryText{i}=['- Cladding Load              : ', num2str(Cladding *convUnit),loadUnit];i=i+1;
-    SummaryText{i}='';i=i+1;
-    SummaryText{i}=['- Load Combination for Seismic Weight:'];i=i+1;
-    SummaryText{i}=['    ',num2str(cDL_W),'*DL + ', num2str(cLL_W),'*LL + ', num2str(cGL_W),'*GL +', num2str(cCL_W),'*Cladding'];i=i+1;
-    SummaryText{i}=['- Load Combination for Mass:'];i=i+1;
-    SummaryText{i}=['    ',num2str(cDL_M),'*DL + ', num2str(cLL_M),'*LL + ', num2str(cGL_M),'*GL +', num2str(cCL_M),'*Cladding'];i=i+1;
-    SummaryText{i}='';i=i+1;
+        SummaryText{i}='';i=i+1;
+        SummaryText{i}='BUILDING DATA';i=i+1;
+        SummaryText{i}='------------------------------------------------------';i=i+1;
+        SummaryText{i}=char(BuildingDescription);i=i+1;
+        SummaryText{i}='';i=i+1;
+        SummaryText{i}='------------------------------------------------------';i=i+1;
+        if FrameType==1;                     SummaryText{i}=['- Frame Type                       : MRF'];i=i+1;           end
+        if FrameType==2 &&  BraceLayout==1;  SummaryText{i}=['- Frame Type                       : CBF X-Bracing'];i=i+1; end
+        if FrameType==2 &&  BraceLayout==2;  SummaryText{i}=['- Frame Type                       : CBF Chevron'];i=i+1;   end
 
-    SummaryText{i}='';i=i+1;
-    SummaryText{i}='MATERIAL';i=i+1;
-    SummaryText{i}='------------------------------------------------------';i=i+1;
-    SummaryText{i}=['- Material type/grade        : ', SteelMatType];       i=i+1;
-    SummaryText{i}=['- Elastic modulus            : ', num2str(E), matUnit];i=i+1;
-    SummaryText{i}=['- Yield stress               : ', num2str(fy),matUnit];i=i+1;
-    if FrameType==2
-    SummaryText{i}=['- Yield stress - Brace       : ', num2str(fyBrace),matUnit];i=i+1;
-    SummaryText{i}=['- Yield stress - Gusset plate: ', num2str(fyGP),matUnit];i=i+1;
-    end
-    SummaryText{i}=['- Poisson ratio              : ', num2str(mu),matUnit];i=i+1;
-    SummaryText{i}='';i=i+1;
+        SummaryText{i}=['- No. of Stories                   : ', num2str(NStory)];i=i+1;
+        SummaryText{i}=['- No. of Frames per Direction      : ', num2str(nMF)];i=i+1;
+        SummaryText{i}=['- Floor Area                       : ', num2str(DIM1), dispUnit,' x ', num2str(DIM2), dispUnit];i=i+1;
+        SummaryText{i}=['- Tributary Area of Interior Column: ', num2str(TAin1), dispUnit,' x ', num2str(TAin2), dispUnit];i=i+1;
+        SummaryText{i}=['- Tributary Area of Exterior Column: ', num2str(TAex1), dispUnit,' x ', num2str(TAex2), dispUnit];i=i+1;
+        if GFX==1
+        SummaryText{i}=['- No. of Gravity Columns           : ', num2str(nGC*nMF)];i=i+1;
+        SummaryText{i}=['- No. of Gravity Beams             : ', num2str(nGB*nMF)];i=i+1;
+        end
+
+        SummaryText{i}='';i=i+1;
+        SummaryText{i}='LOADS';i=i+1;
+        SummaryText{i}='------------------------------------------------------';i=i+1;
+        SummaryText{i}=['- Dead Load, Typical Floor         : ', num2str(TypicalDL*convUnit),loadUnit];i=i+1;
+        SummaryText{i}=['- Dead Load, Roof                  : ', num2str(RoofDL   *convUnit),loadUnit];i=i+1;
+        SummaryText{i}=['- Live Load, Typical Floor         : ', num2str(TypicalLL*convUnit),loadUnit];i=i+1;
+        SummaryText{i}=['- Live Load, Roof                  : ', num2str(RoofLL   *convUnit),loadUnit];i=i+1;
+        SummaryText{i}=['- Generic Load, Typical Floor      : ', num2str(TypicalGL*convUnit),loadUnit];i=i+1;
+        SummaryText{i}=['- Generic Load, Roof               : ', num2str(RoofGL   *convUnit),loadUnit];i=i+1;
+        SummaryText{i}=['- Cladding Load                    : ', num2str(Cladding *convUnit),loadUnit];i=i+1;
+        SummaryText{i}='';i=i+1;
+        SummaryText{i}=['- Load Combination for Seismic Weight:'];i=i+1;
+        SummaryText{i}=['    ',num2str(cDL_W),'*DL + ', num2str(cLL_W),'*LL + ', num2str(cGL_W),'*GL +', num2str(cCL_W),'*Cladding'];i=i+1;
+        SummaryText{i}=['- Load Combination for Mass:'];i=i+1;
+        SummaryText{i}=['    ',num2str(cDL_M),'*DL + ', num2str(cLL_M),'*LL + ', num2str(cGL_M),'*GL +', num2str(cCL_M),'*Cladding'];i=i+1;
+        SummaryText{i}='';i=i+1;
+
+        SummaryText{i}='';i=i+1;
+        SummaryText{i}='MATERIAL';i=i+1;
+        SummaryText{i}='------------------------------------------------------';i=i+1;
+        SummaryText{i}=['- Material type/grade              : ', SteelMatType];       i=i+1;
+        SummaryText{i}=['- Elastic modulus                  : ', num2str(E), matUnit];i=i+1;
+        SummaryText{i}=['- Yield stress                     : ', num2str(fy),matUnit];i=i+1;
+        if FrameType==2
+        SummaryText{i}=['- Yield stress - Brace             : ', num2str(fyBrace),matUnit];i=i+1;
+        SummaryText{i}=['- Yield stress - Gusset plate      : ', num2str(fyGP),matUnit];i=i+1;
+        end
+        SummaryText{i}=['- Poisson ratio                    : ', num2str(mu),matUnit];i=i+1;
+        SummaryText{i}='';i=i+1;
     
     SummaryText{i}='SUPPORTS & CONNECTIONS';i=i+1;
     SummaryText{i}='------------------------------------------------------';i=i+1;
@@ -205,41 +200,41 @@ if Analysisstatus==1
     SummaryText{i}='ANALYSIS PARAMETERS';i=i+1;
     SummaryText{i}='------------------------------------------------------';i=i+1;
     if EV==1
-        SummaryText{i}='- Analysis Type: Eigenvalue';i=i+1;
+        SummaryText{i}=['- Analysis Type                    : Eigenvalue'];i=i+1;
     elseif PO==1
-        SummaryText{i}='- Analysis Type: Pushover';i=i+1;
-        SummaryText{i}=['- Pushover Pattern: Mode ',num2str(ModePO)];i=i+1;
-        SummaryText{i}=['- Target Roof Drift: ',num2str(DriftPO*100),'% of Building Height'];i=i+1;
+        SummaryText{i}=['- Analysis Type                    : Pushover'];i=i+1;
+        SummaryText{i}=['- Pushover Pattern                 : Mode ',num2str(ModePO)];i=i+1;
+        SummaryText{i}=['- Target Roof Drift                : ',num2str(DriftPO*100),'% of Building Height'];i=i+1;
     elseif IDA==1
-                         SummaryText{i}= '- Analysis Type:            IDA';i=i+1;
-        if SA_metric==1; SummaryText{i}=['- Intensity Measure:        Sa(T1, ',num2str(zeta*100),'%)'];i=i+1; end
-        if SA_metric==2; SummaryText{i}=['- Intensity Measure:        Sa_avg(0.2T1~3T1, ',num2str(zeta*100),'%)'];i=i+1; end
-        SummaryText{i}=['- Intensity Increment:      ',num2str(SA_Step),'g'];i=i+1;
-        SummaryText{i}=['- Collapse Point Tolerance: ',num2str(SAstepmin),'g'];i=i+1;
-        SummaryText{i}=['- SDR Limit for Collapse:   ',num2str(CollapseSDR*100),'%'];i=i+1;
-        SummaryText{i}=['- IDA Slope for Collapse:   ',num2str(IDAslopeLimit),'rad/g'];i=i+1;
+                         SummaryText{i}=['- Analysis Type                    : IDA'];i=i+1;
+        if SA_metric==1; SummaryText{i}=['- Intensity Measure                : Sa(T1, ',num2str(zeta*100),'%)'];i=i+1; end
+        if SA_metric==2; SummaryText{i}=['- Intensity Measure                : Sa_avg(0.2T1~3T1, ',num2str(zeta*100),'%)'];i=i+1; end
+        SummaryText{i}=['- Intensity Increment              : ',num2str(SA_Step),'g'];i=i+1;
+        SummaryText{i}=['- Collapse Point Tolerance         : ',num2str(SAstepmin),'g'];i=i+1;
+        SummaryText{i}=['- SDR Limit for Collapse           : ',num2str(CollapseSDR*100),'%'];i=i+1;
+        SummaryText{i}=['- IDA Slope for Collapse           : ',num2str(IDAslopeLimit),'rad/g'];i=i+1;
     elseif Dynamic_TargetSF==1
-        SummaryText{i}='- Analysis Type: Dynamic, Target Scale Factor';i=i+1;
-        SummaryText{i}=['- Target Scale Factor:      ',num2str(SF)];i=i+1;
+        SummaryText{i}=['- Analysis Type                    : Dynamic, Target Scale Factor'];i=i+1;
+        SummaryText{i}=['- Target Scale Factor              : ',num2str(SF)];i=i+1;
     elseif Dynamic_TargetSA==1
-        SummaryText{i}='- Analysis Type: Dynamic, Target Seismic Intensity';i=i+1;
-        SummaryText{i}=['- Target Seismic Intensity: ',num2str(TargetSA),'g'];i=i+1;
-        SummaryText{i}=['- Scaling Period:           ',num2str(T1),'sec'];i=i+1;
+        SummaryText{i}=['- Analysis Type                    : Dynamic, Target Seismic Intensity'];i=i+1;
+        SummaryText{i}=['- Target Seismic Intensity         : ',num2str(TargetSA),'g'];i=i+1;
+        SummaryText{i}=['- Scaling Period                   : ',num2str(T1),'sec'];i=i+1;
     end
 
     if IDA==1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
-        SummaryText{i}=['- Raleigh Damping Period:   ',num2str(DampModeI),' and ',num2str(DampModeJ)];i=i+1;
-        SummaryText{i}=['- Damping Coefficient:      ',num2str(zeta*100),'%'];i=i+1;
+        SummaryText{i}=['- Raleigh Damping Period           : ',num2str(DampModeI),' and ',num2str(DampModeJ)];i=i+1;
+        SummaryText{i}=['- Damping Coefficient              : ',num2str(zeta*100),'%'];i=i+1;
         SummaryText{i}='';i=i+1;
-        SummaryText{i}=['- Ground Motion Folder Path:',GMFolderPath];i=i+1;
-        SummaryText{i}=['- Considered GMs:           GM#',num2str(GM_Start),' to GM#',num2str(GM_Last)];i=i+1;
-        SummaryText{i}=['- Free Vibration:           ',num2str(TFreeVibration),' sec'];i=i+1;
-        SummaryText{i}=['- Analysis Time Step:       ',num2str(dtstep),' * dT_GM'];i=i+1;
+        SummaryText{i}=['- Ground Motion Folder Path        : ',GMFolderPath];i=i+1;
+        SummaryText{i}=['- Considered GMs                   : GM#',num2str(GM_Start),' to GM#',num2str(GM_Last)];i=i+1;
+        SummaryText{i}=['- Free Vibration                   : ',num2str(TFreeVibration),' sec'];i=i+1;
+        SummaryText{i}=['- Analysis Time Step               : ',num2str(dtstep),' * dT_GM'];i=i+1;
     end
     
     if Uncertainty==1
         SummaryText{i}=['- Numerical modeling uncertainty is considered.'];i=i+1;
-        SummaryText{i}=['- Number of realizations per GM:       ',num2str(nRealizations)];i=i+1;
+        SummaryText{i}=['- Number of realizations per GM    : ',num2str(nRealizations)];i=i+1;
     end
 end
 

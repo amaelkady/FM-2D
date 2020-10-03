@@ -84,11 +84,7 @@ end
 if FrameType==1
     CREATOR_MODEL_MRF(1,0);
 else
-    if BraceLayout==1
-       CREATOR_MODEL_CBF_XBRACING(1,0);
-    else
-       CREATOR_MODEL_CBF_CHEVRON(1,0);
-    end
+   CREATOR_MODEL_CBF(1,0);
 end
 CREATOR_ANALYSIS(1,0);
 ! OpenSEES.exe TempModel.tcl
