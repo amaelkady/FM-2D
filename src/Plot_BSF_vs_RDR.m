@@ -2,7 +2,7 @@ function Plot_BSF_vs_RDR(GM_No, Ri)
 
 global MainDirectory ProjectName ProjectPath
 cd (ProjectPath);
-load (ProjectName,'Ws','HBuilding','RFpath','Recorders','Filename','NStory','NBay','PO','EQ','ELF','GM','Uncertainty')
+load (ProjectName,'FrameType','Ws','HBuilding','RFpath','Recorders','Filename','NStory','NBay','PO','EQ','ELF','GM','Uncertainty')
 cd (MainDirectory);
 
 if PO==1;                     SubRFname = 'Pushover';                        end
