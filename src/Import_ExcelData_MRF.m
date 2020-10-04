@@ -27,7 +27,7 @@ Doubler=num(1:NStory,1:NBay+1);
 [num,txt,Data] = xlsread(ExcelFileName,'Column Splice','B2:C100');
 Splice=num(1:NStory,:);
 
-if  FloorLink ==1
+if  FloorLink ==2
     [num,txt,Data] = xlsread(ExcelFileName,'Fs Profile','B2:B50');
     Fs_Profile=num(1:NStory,1);
 else
