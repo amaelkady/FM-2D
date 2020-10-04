@@ -26,10 +26,11 @@ RoofDisp=Disp_MF(:,end);
 figure('position',[100 100 350 350],'color','white');
 grid on; box on; hold on;
 if PO==1; DriftIncr=min(max(RoofDisp),DriftPO*HBuilding/6); else; DriftIncr=abs(RoofDisp(end,1)); end
+DriftIncrX=DriftIncr;
 for i=1:size(RoofDisp,1)
-    if abs(RoofDisp(i,1)) >= DriftIncr
+    if abs(RoofDisp(i,1)) >= DriftIncrX
         plot (Disp_MF(i,:)*100/HBuilding, Elevation,'--ok','LineWidth',1,'MarkerFaceColor','r');
-        DriftIncr=DriftIncr+DriftPO/5;
+        DriftIncrX=DriftIncrX+DriftIncr;
     end
 end
 set(gca,'FontName','Times','FontSize',14);
