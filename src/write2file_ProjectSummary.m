@@ -1,6 +1,7 @@
 function write2file_ProjectSummary(RFpath)            
 global MainDirectory
 
+[SummaryText]=Get_Project_Summary;
 
 cd(RFpath)
 cd('Results')
