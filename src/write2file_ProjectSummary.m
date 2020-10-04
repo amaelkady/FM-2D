@@ -3,7 +3,7 @@ global MainDirectory
 
 
 cd(RFpath)
-cd('Reuslts')
+cd('Results')
 
 fileID = fopen('Project Definitions.txt','w');
             
