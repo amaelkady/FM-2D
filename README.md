@@ -14,4 +14,4 @@ If you are a developer who plan on collaborating and contributing to FM-2D base 
 Citation:
 ---------
 
-Elkady, A. (2021). " Open-Source Platform for Modeling and Analyzing Steel Frame Buildings in OpenSEES in Support of Performance-based Earthquake Engineering." Engineering Structures, (under review).
+Elkady, A. (2021). " Open-Source Platform for Modeling and Analyzing Steel Frame Buildings in OpenSEES in Support of Performance-based Earthquake Engineering." Advances in Engineering Software, (under review).
