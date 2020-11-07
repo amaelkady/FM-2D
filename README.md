@@ -14,4 +14,4 @@ If you are a developer who plan on collaborating and contributing to FM-2D base 
 Citation:
 ---------
 
-Elkady, A. (2021). " Open-Source Platform for the Structural Analysis of Buildings Assets." Software: Practice and Experience, (under review).
+Elkady, A. (2021). "Open-Source Platform for the Structural Modeling and Analysis of Buildings Assets." SoftwareX, (under review).
