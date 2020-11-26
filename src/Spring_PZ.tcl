@@ -75,9 +75,9 @@ proc Spring_PZ {P_Elm NodeI NodeJ E mu fy  tw_Col tdp d_Col d_Beam tf_Col bf_Col
  set af_eff_4gamma [expr 0.93 * $Kef / $Ke  + 0.015];
  set af_eff_6gamma [expr 1.05 * $Kef / $Ke  + 0.020];
  
- set Vy 		[expr 0.55 * $fy *  $ay			   * ($d_Col - $tf_Col) * $tpz];  													  # Yield Shear Force
- set Vp_4gamma 	[expr 0.55 * $fy * ($aw_eff_4gamma * ($d_Col - $tf_Col) * $tpz + $af_eff_4gamma * ($bf_Col - $tw_Col) * 2*$tf_Col)];  # Plastic Shear Force @ 4 gammaY
- set Vp_6gamma 	[expr 0.55 * $fy * ($aw_eff_6gamma * ($d_Col - $tf_Col) * $tpz + $af_eff_6gamma * ($bf_Col - $tw_Col) * 2*$tf_Col)];  # Plastic Shear Force @ 6 gammaY
+ set Vy 		[expr 0.577 * $fy *  $ay		    * ($d_Col - $tf_Col) * $tpz];  													   # Yield Shear Force
+ set Vp_4gamma 	[expr 0.577 * $fy * ($aw_eff_4gamma * ($d_Col - $tf_Col) * $tpz + $af_eff_4gamma * ($bf_Col - $tw_Col) * 2*$tf_Col)];  # Plastic Shear Force @ 4 gammaY
+ set Vp_6gamma 	[expr 0.577 * $fy * ($aw_eff_6gamma * ($d_Col - $tf_Col) * $tpz + $af_eff_6gamma * ($bf_Col - $tw_Col) * 2*$tf_Col)];  # Plastic Shear Force @ 6 gammaY
 
 ##################################################################################################################
 # Random generation of backbone parameters based on assigned uncertainty 
