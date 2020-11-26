@@ -65,7 +65,7 @@ for Floor=NStory+1:-1:1
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             Py   = SecData.Area(idx) * fy;
             Py_Col(Story,Axis)   = SecData.Area(idx) * fy;
-            PgPy = Pred(Story,Axis)/Py;
+            PgPy = Pred(Story-1,Axis)/Py;
             
             iNode = 400000+1000*Floor+100*Axis+01;
             jNode = 100*Floor+10*Axis+01;
