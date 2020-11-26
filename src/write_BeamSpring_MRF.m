@@ -64,7 +64,7 @@ else
             Lb_BEAM = H_BEAM*0.5;
             A_RBS  =SecData.Area(idx) - 4 * c * SecData.bf(idx)*SecData.tf(idx);
             I_RBS  =SecData.Ix(idx) - 4 * c * SecData.bf(idx)*SecData.tf(idx)*((SecData.d(idx)-SecData.tf(idx))/2)^2 - 4 *c * SecData.bf(idx)*SecData.tf(idx)^3/12;
-            Z_RBS  =2 * (SecData.bf(idx) - c * SecData.bf(idx))*SecData.tf(idx)*(SecData.d(idx)/2-SecData.tf(idx)/2) + 2 * (SecData.d(idx)/2-SecData.tf(idx))*SecData.tw(idx)*(SecData.d(idx)/2-SecData.tf(idx))/2;
+            Z_RBS  =2 * (SecData.bf(idx) - 2 * c * SecData.bf(idx))*SecData.tf(idx)*(SecData.d(idx)/2-SecData.tf(idx)/2) + 2 * (SecData.d(idx)/2-SecData.tf(idx))*SecData.tw(idx)*(SecData.d(idx)/2-SecData.tf(idx))/2;
             
             My=1.1*Z_RBS*fy;
             
