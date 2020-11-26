@@ -60,6 +60,7 @@ Recorders.BeamSpring    = 0;
 Recorders.PZ            = 0;
 Recorders.RFA           = 0;
 Recorders.FloorLink     = 0;
+Recorders.EGFconnection = 0;
 Recorders.Brace         = 0;
 Recorders.CGP           = 0;
 Recorders.Support       = 0;

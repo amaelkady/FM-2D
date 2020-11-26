@@ -21,9 +21,9 @@ for Floor=NStory+1:-1:1
             [SecData]=Load_SecData (Section, Units);
             idxB2=find(contains(SecData.Name,Section));
             
-            H_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
-            L_Col  =  H_Col*0.5;
-            Lb_Col =  H_Col;
+            L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
+            Ls_Col =  L_Col*0.5;
+            Lb_Col =  L_Col;
             
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             Py   = SecData.Area(idx) * fy;
@@ -34,7 +34,7 @@ for Floor=NStory+1:-1:1
             jNode = 100*Floor+10*Axis+03;
             SpringID=900000+Floor*1000+Axis*100+03;
             if ColElementOption==1
-                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),H_Col,L_Col,Lb_Col,My_mod,PgPy,Units);
+                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy,Units);
             else
                 fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID,iNode,jNode);
             end
@@ -52,9 +52,9 @@ for Floor=NStory+1:-1:1
             [SecData]=Load_SecData (Section, Units);
             idxB2=find(contains(SecData.Name,Section));
             
-            H_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
-            L_Col  = H_Col*0.5;
-            Lb_Col =  H_Col;
+            L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
+            Ls_Col  = L_Col*0.5;
+            Lb_Col =  L_Col;
             
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             Py   = SecData.Area(idx) * fy;
@@ -65,7 +65,7 @@ for Floor=NStory+1:-1:1
             jNode = 100*Floor+10*Axis+01;
             SpringID=900000+Floor*1000+Axis*100+01;
             if ColElementOption==1
-                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),H_Col,L_Col,Lb_Col,My_mod,PgPy,Units);
+                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy,Units);
             else
                 fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID,iNode,jNode)
             end
@@ -84,9 +84,9 @@ for Floor=NStory+1:-1:1
             [SecData]=Load_SecData (Section, Units);
             idxB2=find(contains(SecData.Name,Section));
             
-            H_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
-            L_Col  = H_Col*0.5;
-            Lb_Col =  H_Col;
+            L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
+            Ls_Col  = L_Col*0.5;
+            Lb_Col =  L_Col;
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             
             Py   = SecData.Area(idx) * fy;
@@ -97,7 +97,7 @@ for Floor=NStory+1:-1:1
             jNode = 100*Floor+10*Axis+01;
             SpringID=900000+Floor*1000+Axis*100+01;
             if ColElementOption==1
-                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),H_Col,L_Col,Lb_Col,My_mod,PgPy, Units);
+                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy, Units);
             else
                 fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID,iNode,jNode);
             end
@@ -113,9 +113,9 @@ for Floor=NStory+1:-1:1
             [SecData]=Load_SecData (Section, Units);
             idxB1=find(contains(SecData.Name,Section));
             
-            H_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB1);
-            L_Col  = H_Col*0.5;
-            Lb_Col =  H_Col;
+            L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB1);
+            Ls_Col  = L_Col*0.5;
+            Lb_Col =  L_Col;
             
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             Py   = SecData.Area(idx) * fy;
@@ -126,7 +126,7 @@ for Floor=NStory+1:-1:1
             jNode = 100*Floor+10*Axis+01;
             SpringID=900000+Floor*1000+Axis*100+01;
             if ColElementOption==1
-                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),H_Col,L_Col,Lb_Col,My_mod,PgPy, Units);
+                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy, Units);
             else
                 fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID,iNode,jNode);
             end
@@ -142,9 +142,9 @@ for Floor=NStory+1:-1:1
             [SecData]=Load_SecData (Section, Units);
             idxB1=find(contains(SecData.Name,Section));
             
-            H_Col  =  HStory(Story) - 0.5*SecData.d(idxB1);
-            L_Col  =  H_Col*0.5;
-            Lb_Col =  H_Col;
+            L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1);
+            Ls_Col  =  L_Col*0.5;
+            Lb_Col =  L_Col;
             
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             Py   = SecData.Area(idx) * fy;
@@ -155,7 +155,7 @@ for Floor=NStory+1:-1:1
             jNode = 100*Floor+10*Axis+03;
             SpringID=900000+Floor*1000+Axis*100+03;
             if ColElementOption==1
-                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),H_Col,L_Col,Lb_Col,My_mod,PgPy, Units);
+                fprintf(INP,'Spring_IMK %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f  0 0 %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy, Units);
             else
                 fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID,iNode,jNode);
             end
