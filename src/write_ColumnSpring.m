@@ -53,6 +53,12 @@ for Floor=NStory+1:-1:1
             idxB2=find(contains(SecData.Name,Section));
             
             L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
+            if Floor==2 
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData (Section, Units);
+                idxB1=find(contains(SecData.Name,Section));
+                L_Col  =  HStory(Story-1) - 0.5*SecData.d(idxB1); 
+            end
             Ls_Col  = L_Col*0.5;
             Lb_Col =  L_Col;
             
@@ -84,9 +90,9 @@ for Floor=NStory+1:-1:1
             [SecData]=Load_SecData (Section, Units);
             idxB2=find(contains(SecData.Name,Section));
             
-            L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
-            Ls_Col  = L_Col*0.5;
-            Lb_Col =  L_Col;
+            L_Col  = HStory(Story) - 0.5*SecData.d(idxB1) - 0.5*SecData.d(idxB2);
+            Ls_Col = L_Col*0.5;
+            Lb_Col = L_Col;
             My_mod = 1.1 * SecData.Zx(idx) * fy;
             
             Py   = SecData.Area(idx) * fy;
@@ -143,7 +149,7 @@ for Floor=NStory+1:-1:1
             idxB1=find(contains(SecData.Name,Section));
             
             L_Col  =  HStory(Story) - 0.5*SecData.d(idxB1);
-            Ls_Col  =  L_Col*0.5;
+            Ls_Col =  L_Col*0.5;
             Lb_Col =  L_Col;
             
             My_mod = 1.1 * SecData.Zx(idx) * fy;
