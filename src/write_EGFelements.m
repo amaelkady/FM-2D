@@ -44,7 +44,7 @@ for Story=NStory:-1:1
             jNode=100*Fj+10*Axis+01;
             ElemID=600000+1000*Story+100*Axis;
             if GFX==1; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E [expr (%.4f  + %.4f)] $trans_PDelta; ', ElemID,iNode,jNode,A_GC, I_GC, Iy_MFcolumns(Story,1)); end
-            if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f 				    $trans_PDelta; ', ElemID,iNode,jNode,A_GC, I_GC); end
+            if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f $trans_PDelta; ', ElemID,iNode,jNode,A_GC, I_GC); end
         end
     else
         if GFX==0
@@ -67,7 +67,7 @@ for Story=NStory:-1:1
             nodeIDsplice72=100000+1000*Story+100*Axis+72;
             ElemID02=600000+1000*Story+100*Axis+02;
             if GFX==1; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E [expr (%.4f  + %.4f)] $trans_PDelta; ',ElemID02, nodeIDsplice72, nodeIDb, A_GC, I_GC, Iy_MFcolumns(min(Story+1,NStory),1)); end
-            if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f 				    $trans_PDelta; ',ElemID02, nodeIDsplice72, nodeIDb, A_GC, I_GC); end
+            if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f $trans_PDelta; ',ElemID02, nodeIDsplice72, nodeIDb, A_GC, I_GC); end
         end
         fprintf(INP,'\n');
         for Axis=NBay+2:NBay+3
@@ -75,7 +75,7 @@ for Story=NStory:-1:1
             nodeIDsplice71=100000+1000*Story+100*Axis+71;
             ElemID01=600000+1000*Story+100*Axis+01;
             if GFX==1; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E [expr (%.4f  + %.4f)] $trans_PDelta; ',ElemID01, nodeIDt, nodeIDsplice71, A_GC, I_GC, Iy_MFcolumns(Story,1)); end
-            if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f 				 $trans_PDelta; ',ElemID01, nodeIDt, nodeIDsplice71, A_GC, I_GC); end
+            if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f $trans_PDelta; ',ElemID01, nodeIDt, nodeIDsplice71, A_GC, I_GC); end
         end
     end
     fprintf(INP,'\n');
@@ -99,7 +99,7 @@ for Floor=NStory+1:-1:2
     nodeID2=100*Floor+10*(NBay+3)+02;
     ElemID=500000+1000*Floor+100*(NBay+1)+00;
     if GFX==1; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E [expr $Comp_I_GC * %.4f] $trans_PDelta;\n', ElemID, nodeID1, nodeID2, A_GB, I_GB); end
-    if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f                     $trans_PDelta;\n', ElemID, nodeID1, nodeID2, A_GB, I_GB); end
+    if GFX==0; fprintf(INP,'element elasticBeamColumn %7d %7d %7d %.4f $E %.4f $trans_PDelta;\n', ElemID, nodeID1, nodeID2, A_GB, I_GB); end
 end
 fprintf(INP,'\n');
 
