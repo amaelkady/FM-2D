@@ -102,7 +102,8 @@ set SigmaX [lindex $Sigma_PZ 3]; Generate_lognrmrand $Vp_6gamma $SigmaX; 	set Vp
  set Mp_4gamma_N [expr $Vp_4gamma * $d_BeamN];
  set Mp_6gamma_N [expr $Vp_6gamma * $d_BeamN];
  
- set Slope_4to6gamma_y [expr ($Mp_6gamma_P - $Mp_4gamma_P) / (2 * $gamma_y) ];
+ set Slope_4to6gamma_y_P [expr ($Mp_6gamma_P - $Mp_4gamma_P) / (2 * $gamma_y) ];
+ set Slope_4to6gamma_y_N [expr ($Mp_6gamma_N - $Mp_4gamma_N) / (2 * $gamma_y) ];
 
  # Defining the 3 Points used to construct the trilinear backbone curve
  set gamma1 $gamma_y; 
@@ -111,11 +112,11 @@ set SigmaX [lindex $Sigma_PZ 3]; Generate_lognrmrand $Vp_6gamma $SigmaX; 	set Vp
  
  set M1_P [expr $My_P];
  set M2_P [expr $Mp_4gamma_P];
- set M3_P [expr $Mp_4gamma_P + $Slope_4to6gamma_y * (100 * $gamma_y - $gamma4_y)];
+ set M3_P [expr $Mp_4gamma_P + $Slope_4to6gamma_y_P * (100 * $gamma_y - $gamma4_y)];
  
  set M1_N [expr $My_N];
  set M2_N [expr $Mp_4gamma_N];
- set M3_N [expr $Mp_4gamma_N + $Slope_4to6gamma_y * (100 * $gamma_y - $gamma4_y)];
+ set M3_N [expr $Mp_4gamma_N + $Slope_4to6gamma_y_N * (100 * $gamma_y - $gamma4_y)];
  
  set gammaU_P   0.3;
  set gammaU_N  -0.3;
