@@ -111,31 +111,31 @@ set Dummy_ID [expr   12 * $SpringID];
 ##################################################################################################################
 # Random generation of backbone parameters based on assigned uncertainty 
 ##################################################################################################################
-global Sigma_Pinching; global xRandom;
+global Sigma_Pinching4; global xRandom;
 if {$ResponseID == 0} {
-	set SigmaX [lindex $Sigma_Pinching 0]; Get_lognrmrand $M1_P 	$SigmaX; 		set M1_P 	$xRandom;  							set M1_N 	[expr -1.0*$M1_P];
-	set SigmaX [lindex $Sigma_Pinching 1]; Get_lognrmrand $M2_P 	$SigmaX; 		set M2_P 	[expr max(1.01*$M1_P,$xRandom)];  	set M2_N 	[expr -1.0*$M2_P];
+	set SigmaX [lindex $Sigma_Pinching4 0]; Generate_lognrmrand $M1_P 	$SigmaX; 	set M1_P 	$xRandom;  							set M1_N 	[expr -1.0*$M1_P];
+	set SigmaX [lindex $Sigma_Pinching4 1]; Generate_lognrmrand $M2_P 	$SigmaX; 	set M2_P 	[expr max(1.01*$M1_P,$xRandom)];  	set M2_N 	[expr -1.0*$M2_P];
 																					set M3_P 	[expr 1.01*$M2_P];					set M3_N 	[expr 1.01*$M2_N];
-	set SigmaX [lindex $Sigma_Pinching 2]; Get_lognrmrand $M4_P 	$SigmaX; 		set M4_P 	[expr max(1.01*$Vy,$xRandom)];
+	set SigmaX [lindex $Sigma_Pinching4 2]; Generate_lognrmrand $M4_P 	$SigmaX; 	set M4_P 	[expr max(1.01*$M4_P,$xRandom)];
 																					set M4_N 	[expr -1.0*$M4_P];
-	set SigmaX [lindex $Sigma_Pinching 3]; Get_lognrmrand $Th_1_P 	$SigmaX; 		set Th_1_P 	$xRandom; 							set Th_1_N 	[expr -1.0*$Th_1_P];
-	set SigmaX [lindex $Sigma_Pinching 4]; Get_lognrmrand $Th_2_P 	$SigmaX; 		set Th_2_P 	[expr max(1.01*$Th_1_P,$xRandom)];; set Th_2_N 	[expr -1.0*$Th_2_P];
-	set SigmaX [lindex $Sigma_Pinching 5]; Get_lognrmrand $Th_3_P 	$SigmaX; 		set Th_3_P 	[expr max(1.01*$Th_2_P,$xRandom)];; set Th_3_N 	[expr -1.0*$Th_3_P];
-	set SigmaX [lindex $Sigma_Pinching 6]; Get_lognrmrand $Th_4_P 	$SigmaX; 		set Th_4_P 	[expr max(1.01*$Th_3_P,$xRandom)];; set Th_4_N 	[expr -1.0*$Th_4_P];
-	set SigmaX [lindex $Sigma_Pinching 7]; Get_lognrmrand $Th_U_P 	$SigmaX; 		set Th_U_P 	[expr max(1.01*$Th_4_P,$xRandom)];; set Th_U_N 	[expr -1.0*$Th_U_P];
+	set SigmaX [lindex $Sigma_Pinching4 3]; Generate_lognrmrand $Th_1_P 	$SigmaX; 		set Th_1_P 	$xRandom; 							set Th_1_N 	[expr -1.0*$Th_1_P];
+	set SigmaX [lindex $Sigma_Pinching4 4]; Generate_lognrmrand $Th_2_P 	$SigmaX; 		set Th_2_P 	[expr max(1.01*$Th_1_P,$xRandom)];; set Th_2_N 	[expr -1.0*$Th_2_P];
+	set SigmaX [lindex $Sigma_Pinching4 5]; Generate_lognrmrand $Th_3_P 	$SigmaX; 		set Th_3_P 	[expr max(1.01*$Th_2_P,$xRandom)];; set Th_3_N 	[expr -1.0*$Th_3_P];
+	set SigmaX [lindex $Sigma_Pinching4 6]; Generate_lognrmrand $Th_4_P 	$SigmaX; 		set Th_4_P 	[expr max(1.01*$Th_3_P,$xRandom)];; set Th_4_N 	[expr -1.0*$Th_4_P];
+	set SigmaX [lindex $Sigma_Pinching4 7]; Generate_lognrmrand $Th_U_P 	$SigmaX; 		set Th_U_P 	[expr max(1.01*$Th_4_P,$xRandom)];; set Th_U_N 	[expr -1.0*$Th_U_P];
 }
 # if {$ResponseID == 1} {
-	# set SigmaX [lindex $Sigma_Pinching 0]; Get_lognrmrand $M1_P 	$SigmaX; 		set M1_P 	$xRandom;
-	# set SigmaX [lindex $Sigma_Pinching 1]; Get_lognrmrand $M2_P 	$SigmaX; 		set M2_P 	[expr max(1.01*$M1_P,$xRandom)]; 
-	# set SigmaX [lindex $Sigma_Pinching 1]; Get_lognrmrand $M2_N 	$SigmaX; 		set M2_N 	[expr max(1.01*$M1_N,$xRandom)]; 
+	# set SigmaX [lindex $Sigma_Pinching 0]; Generate_lognrmrand $M1_P 	$SigmaX; 	set M1_P 	$xRandom;
+	# set SigmaX [lindex $Sigma_Pinching 1]; Generate_lognrmrand $M2_P 	$SigmaX; 	set M2_P 	[expr max(1.01*$M1_P,$xRandom)]; 
+	# set SigmaX [lindex $Sigma_Pinching 1]; Generate_lognrmrand $M2_N 	$SigmaX; 	set M2_N 	[expr max(1.01*$M1_N,$xRandom)]; 
 																					# set M3_P 	[expr 1.01*$M2_P];					set M3_N 	[expr 1.01*$M2_N];
-	# set SigmaX [lindex $Sigma_Pinching 2]; Get_lognrmrand $M4_P 	$SigmaX; 		set M4_P 	[expr max(1.01*$Vy,$xRandom)];
+	# set SigmaX [lindex $Sigma_Pinching 2]; Generate_lognrmrand $M4_P 	$SigmaX; 	set M4_P 	[expr max(1.01*$M4_P,$xRandom)];
 																					# set M4_N 	[expr -1.0*$M4_P];
-	# set SigmaX [lindex $Sigma_Pinching 3]; Get_lognrmrand $Th_1_P 	$SigmaX; 		set Th_1_P 	$xRandom; 							set Th_1_N 	[expr -1.0*$Th_1_P];
-	# set SigmaX [lindex $Sigma_Pinching 4]; Get_lognrmrand $Th_2_P 	$SigmaX; 		set Th_2_P 	[expr max(1.01*$Th_1_P,$xRandom)];; set Th_2_N 	[expr -1.0*$Th_2_P];
-	# set SigmaX [lindex $Sigma_Pinching 5]; Get_lognrmrand $Th_3_P 	$SigmaX; 		set Th_3_P 	[expr max(1.01*$Th_2_P,$xRandom)];; set Th_3_N 	[expr -1.0*$Th_3_P];
-	# set SigmaX [lindex $Sigma_Pinching 6]; Get_lognrmrand $Th_4_P 	$SigmaX; 		set Th_4_P 	[expr max(1.01*$Th_3_P,$xRandom)];; set Th_4_N 	[expr -1.0*$Th_4_P];
-	# set SigmaX [lindex $Sigma_Pinching 7]; Get_lognrmrand $Th_U_P 	$SigmaX; 		set Th_U_P 	[expr max(1.01*$Th_4_P,$xRandom)];; set Th_U_N 	[expr -1.0*$Th_U_P];
+	# set SigmaX [lindex $Sigma_Pinching 3]; Generate_lognrmrand $Th_1_P 	$SigmaX; 		set Th_1_P 	$xRandom; 							set Th_1_N 	[expr -1.0*$Th_1_P];
+	# set SigmaX [lindex $Sigma_Pinching 4]; Generate_lognrmrand $Th_2_P 	$SigmaX; 		set Th_2_P 	[expr max(1.01*$Th_1_P,$xRandom)];; set Th_2_N 	[expr -1.0*$Th_2_P];
+	# set SigmaX [lindex $Sigma_Pinching 5]; Generate_lognrmrand $Th_3_P 	$SigmaX; 		set Th_3_P 	[expr max(1.01*$Th_2_P,$xRandom)];; set Th_3_N 	[expr -1.0*$Th_3_P];
+	# set SigmaX [lindex $Sigma_Pinching 6]; Generate_lognrmrand $Th_4_P 	$SigmaX; 		set Th_4_P 	[expr max(1.01*$Th_3_P,$xRandom)];; set Th_4_N 	[expr -1.0*$Th_4_P];
+	# set SigmaX [lindex $Sigma_Pinching 7]; Generate_lognrmrand $Th_U_P 	$SigmaX; 		set Th_U_P 	[expr max(1.01*$Th_4_P,$xRandom)];; set Th_U_N 	[expr -1.0*$Th_U_P];
 # }
 ##################################################################################################################
 ##################################################################################################################
