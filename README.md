@@ -15,4 +15,5 @@ If you are a developer who plan on collaborating and contributing to FM-2D base 
 Citation:
 ---------
 Elkady, A. (2021). "FM-2D v1.2102" Zenodo, DOI: 10.5281/zenodo.4562977.
+
 Elkady, A. (2021). "Open-Source Platform for the Structural Modeling and Analysis of Buildings Assets." SoftwareX, (under review).
