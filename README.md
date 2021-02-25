@@ -1,5 +1,5 @@
 # FM-2D
-Frame Modeler 2D is an open-source MATLAB-based computational platform for modeling and analyzing building assets (steel MRFs and CBFs supported in current release) in OpenSEES using state-of-the-art modeling guidlines.
+Frame Modeler 2D is an open-source MATLAB-based computational platform for modeling and analyzing building assets (steel MRFs, CBFs and EBFs supported in current release) in OpenSEES using state-of-the-art modeling guidlines.
 
 --> Curent compiled installer executable: v1.2010
 
