@@ -1,5 +1,7 @@
 function [Column_Index, Beam_Index, Brace_Index, XSecID] = Get_Section_Database_Index(FrameType, NStory, NBay, MF_COLUMNS, MF_BEAMS, BRACES, Units)
 
+XSecID=NaN;
+
 for Story=1:NStory
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
@@ -33,7 +35,7 @@ for Floor=2:NStory+1
     end
 end
 
-if FrameType==2
+if FrameType~=1
     for Story=1:NStory
         for Bay=1:NBay
             Section=BRACES{Story,Bay};
