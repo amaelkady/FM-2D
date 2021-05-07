@@ -94,6 +94,7 @@ if Definestatus==1
         if FrameType==1;                     SummaryText{i}=['- Frame Type                       : MRF'];i=i+1;           end
         if FrameType==2 &&  BraceLayout==1;  SummaryText{i}=['- Frame Type                       : CBF X-Bracing'];i=i+1; end
         if FrameType==2 &&  BraceLayout==2;  SummaryText{i}=['- Frame Type                       : CBF Chevron'];i=i+1;   end
+        if FrameType==3;                     SummaryText{i}=['- Frame Type                       : EBF'];i=i+1;           end
 
         SummaryText{i}=['- No. of Stories                   : ', num2str(NStory)];i=i+1;
         SummaryText{i}=['- No. of Frames per Direction      : ', num2str(nMF)];i=i+1;
@@ -128,7 +129,7 @@ if Definestatus==1
         SummaryText{i}=['- Material type/grade              : ', SteelMatType];       i=i+1;
         SummaryText{i}=['- Elastic modulus                  : ', num2str(E), matUnit];i=i+1;
         SummaryText{i}=['- Yield stress                     : ', num2str(fy),matUnit];i=i+1;
-        if FrameType==2
+        if FrameType~=1
         SummaryText{i}=['- Yield stress - Brace             : ', num2str(fyBrace),matUnit];i=i+1;
         SummaryText{i}=['- Yield stress - Gusset plate      : ', num2str(fyGP),matUnit];i=i+1;
         end
@@ -157,7 +158,7 @@ if Definestatus==1
             SummaryText{i}=['                              b= ',num2str(c),'bf'];i=i+1;
         end
     end
-    if FrameType==2
+    if FrameType~=1
         if MFconnectionEven==1
             SummaryText{i}=['- Beam-to-column connections at even-numbered floors are modeled as pinned connections'];i=i+1;
         elseif MFconnectionEven==2

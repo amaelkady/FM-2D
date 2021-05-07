@@ -33,7 +33,7 @@ elseif Recorders.Column==1 % Compute BSF based on column (and CGP) forces
     BSF=0;
     for Axis=1:NBay+3
         evalc(['x=importdata(','''',Filename.Column,'1',num2str(Axis),'.out','''',')']);
-        if FrameType==2 && Axis<=NBay+1; evalc(['x2=importdata(','''',Filename.CGP,'1',num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
+        if FrameType~=1 && Axis<=NBay+1; evalc(['x2=importdata(','''',Filename.CGP,'1',num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
         Column_Shear(:,Axis)=x(12:end,1)+x2(12:end,1);
     end
     

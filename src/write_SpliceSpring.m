@@ -1,10 +1,12 @@
 function write_SpliceSpring (INP, NStory, NBay, Splice, SpliceConnection)
 
+if any(Splice(:) == 1)
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                          COLUMN SPLICE SPRINGS                                  #\n');
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'\n');
-
+end
+    
 for Story=NStory:-1:1
     if Splice(Story, 1)==1
         for Axis=1:NBay+3

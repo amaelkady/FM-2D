@@ -72,6 +72,7 @@ set K  [expr ($n+1.0) * 6 * $E * $Ix / $L];
 #######################################################################################################
 #######################################################################################################
 
+
 if {$ConnectionType == 0} {
 
 	# Rotational capacities calculated using  Lignos and Krawinkler (2009) RBS equations
@@ -167,7 +168,14 @@ if {$ConnectionType == 1} {
 
 		# Corrected rotations to account for elastic deformations
 		set theta_y  [expr $My/(6 * $E * $Ix / $L)];
+					puts "XXXXXXXXX"
+puts "$theta_p"
+puts "$My"
+puts "$E"
+puts "$Ix"
+puts "$L"
 		set theta_p  [expr $theta_p  - ($McMyP-1.0)*$My/(6 * $E * $Ix / $L)];
+puts "$theta_p"
 		set theta_pc [expr $theta_pc + $theta_y + ($McMyP-1.0)*$My/(6 * $E * $Ix / $L)];
 	
 		set theta_p_P   $theta_p;

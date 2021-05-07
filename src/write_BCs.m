@@ -77,7 +77,7 @@ else
         end
         fprintf(INP,'\n');
         
-        if FrameType==2
+        if FrameType~=1
             fprintf(INP,'# BEAM MID-SPAN SAGGING CONSTRAINT\n');
             for Floor=NStory+1:-1:2
                 if BraceLayout==2 || (BraceLayout==1 && rem(Floor,2))==0
@@ -111,6 +111,25 @@ if FrameType==2
                 nodeID0 = 400000+1000*Floor+100*1+04;
                 for Bay=1:NBay
                     nodeID1 = 200000+1000*Floor+100*Bay+01;
+                    fprintf(INP,'equalDOF %d %d 2; ',nodeID0,nodeID1);
+                end
+                fprintf(INP,'\n');
+            end
+        end
+        fprintf(INP,'\n');
+    end
+end
+
+if FrameType==3
+    if MidSpanConstraint==2
+        fprintf(INP,'# BEAM MID-SPAN SAGGING CONSTRAINT\n');
+        for Floor=NStory+1:-1:2
+            if BraceLayout==2 || (BraceLayout==1 && rem(Floor,2))==0
+                nodeID0 = 400000+1000*Floor+100*1+04;
+                for Bay=1:NBay
+                    nodeID1 = 200000+1000*Floor+100*Bay+08;
+                    fprintf(INP,'equalDOF %d %d 2; ',nodeID0,nodeID1);
+                    nodeID1 = 200000+1000*Floor+100*Bay+09;
                     fprintf(INP,'equalDOF %d %d 2; ',nodeID0,nodeID1);
                 end
                 fprintf(INP,'\n');

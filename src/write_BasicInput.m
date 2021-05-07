@@ -15,7 +15,7 @@ fprintf(INP,'# MATERIAL PROPERTIES\n');
 fprintf(INP,'set E  %5.1f; \n',E);
 fprintf(INP,'set mu  %5.1f; \n',mu);
 fprintf(INP,'set fy  [expr %5.1f * %5.1f];\n',fy,EL_Multiplier);
-if FrameType==2
+if FrameType~=1
     fprintf(INP,'set fyB [expr %5.1f * %5.1f];\n',fyBrace,EL_Multiplier);
     fprintf(INP,'set fyG [expr %5.1f * %5.1f];\n',fyGP,EL_Multiplier);
 end
@@ -100,7 +100,7 @@ end
 fprintf(INP,'];\n');
 
 if Sigma.fy==1.e-9 || Uncertainty==0;   fprintf(INP,'set Sigma_fy     1.e-9;\n'); else; fprintf(INP,'set Sigma_fy     %.3f;\n ',Sigma.fy);   end
-if FrameType==2
+if FrameType~=1
 if Sigma.fyB==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_fyB    1.e-9;\n'); else; fprintf(INP,'set Sigma_fyB    %.3f;\n ',Sigma.fyB);  end
 if Sigma.fyG==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_fyG    1.e-9;\n'); else; fprintf(INP,'set Sigma_fyG    %.3f;\n ',Sigma.fyG);  end
 if Sigma.GI ==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_GI     1.e-9;\n'); else; fprintf(INP,'set Sigma_GI     %.3f;\n ',Sigma.GI);   end
@@ -108,7 +108,7 @@ end
 if Sigma.zeta==1.e-9 || Uncertainty==0; fprintf(INP,'set Sigma_zeta   1.e-9;\n'); else; fprintf(INP,'set Sigma_zeta   %.3f;\n ',Sigma.zeta); end
 fprintf(INP,'global Sigma_fy Sigma_fyB Sigma_fyG Sigma_GI; global xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_fy;  Generate_lognrmrand $fy 	$SigmaX; 	set fy      $xRandom;\n');
-if FrameType==2
+if FrameType~=1
 fprintf(INP,'set SigmaX $Sigma_fyB; Generate_lognrmrand $fyB 	$SigmaX; 	set fyB 	$xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_fyG; Generate_lognrmrand $fyG 	$SigmaX; 	set fyG 	$xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_GI;  Generate_lognrmrand %f 	    $SigmaX; 	set initialGI 	$xRandom;\n', initialGI);

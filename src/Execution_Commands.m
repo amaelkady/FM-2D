@@ -76,7 +76,7 @@ else
     app.ProgressText.Text  = 'Running Preliminary Eigenvalue Analysis...'; drawnow;
     
     if FrameType==1; CREATOR_MODEL_MRF(1,0); end
-    if FrameType==2; CREATOR_MODEL_CBF(1,0); end
+    if FrameType~=1; CREATOR_MODEL_CBF(1,0); end
     CREATOR_ANALYSIS (1,0);
     eval(strcat('! OpenSees.exe TempModel.tcl'));
     fclose all;

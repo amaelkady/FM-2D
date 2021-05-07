@@ -148,7 +148,7 @@ if AnalysisTypeID~=1
                 end
                 fprintf(INP,'\n');
             end
-            if FrameType==2 || rem(Floor,2)==0
+            if FrameType~=1 || rem(Floor,2)==0
                 for Bay=1:NBay
                     ElemIDL=500000+1000*Floor+100*Bay+01;
                     ElemIDR=500000+1000*Floor+100*Bay+02;

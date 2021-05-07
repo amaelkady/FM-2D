@@ -36,21 +36,21 @@ write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E
 
 write_PreCalculatedGeometry (INP, NStory, NBay, HStory, WBay, WBuilding, MF_BEAMS, CGP_RigidOffset, MGP_RigidOffset, a, b, FrameType, Units);
 
-write_Nodes (INP, NStory, NBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, Splice, HStory, PZ_Multiplier, MFconnection, Units);
+write_Nodes (INP, NStory, NBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, EBF_W, Splice, HStory, PZ_Multiplier, MFconnection, Units);
 
 write_PZelement(INP,NStory,NBay,PZ_Multiplier,MF_COLUMNS,MF_BEAMS,Units);
 
 write_PZspring(INP,NStory,NBay,PZ_Multiplier,EL_Multiplier,CompositeX,MF_COLUMNS,MF_BEAMS,Doubler,trib,ts,mu,Units);
 
-write_BraceRigidLinks (INP, NStory, NBay, BraceLayout,PZ_Multiplier);
+write_BraceRigidLinks (INP, NStory, NBay, FrameType, BraceLayout,PZ_Multiplier);
 
-write_GPspring (INP, NStory, NBay, BraceLayout, BRACES, MGP_L123, MGP_tp, MGP_Lc, CGP_L123, CGP_tp, CGP_Lc, Units);
+write_GPspring (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_L123, MGP_tp, MGP_Lc, CGP_L123, CGP_tp, CGP_Lc, Units);
 
-write_Braces (INP, NStory, NBay, BRACES, Brace_L, BraceLayout, nSegments, initialGI, nIntegration, Units);
+write_Braces (INP, NStory, NBay, BRACES, Brace_L, FrameType, BraceLayout, nSegments, initialGI, nIntegration, Units);
 
-[EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, Splice, initialGI, nIntegration, Units);
+[EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Units);
 
-write_BeamSpring_CBF (INP, NStory, NBay, WBay, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, MFconnectionOdd, MFconnectionEven, fy, Units);
+write_BeamSpring_CBF (INP, NStory, NBay, WBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, MFconnectionOdd, MFconnectionEven, fy, Units);
 
 [Py_Col]=write_ColumnSpring (INP, NStory, NBay, HStory, ColElementOption, PM_Option, MF_COLUMNS, MF_BEAMS, fy, Units);
 

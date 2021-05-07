@@ -5,6 +5,7 @@ fprintf(INP,'###################################################################
 fprintf(INP,'####################################################################################################\n');
 if FrameType==1; fprintf(INP,'#                                        %d-story MRF Building\n',NStory); end
 if FrameType==2; fprintf(INP,'#                                        %d-story CBF Building\n',NStory); end
+if FrameType==3; fprintf(INP,'#                                        %d-story EBF Building\n',NStory); end
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'\n');

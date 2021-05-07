@@ -1,4 +1,4 @@
-function write_Braces (INP, NStory, NBay, BRACES, Brace_L, BraceLayout, nSegments, initialGI, nIntegration, Units)
+function write_Braces (INP, NStory, NBay, BRACES, Brace_L, FrameType, BraceLayout, nSegments, initialGI, nIntegration, Units)
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                 BRACE MEMBERS WITH FATIGUE MATERIAL                              #\n');
@@ -52,67 +52,121 @@ fprintf(INP,'\n');
 fprintf(INP,'# CONSTRUCT THE BRACE MEMBERS\n');
 fprintf(INP,'# COMMAND SYNTAX \n');
 fprintf(INP,'# ConstructBrace $BraceID $NodeIDi $NodeIDj $nSegments $Imperfeection $nIntgeration $transformation;\n');
-for Story=1:NStory
-    Fi=Story; Fj=Story+1;
-    for Bay=1:NBay
-        Axisi=Bay; Axisj=Bay+1;
-        if mod(Story,2)~=0 || BraceLayout==2
-            % Left Brace
-            iNode = 100000+1000*Fi+100*Axisi+41;
-            jNode = 200000+1000*Fj+100*Bay+13;
-            BraceID_L = 8100000+1000*Story+100*Bay;
-            fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
-            % Right Brace
-            iNode = 100000+1000*Fi+100*Axisj+41;
-            jNode = 200000+1000*Fj+100*Bay+14;
-            BraceID_R = 8200000+1000*Story+100*Bay;
-            fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
-        else
-            % Left Brace
-            jNode = 200000+1000*Fi+100*Bay+17;
-            iNode = 100000+1000*Fj+100*Axisi+51;
-            BraceID_L = 8100000+1000*Story+100*Bay;
-            fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
-            % Right Brace
-            jNode = 200000+1000*Fi+100*Bay+16;
-            iNode = 100000+1000*Fj+100*Axisj+51;
-            BraceID_R = 8200000+1000*Story+100*Bay;
-            fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+if FrameType==2
+    for Story=1:NStory
+        Fi=Story; Fj=Story+1;
+        for Bay=1:NBay
+            Axisi=Bay; Axisj=Bay+1;
+            if mod(Story,2)~=0 || BraceLayout==2
+                % Left Brace
+                iNode = 100000+1000*Fi+100*Axisi+41;
+                jNode = 200000+1000*Fj+100*Bay+13;
+                BraceID_L = 8100000+1000*Story+100*Bay;
+                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
+                % Right Brace
+                iNode = 100000+1000*Fi+100*Axisj+41;
+                jNode = 200000+1000*Fj+100*Bay+14;
+                BraceID_R = 8200000+1000*Story+100*Bay;
+                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+            else
+                % Left Brace
+                jNode = 200000+1000*Fi+100*Bay+17;
+                iNode = 100000+1000*Fj+100*Axisi+51;
+                BraceID_L = 8100000+1000*Story+100*Bay;
+                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
+                % Right Brace
+                jNode = 200000+1000*Fi+100*Bay+16;
+                iNode = 100000+1000*Fj+100*Axisj+51;
+                BraceID_R = 8200000+1000*Story+100*Bay;
+                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+            end
+        end
+        fprintf(INP,'\n');
+    end
+    fprintf(INP,'\n');
+    
+    
+    %Ghost Trusses to the Braces (with very Small Stiffness) to Diminish
+    %Convergence Problems and to Get the Deformation of the Brace Members
+    matID=1000;
+    fprintf(INP,'# CONSTRUCT THE GHOST BRACES\n');
+    fprintf(INP,'uniaxialMaterial Elastic %d 100.0\n',matID);
+    for Story=1:NStory
+        Fi=Story; Fj=Story+1;
+        for Bay=1:NBay
+            if mod(Story,2)~=0 || BraceLayout==2
+                iNode = 100000+1000*Fi+100*Axisi+41;
+                jNode = 200000+1000*Fj+100*Bay+13;
+                BraceID_L = 4100000+1000*Story+100*Bay;
+                fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_L,iNode,jNode,matID);
+                iNode = 100000+1000*Fi+100*Axisj+41;
+                jNode = 200000+1000*Fj+100*Bay+14;
+                BraceID_R = 4200000+1000*Story+100*Bay;
+                fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_R,iNode,jNode,matID);
+            else
+                jNode = 200000+1000*Fi+100*Bay+17;
+                iNode = 100000+1000*Fj+100*Axisi+51;
+                BraceID_L = 4100000+1000*Story+100*Bay;
+                fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_L,iNode,jNode,matID);
+                jNode = 200000+1000*Fi+100*Bay+16;
+                iNode = 100000+1000*Fj+100*Axisj+51;
+                BraceID_R = 4200000+1000*Story+100*Bay;
+                fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_R,iNode,jNode,matID);
+                
+            end
         end
     end
     fprintf(INP,'\n');
 end
-fprintf(INP,'\n');
 
 
-%Ghost Trusses to the Braces (with very Small Stiffness) to Diminish
-%Convergence Problems and to Get the Deformation of the Brace Members
-matID=1000;
-fprintf(INP,'# CONSTRUCT THE GHOST BRACES\n');
-fprintf(INP,'uniaxialMaterial Elastic %d 100.0\n',matID);
-for Story=1:NStory
-    Fi=Story; Fj=Story+1;
-    for Bay=1:NBay
-        if mod(Story,2)~=0 || BraceLayout==2
+
+
+
+
+if FrameType==3
+    for Story=1:NStory
+        Fi=Story; Fj=Story+1;
+        for Bay=1:NBay
+            Axisi=Bay; Axisj=Bay+1;
+            % Left Brace
+            iNode = 100000+1000*Fi+100*Axisi+41;
+            jNode = 200000+1000*Fj+100*Bay+13;
+            BraceID_L = 8100000+1000*Story+100*Bay;
+            fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
+            if BraceLayout==1
+                
+                % Right Brace
+                iNode = 100000+1000*Fi+100*Axisj+41;
+                jNode = 200000+1000*Fj+100*Bay+14;
+                BraceID_R = 8200000+1000*Story+100*Bay;
+                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+            end
+        end
+        fprintf(INP,'\n');
+    end
+    fprintf(INP,'\n');
+    
+    
+    %Ghost Trusses to the Braces (with very Small Stiffness) to Diminish
+    %Convergence Problems and to Get the Deformation of the Brace Members
+    matID=1000;
+    fprintf(INP,'# CONSTRUCT THE GHOST BRACES\n');
+    fprintf(INP,'uniaxialMaterial Elastic %d 100.0\n',matID);
+    for Story=1:NStory
+        Fi=Story; Fj=Story+1;
+        for Bay=1:NBay
             iNode = 100000+1000*Fi+100*Axisi+41;
             jNode = 200000+1000*Fj+100*Bay+13;
             BraceID_L = 4100000+1000*Story+100*Bay;
             fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_L,iNode,jNode,matID);
-            iNode = 100000+1000*Fi+100*Axisj+41;
-            jNode = 200000+1000*Fj+100*Bay+14;
-            BraceID_R = 4200000+1000*Story+100*Bay;
-            fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_R,iNode,jNode,matID);
-        else
-            jNode = 200000+1000*Fi+100*Bay+17;
-            iNode = 100000+1000*Fj+100*Axisi+51;
-            BraceID_L = 4100000+1000*Story+100*Bay;
-            fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_L,iNode,jNode,matID);
-            jNode = 200000+1000*Fi+100*Bay+16;
-            iNode = 100000+1000*Fj+100*Axisj+51;
-            BraceID_R = 4200000+1000*Story+100*Bay;
-            fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_R,iNode,jNode,matID);
-            
+            if BraceLayout==1
+                iNode = 100000+1000*Fi+100*Axisj+41;
+                jNode = 200000+1000*Fj+100*Bay+14;
+                BraceID_R = 4200000+1000*Story+100*Bay;
+                fprintf(INP,'element corotTruss %d   %6d   %6d  0.05 %5d;\n',BraceID_R,iNode,jNode,matID);
+            end
         end
     end
+    fprintf(INP,'\n');
 end
-fprintf(INP,'\n');

@@ -1,4 +1,3 @@
-
 function [DATA]= Read_Analysis_Data(MainDirectory,RFpath,GM_No,GM,NStory,Filename,g,SFcurrent,DATA,Recorders, subfoldername)
 
 cd (RFpath);                 % Go Inside the 'Results' Folder 

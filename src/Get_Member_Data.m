@@ -22,7 +22,7 @@ for Floor=2:NStory+1
     end
 end
 
-if FrameType==2
+if FrameType~=1
     for Storyi=1:NStory
         for Bayi=1:NBay
             Section=BRACES{Storyi,Bayi};
