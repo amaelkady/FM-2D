@@ -28,14 +28,14 @@ for Floor=NStory+1:-1:2
     end
     
     for Axis=1:NBay+1
-        if Axis==1 || Axis==NBay+3; TribArea=TribAreaEx; else TribArea=TribAreaIn; end
+        if Axis==1 || Axis==NBay+3; TribArea=TribAreaEx; TA1=TAin1; else TribArea=TribAreaIn;  TA1=TAex1; end
         
         if Floor==NStory+1
-            Loadcol =  (cDL_M * RoofDL    + cLL_M * RoofLL    + cGL_M * RoofGL)    * TribArea + cCL_M *Cladding * (HStory(Story)*0.5) * (Perimeter/nMF);
+            Loadcol =  (cDL_M * RoofDL    + cLL_M * RoofLL    + cGL_M * RoofGL)    * TribArea + cCL_M *Cladding * (HStory(Story)*0.5) * TA1;
         elseif Floor==1
-            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * ((HStory(Story)*0.5+HStory(Story+1)*0.5)) * (Perimeter/nMF);
+            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * ((HStory(Story)*0.5+HStory(Story+1)*0.5)) * TA1;
         else
-            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * (HStory(Story)) * (Perimeter/nMF);
+            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * (HStory(Story)) * TA1;
         end
         
         Mass = Loadcol / g;

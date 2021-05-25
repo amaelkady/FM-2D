@@ -12,12 +12,12 @@ fprintf(INP,'set NBay %2.0f;\n', NBay);
 fprintf(INP,'\n');
 
 fprintf(INP,'# MATERIAL PROPERTIES\n');
-fprintf(INP,'set E  %5.1f; \n',E);
-fprintf(INP,'set mu  %5.1f; \n',mu);
-fprintf(INP,'set fy  [expr %5.1f * %5.1f];\n',fy,EL_Multiplier);
+fprintf(INP,'set E  %.3f; \n',E);
+fprintf(INP,'set mu  %.3f; \n',mu);
+fprintf(INP,'set fy  [expr %.3f * %5.1f];\n',fy,EL_Multiplier);
 if FrameType~=1
-    fprintf(INP,'set fyB [expr %5.1f * %5.1f];\n',fyBrace,EL_Multiplier);
-    fprintf(INP,'set fyG [expr %5.1f * %5.1f];\n',fyGP,EL_Multiplier);
+    fprintf(INP,'set fyB [expr %.3f * %5.1f];\n',fyBrace,EL_Multiplier);
+    fprintf(INP,'set fyG [expr %.3f * %5.1f];\n',fyGP,EL_Multiplier);
 end
 fprintf(INP,'\n');
 
