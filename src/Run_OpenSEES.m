@@ -203,6 +203,8 @@ end
 %##########################################################################
 
 if PO == 1 || ELF==1
+    tic;
+    RunTime=0;
     
     if PO==1;  app.ProgressText.Text='Running Pushover Analysis...'; drawnow; end
     if ELF==1; app.ProgressText.Text='Running ELF Analysis...';      drawnow; end
