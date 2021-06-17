@@ -1,7 +1,7 @@
 function [FigD]=Show_Scope_Dynamic(NumInstability_Flag,Collapse,SDRincrmax,PFAincrmax,nGM_total,GM_No,FigD,Ri)
 
 if GM_No==1 && Ri==1
-	FigD=figure('position',[100 100 450 150],'color','white');
+	FigD=figure('position',[100 100 450 150],'color','white','AutoResizeChildren', 'off');
 	
     subplot(1,2,1)
 	grid on; box on; hold on;
