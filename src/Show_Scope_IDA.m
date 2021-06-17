@@ -1,7 +1,7 @@
 function [FigI]=Show_Scope_IDA(AnalysisCount,SAcurrent,NumInstability_Flag,SDRincrmax,PFAincrmax,PFA_last_NC,CollapseSDR,FigI)
 
 if AnalysisCount==1
-    FigI=figure('position',[100 100 500 200],'color','white');
+    FigI=figure('position',[100 100 500 200],'color','white','AutoResizeChildren', 'off');
     
     subplot(1,2,1)
     plot([0],[0],'ok','markerfacecolor','r','markersize',5);
