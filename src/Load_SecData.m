@@ -22,6 +22,6 @@ if Units==1
     SecData.Zy=SecData.Zy*25.4^3;
     SecData.Ix=SecData.Ix*25.4^4;
     SecData.Iy=SecData.Iy*25.4^4;
-    SecData.Iw=SecData.Iw*25.4^6;
-    SecData.It=SecData.It*25.4^4;
+    %SecData.Iw=SecData.Iw*25.4^6;
+    %SecData.It=SecData.It*25.4^4;
 end
