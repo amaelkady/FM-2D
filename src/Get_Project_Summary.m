@@ -208,8 +208,8 @@ if Analysisstatus==1
         SummaryText{i}=['- Target Roof Drift                : ',num2str(DriftPO*100),'% of Building Height'];i=i+1;
     elseif IDA==1
                          SummaryText{i}=['- Analysis Type                    : IDA'];i=i+1;
-        if SA_metric==1; SummaryText{i}=['- Intensity Measure                : Sa(T1, ',num2str(zeta*100),'%)'];i=i+1; end
-        if SA_metric==2; SummaryText{i}=['- Intensity Measure                : Sa_avg(0.2T1~3T1, ',num2str(zeta*100),'%)'];i=i+1; end
+        if SA_metric==1; SummaryText{i}=['- Intensity Measure                : Sa(T1, ',num2str(zetaSA*100),'%)'];i=i+1; end
+        if SA_metric==2; SummaryText{i}=['- Intensity Measure                : Sa_avg(0.2T1~3T1, ',num2str(zetaSA*100),'%)'];i=i+1; end
         SummaryText{i}=['- Intensity Increment              : ',num2str(SA_Step),'g'];i=i+1;
         SummaryText{i}=['- Collapse Point Tolerance         : ',num2str(SAstepmin),'g'];i=i+1;
         SummaryText{i}=['- SDR Limit for Collapse           : ',num2str(CollapseSDR*100),'%'];i=i+1;

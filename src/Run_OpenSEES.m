@@ -81,7 +81,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
             fprintf(fileID,'%d\n%s\n%d\n%f\n%s', GM_No, GM.Name{GM_No}, GM.npoints(GM_No), GM.dt(GM_No),subfoldername);
             
             %% GET IM FOR SCALING
-            [GM] = Get_IM (T1, GM, acc, GM.dt(GM_No), g, 0.05, SA_metric);
+            [GM] = Get_IM (T1, GM, acc, GM.dt(GM_No), g, zetaSA, SA_metric);
             
             %% IDA MAIN LOOP
             while SAcurrent < 10.0                                                                                  % Run as long as Collapse is not reached (Arbitrary High Value Since Algorithm Stops at Collapse)

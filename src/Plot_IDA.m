@@ -2,7 +2,7 @@ function Plot_IDA (GMi, GMj, EDPtype)
 global MainDirectory ProjectName ProjectPath
 
 cd (ProjectPath)
-load (ProjectName,'CollapseSDR','GM','SA_metric','RFpath','zeta')
+load (ProjectName,'CollapseSDR','GM','SA_metric','RFpath','zetaSA')
 cd (MainDirectory)
 
 if strcmp(EDPtype,'SDR')==1; filename='IDA SDR.txt'; xlabelstr='\itSDR\rm_{max} [% rad]'; end
@@ -71,8 +71,8 @@ if strcmp(EDPtype,'SDR')==1 || strcmp(EDPtype,'RDR')==1
     xlabel (xlabelstr);
     set(gca,'XLim',[0 CollapseSDR]);
     set(gca,'YLim',[0 1.1*max(IMmax)]);
-    if SA_metric ==1; ylabel (['\itSa\rm(\itT\rm_1, ',num2str(zeta*100),'%) [g]']); end
-    if SA_metric ==2; ylabel (['\itSa\rm_{avg}(0.2\itT\rm_1~3\itT\rm_1, ',num2str(zeta*100),'%) [g]']); end
+    if SA_metric ==1; ylabel (['\itSa\rm(\itT\rm_1, ',num2str(zetaSA*100),'%) [g]']); end
+    if SA_metric ==2; ylabel (['\itSa\rm_{avg}(0.2\itT\rm_1~3\itT\rm_1, ',num2str(zetaSA*100),'%) [g]']); end
     legend('individual record','median')
     if noGM>=3; L=legend('individual record','median'); set(L,'FontSize',12,'Location','northoutside','Orientation','horizontal'); end
 else
@@ -83,8 +83,8 @@ else
     xlabel (xlabelstr);
     set(gca,'XLim',[0 max(MAXedp)*1.3]);
     set(gca,'YLim',[0 1.3*max(IMmax)]);
-    if SA_metric ==1; ylabel (['\itSa\rm(\itT\rm_1, ',num2str(zeta*100),'%) [g]']); end
-    if SA_metric ==2; ylabel (['\itSa\rm_{avg}(0.2\itT\rm_1~3\itT\rm_1, ',num2str(zeta*100),'%) [g]']); end
+    if SA_metric ==1; ylabel (['\itSa\rm(\itT\rm_1, ',num2str(zetaSA*100),'%) [g]']); end
+    if SA_metric ==2; ylabel (['\itSa\rm_{avg}(0.2\itT\rm_1~3\itT\rm_1, ',num2str(zetaSA*100),'%) [g]']); end
     legend('individual record','median')
     if noGM>=3; L=legend('individual record','median'); set(L,'FontSize',12,'Location','northoutside','Orientation','horizontal'); end
 end

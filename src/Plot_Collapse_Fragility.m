@@ -2,7 +2,7 @@ function Plot_Collapse_Fragility (GMi, GMj)
 global MainDirectory ProjectName ProjectPath
 
 cd (ProjectPath)
-load (ProjectName,'CollapseSDR','GM','SA_metric','RFpath','zeta')
+load (ProjectName,'CollapseSDR','GM','SA_metric','RFpath','zetaSA')
 cd (MainDirectory)
 
 for GM_No=GMi:GMj
@@ -32,8 +32,8 @@ end
 figure('position',[100 100 350 300],'color','white');
 plot (CollapseSA,EmpProbability, 'ok','MarkerEdgeColor','k','MarkerFaceColor',[0.6 0.6 0.6]);
 set(gca, 'fontname', 'Times', 'fontsize',15)
-if SA_metric ==1; xlabel (['\itSa\rm(\itT\rm_1, ',num2str(zeta*100),'%) [g]']); end
-if SA_metric ==2; xlabel (['\itSa\rm_{avg}(0.2\itT\rm_1~3\itT\rm_1, ',num2str(zeta*100),'%) [g]']); end
+if SA_metric ==1; xlabel (['\itSa\rm(\itT\rm_1, ',num2str(zetaSA*100),'%) [g]']); end
+if SA_metric ==2; xlabel (['\itSa\rm_{avg}(0.2\itT\rm_1~3\itT\rm_1, ',num2str(zetaSA*100),'%) [g]']); end
 ylabel ('Probabilty of Collapse');
 grid on; hold on; box on;
 

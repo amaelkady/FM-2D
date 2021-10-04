@@ -34,6 +34,7 @@ DriftPO             = 0.1;
 DampModeI           = 1;
 DampModeJ           = 1;
 zeta                = 0.02;
+zetaSA              = 0.05;
 BraceLayout         = 0;
 BRACES              = 0;
 MGP_W               = 0;
