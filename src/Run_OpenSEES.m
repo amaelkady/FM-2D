@@ -39,7 +39,8 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
     %% LOOP OVER GMs
     for GM_No=GM_Start:GM_Last
             count=count+1;
-
+            timeGM=tic;
+            
         for Ri=1:nRealizations
             tic;
             RunTime=0;
@@ -173,8 +174,8 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 if IDA==1 && DATA.SDR_last_NC>0.1 && RunTime>0.50*60*60;        break; end                  % Exit Criteria 3: When SDR is larger than 10% but run time exceeds 1 hour (thi is a fail safe)
                 if RunTime>1.0*60*60;                                           break; end          		% Exit Criteria 4: When run time exceeds 1 hour (this is a fail safe)
                 if SAcurrent==DATA.SA_last_NC+0.01;                             break; end                  % Exit Criteria 5: When tracing algorithm roles back to last NC point
-                if Dynamic_TargetSA==1 && (Collapse_Flag==999 || IncrNo>=3);    break; end
-                if Dynamic_TargetSF==1 && (Collapse_Flag==999 || IncrNo>=3);    break; end
+                if Dynamic_TargetSA==1 && (Collapse_Flag==999 || IncrNo>=3 || toc(timeGM)/60>MaxRunTime);    break; end
+                if Dynamic_TargetSF==1 && (Collapse_Flag==999 || IncrNo>=3 || toc(timeGM)/60>MaxRunTime);    break; end
             end
             
             % Save IDA data summary
