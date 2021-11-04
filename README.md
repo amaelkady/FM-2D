@@ -8,7 +8,7 @@ Frame Modeler 2D is an open-source MATLAB-based computational platform for model
 
 # Notes:
 ---------
-Users, and particularly those who plan on collaborating and contributing to FM-2D base code, are highly encouraged to 1) install GitHub Desktop Application, 2) FORK this repository to thier own computer and 3) Run FM-2D through MATLAB. This will allow the user to recieve all updates and bug fixes on time. 
+Users, and particularly those who plan on collaborating and contributing to FM-2D base code, are highly encouraged to 1) install GitHub Desktop Application, 2) FORK this repository to thier own computer and 3) Run FM-2D through MATLAB. This will allow the user to recieve all updates and bug fixes on time. If you are new to GitHub, please check the links below for a quick tutorial on how to fork repositories.
 
 PULL requests will be considered while giving credit to contributers. To fork the repo click on the FORK at the top of this page.
 
