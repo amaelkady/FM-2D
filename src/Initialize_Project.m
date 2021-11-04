@@ -52,6 +52,10 @@ c                   = 0;
 
 GM                  = 0;
 
+TFreeVibration      = 0;
+dtstep              = 0;
+CollapseSDR         = 0.2;
+
 Recorders.Time          = 0;
 Recorders.Disp          = 0;
 Recorders.SDR           = 0;
