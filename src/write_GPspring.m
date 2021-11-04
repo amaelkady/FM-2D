@@ -127,32 +127,33 @@ if FrameType==3
         end
         fprintf(INP,'\n');
     end
-end
-fprintf(INP,'\n');
-
-fprintf(INP,'# CORNER GUSSET PLATE SPRINGS\n');
-for Floor=NStory:-1:1
-    Storyi=max(1,Floor-1);    Storyj=min(NStory,Floor);
-    for Axis=1:NBay+1
-        
-        if BraceLayout==2 && Axis>1; break; end
-        
-        Bay=max(1,Axis-1);
-        Section=BRACES{Storyi,Bay};
-        [SecData]=Load_SecData (Section, Units);
-        idxi=find(contains(SecData.Name,Section));
-        Section=BRACES{Storyj,Bay};
-        [SecData]=Load_SecData (Section, Units);
-        idxj=find(contains(SecData.Name,Section));
-        
-        SpringID11=900000+Floor*1000+Axis*100+11;
-
-        iNode=100000+1000*Floor+100*Axis+40;
-        jNode=100000+1000*Floor+100*Axis+41;
-        fprintf(INP,'Spring_Gusset %d %6d %6d $E $fyG %.4f %.4f %.4f %.4f %5d;\n', SpringID11, iNode, jNode, mean(CGP_L123(Storyj,1:3)), CGP_tp(Storyj,Bay), CGP_Lc(Storyj,1), SecData.h(idxj), matID);
-        matID=matID+1;    
+    
+    fprintf(INP,'\n');
+    
+    fprintf(INP,'# CORNER GUSSET PLATE SPRINGS\n');
+    for Floor=NStory:-1:1
+        Storyi=max(1,Floor-1);    Storyj=min(NStory,Floor);
+        for Axis=1:NBay+1
+            
+            if BraceLayout==2 && Axis>1; break; end
+            
+            Bay=max(1,Axis-1);
+            Section=BRACES{Storyi,Bay};
+            [SecData]=Load_SecData (Section, Units);
+            idxi=find(contains(SecData.Name,Section));
+            Section=BRACES{Storyj,Bay};
+            [SecData]=Load_SecData (Section, Units);
+            idxj=find(contains(SecData.Name,Section));
+            
+            SpringID11=900000+Floor*1000+Axis*100+11;
+            
+            iNode=100000+1000*Floor+100*Axis+40;
+            jNode=100000+1000*Floor+100*Axis+41;
+            fprintf(INP,'Spring_Gusset %d %6d %6d $E $fyG %.4f %.4f %.4f %.4f %5d;\n', SpringID11, iNode, jNode, mean(CGP_L123(Storyj,1:3)), CGP_tp(Storyj,Bay), CGP_Lc(Storyj,1), SecData.h(idxj), matID);
+            matID=matID+1;
+        end
+        fprintf(INP,'\n');
     end
     fprintf(INP,'\n');
 end
-fprintf(INP,'\n');
 end
