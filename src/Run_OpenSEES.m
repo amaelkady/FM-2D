@@ -127,8 +127,13 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 if isempty(Collapse); Collapse=0; end
                 
                 if Collapse == 1  && DATA.SDRincrmax > 0.15  && DATA.SDRincrmax < 0.2 && DATA.PFAincrmax < 10      	% In Case of Collapse
-                    SAcurrent = max(DATA.SA_last_NC+0.01, SAcurrent - 0.5 * SAstep);             					% Roll Back 1/2 Step
-                    SAstep    = max(0.02, 0.5 * SAstep);                                    						% Modify Step Size to 1/2 of Previous Step
+                    if AnalysisCount~=1
+                        SAcurrent = max(DATA.SA_last_NC+0.01, SAcurrent - 0.5 * SAstep);             					% Roll Back 1/2 Step
+                        SAstep    = max(0.02, 0.5 * SAstep);                                    						% Modify Step Size to 1/2 of Previous Step
+                    else
+                        SAcurrent=SAcurrent/3;
+                        SAstep=SAstep/3;
+                    end
                     Collapse_Flag = 999;                                                    						% Identifier for Collapse
                 else                                                                        						% In Case of No-Collapse
                     
@@ -150,20 +155,26 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                             SAstep     = max(min(IDASlope_Ratio*SAstep,SAstep),SAstepmin+0.01);
                             SAcurrent  = SAcurrent + SAstep;                                                        % Move to Next SA level by a Step proportional to slope ratio
                         else
-                            if DATA.SDR_last_NC<0.05
-                                SAcurrent  = SAcurrent + SAstep;                                    				% Move to Next SA level by 1 Step
-                            else
-                                SAcurrent  = SAcurrent + 0.5* SAstep;                                    			% Move to Next SA level by 0.5 Step
-                            end
+                                if DATA.SDR_last_NC<0.05
+                                    SAcurrent  = SAcurrent + SAstep;                                    				% Move to Next SA level by 1 Step
+                                else
+                                    SAcurrent  = SAcurrent + 0.5* SAstep;                                    			% Move to Next SA level by 0.5 Step
+                                end
+
                         end
                         IncrNo     = IncrNo    + 1;                                         						% Increase Counter for IDA Vectors IncrNos
                         if SAstep <= SAstepmin   ; break; end                                                       % Exit Criteria 1: When last No-Collapse Point is Located by Specified Accuracy
                         if SAstep <  SAstepmin/10; break; end                                                       % Exit Criteria 2: If the Step Time for Tracing Collapse Point Became Too Small
                     else
-                        if Collapse_Flag == 999
-                            SAcurrent = max(DATA.SA_last_NC+0.01, SAcurrent - 0.01);
+                        if AnalysisCount~=1
+                            if Collapse_Flag == 999
+                                SAcurrent = max(DATA.SA_last_NC+0.01, SAcurrent - 0.01);
+                            else
+                                SAcurrent = DATA.SA_last_NC + 0.01;
+                            end
                         else
-                            SAcurrent = SAcurrent + 0.01;
+                            SAcurrent = SAcurrent/3;
+                            SAstep    = SAstep/3; 
                         end
                     end
                 end
@@ -171,9 +182,11 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 % EXIT LOOP CRITERIA
                 if IDA==1 && Collapse ~= 1  && IDA_Slope > IDAslopeLimit;       break; end              	% Exit Criteria 1: If IDA slope limit is reached
                 if IDA==1 && Collapse ~= 1  && DATA.SDR_last_NC>CollapseSDR;    break; end              	% Exit Criteria 2: If collapse SDR limit is reached
-                if IDA==1 && DATA.SDR_last_NC>0.1 && RunTime>0.50*60*60;        break; end                  % Exit Criteria 3: When SDR is larger than 10% but run time exceeds 1 hour (thi is a fail safe)
+                %if IDA==1 && Collapse == 1  && AnalysisCount>10;               break; end              	% Exit Criteria ?: If number of analysis runs exceeds 10 (implies an infinite loop)
+                if IDA==1 && DATA.SDR_last_NC>0.1 && RunTime>0.50*60*60;        break; end                  % Exit Criteria 3: When SDR is larger than 10% but run time exceeds 1 hour (this is a fail safe)
                 if RunTime>1.0*60*60;                                           break; end          		% Exit Criteria 4: When run time exceeds 1 hour (this is a fail safe)
-                if SAcurrent==DATA.SA_last_NC+0.01;                             break; end                  % Exit Criteria 5: When tracing algorithm roles back to last NC point
+                if IDA==1 && Collapse ~= 1 &&  AnalysisCount~=1 && SAcurrent==DATA.SA_last_NC+0.01;        
+                    break; end                  % Exit Criteria 5: When tracing algorithm roles back to last NC point
                 if Dynamic_TargetSA==1 && (Collapse_Flag==999 || IncrNo>=3 || toc(timeGM)/60>MaxRunTime);    break; end
                 if Dynamic_TargetSF==1 && (Collapse_Flag==999 || IncrNo>=3 || toc(timeGM)/60>MaxRunTime);    break; end
             end
