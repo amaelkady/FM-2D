@@ -14,13 +14,17 @@
  set testInitialIterations 1000;
  set testLowIter 10;              # Used to try each test in the loop
  set testHighIter 1000;          # Used to try to make it converge at the very end
+ 
+ global RoofDisp ok;
+ set RoofDisp [nodeDisp $CtrlNode 1];
 
-if {$RunTime > $MaxRunTime} {
+if {$RunTime > $MaxRunTime | $RoofDisp > $Dmax} {
+	puts "Max run time reached; Aborting analysis...";
 	set ok 1;
 }
 
  # Analysis loop
- while {$controlDisp < $Dmax && $ok == 0} {
+ while {$RoofDisp < $Dmax && $ok == 0} {
     # Do step with initial tolerance and input algorithm
     set ok [analyze $Nsteps]; # this will return zero if no convergence problems were encountered
     # Keep track of the maximum tolarance used in this step  - for the convPlotFile.  This is later increased it necessary.

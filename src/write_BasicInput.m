@@ -1,5 +1,5 @@
 
-function write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu,fy,fyBrace,fyGP,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty)
+function write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty)
             
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                              INPUT                                               #\n');
@@ -8,14 +8,21 @@ fprintf(INP,'\n');
 
 fprintf(INP,'# FRAME CENTERLINE DIMENSIONS\n');
 fprintf(INP,'set NStory %2.0f;\n', NStory);
-fprintf(INP,'set NBay %2.0f;\n', NBay);
+fprintf(INP,'set NBay   %2.0f;\n', NBay);
 fprintf(INP,'\n');
 
 fprintf(INP,'# MATERIAL PROPERTIES\n');
-fprintf(INP,'set E  %.3f; \n',E);
+fprintf(INP,'set E   %.3f;\n',E);
+if FrameType==4
+    fprintf(INP,'set Ec  %.3f;\n',Ec);    
+    fprintf(INP,'set Er  %.3f;\n',Er);    
+    fprintf(INP,'set fc  %.3f;\n',fc);
+    fprintf(INP,'set fyR %.3f;\n',fyR);
+    fprintf(INP,'set muC %.3f;\n',muC);
+end
 fprintf(INP,'set mu  %.3f; \n',mu);
 fprintf(INP,'set fy  [expr %.3f * %5.1f];\n',fy,EL_Multiplier);
-if FrameType~=1
+if FrameType~=1 && FrameType~=4
     fprintf(INP,'set fyB [expr %.3f * %5.1f];\n',fyBrace,EL_Multiplier);
     fprintf(INP,'set fyG [expr %.3f * %5.1f];\n',fyGP,EL_Multiplier);
 end
@@ -26,11 +33,17 @@ fprintf(INP,'uniaxialMaterial Elastic  9  1.e-9; 		#Flexible Material \n');
 fprintf(INP,'uniaxialMaterial Elastic  99 1000000000.;  #Rigid Material \n');
 load('Material_Database.mat')
 if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
-%fprintf(INP,'# Command syntax: uniaxial Material UVCuniaxial $matTag $E $fy $QInf $b $DInf $a $N $C1 $gamma1 $C2 $gamma2 \n');
-if SteelMatID==1
-    fprintf(INP,'uniaxialMaterial UVCuniaxial  666 %.4f %.4f %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', E, fy, Material.Qinf(1,1)*transUnit, Material.b(1,1), 0.00, 1.0, 2, Material.C1(1,1)*transUnit, Material.gamma1(1,1), Material.C2(1,1)*transUnit, Material.gamma2(1,1));
+if FrameType==4
+    fprintf(INP,'uniaxialMaterial Steel02 666  $fyR $Er 0.01 18 0.925 0.15;  #Rebar Material \n')
+    fprintf(INP,'Define_Material_RC       888  $Ec $fc "confined";           #Confined concrete Material \n')
+    fprintf(INP,'Define_Material_RC       889  $Ec $fc "unconfined";          #Unconfined concrete Material \n')
 else
-    fprintf(INP,'uniaxialMaterial UVCuniaxial  666 %.4f %.4f %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', Material.E(SteelMatID+1,1)*transUnit, Material.fy(SteelMatID+1,1)*transUnit, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), 0.00, 1.0, 2, Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1));    
+    %fprintf(INP,'# Command syntax: uniaxial Material UVCuniaxial $matTag $E $fy $QInf $b $DInf $a $N $C1 $gamma1 $C2 $gamma2 \n');
+    if SteelMatID==1
+        fprintf(INP,'uniaxialMaterial UVCuniaxial  666 %.4f %.4f %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', E, fy, Material.Qinf(1,1)*transUnit, Material.b(1,1), 0.00, 1.0, 2, Material.C1(1,1)*transUnit, Material.gamma1(1,1), Material.C2(1,1)*transUnit, Material.gamma2(1,1));
+    else
+        fprintf(INP,'uniaxialMaterial UVCuniaxial  666 %.4f %.4f %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', Material.E(SteelMatID+1,1)*transUnit, Material.fy(SteelMatID+1,1)*transUnit, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), 0.00, 1.0, 2, Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1));    
+    end    
 end
 fprintf(INP,'\n\n');
 
@@ -55,6 +68,7 @@ end
 fprintf(INP,'\n');
 
 fprintf(INP,'# COMPOSITE BEAM FACTOR\n');
+if FrameType ~= 4
 if CompositeX == 1
     fprintf(INP,'puts "Composite Action is Considered"\n');
     fprintf(INP,'set Composite 1;\n');
@@ -66,6 +80,7 @@ else
     fprintf(INP,'set Comp_I_GC %.3f;\n', Comp_I_GC);
 end
 fprintf(INP,'\n');
+end
 
 fprintf(INP,'# FIBER ELEMENT PROPERTIES\n');
 fprintf(INP,'set nSegments    %d;\n',nSegments);
@@ -108,7 +123,7 @@ end
 if Sigma.zeta==1.e-9 || Uncertainty==0; fprintf(INP,'set Sigma_zeta   1.e-9;\n'); else; fprintf(INP,'set Sigma_zeta   %.3f;\n ',Sigma.zeta); end
 fprintf(INP,'global Sigma_fy Sigma_fyB Sigma_fyG Sigma_GI; global xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_fy;  Generate_lognrmrand $fy 	$SigmaX; 	set fy      $xRandom;\n');
-if FrameType~=1
+if FrameType~=1 && FrameType~=4
 fprintf(INP,'set SigmaX $Sigma_fyB; Generate_lognrmrand $fyB 	$SigmaX; 	set fyB 	$xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_fyG; Generate_lognrmrand $fyG 	$SigmaX; 	set fyG 	$xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_GI;  Generate_lognrmrand %f 	    $SigmaX; 	set initialGI 	$xRandom;\n', initialGI);

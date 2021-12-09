@@ -1,22 +1,24 @@
  # SolutionAlgorithmSubFile
- # Units: kips, in, sec
- # This file developed by: Seong-Hoon Hwang of McGill University
- # Updated: 20 January 2015
- # Date: January 2015
+ # Developed by: Seong-Hoon Hwang
+ # Updated by: Ahmed Elkady
  # Other files used in developing this model:
  # Solution algorithm - this is called repetitively by another solution algorithm file.
  # If the initial step didn't work, then alter the time step and the tolerance, and try different solution algorithms
  
+global RoofDisp ok;
+
 set x [clock seconds];
 set RunTime [expr $x - $StartTime];
 set RoofDisp [nodeDisp $CtrlNode 1];
 set RDR [expr round(($RoofDisp*100/$HBuilding)*10.)/10.];
+set MaxRDR [expr round(($Dmax*100/$HBuilding)*10.)/10.];
 
-# set counterItr [expr $counterItr +1];
-# puts "Inr #$counterItr";
-puts "RDR = $RDR %  and  RunTime = $RunTime sec"
+puts "RDR = $RDR%/$MaxRDR%  and  RunTime = $RunTime/$MaxRunTime sec"
 
- # I added these solution algorithm (date: 20/Jan/2015)
+ if {$RunTime > $MaxRunTime | $RoofDisp > $Dmax} {
+	set ok 1;
+ }
+ 
  if {$ok != 0 && $RunTime < $MaxRunTime & $RoofDisp < $Dmax} {
      #puts "That failed - Trying Krylov-Newton Algorithm .."
      test NormDispIncr $currentTolerance $testIterations 0
@@ -53,8 +55,7 @@ puts "RDR = $RDR %  and  RunTime = $RunTime sec"
      set maxTolUsedInCurrentStep $currentTolerance 
      }
  }
- # 
- # I changed this to Line Search with Newton
+
  if {$ok != 0 && $RunTime < $MaxRunTime & $RoofDisp < $Dmax} {
      #puts "That failed - Trying some changes to disp. and the solution algorithm"
      test NormDispIncr $currentTolerance $testIterations 0
@@ -70,7 +71,6 @@ puts "RDR = $RDR %  and  RunTime = $RunTime sec"
      }
  }
  
- # Try other algorithms
  if {$ok != 0 && $RunTime < $MaxRunTime & $RoofDisp < $Dmax} {
      #puts "That failed - Trying Newton ..."
      test NormDispIncr $currentTolerance $testIterations 0
@@ -101,7 +101,6 @@ puts "RDR = $RDR %  and  RunTime = $RunTime sec"
       }
  }
  
- # I added these solution algorithm (date: 21/Jan/2015)
  if {$ok != 0 && $RunTime < $MaxRunTime & $RoofDisp < $Dmax} {
      #puts "That failed - Run Newton 100 steps with 1/2 of step.."
      test EnergyIncr $currentTolerance $testIterations 0
