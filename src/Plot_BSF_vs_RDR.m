@@ -50,6 +50,9 @@ grid on; box on; hold on;
 if PO==1
     X=abs(Disp_MF(:,end)*100/HBuilding);
     Y=abs(BSF/Ws);
+    indx=find(BSF>0);
+    X(min(indx)-1:end,:)=[];
+    Y(min(indx)-1:end,:)=[];
     set(gca,'XLim',[0 1.2*max(abs(X))]);
     set(gca,'YLim',[0 round(1.2*max(abs(Y))*100)/100]);
 else
