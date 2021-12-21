@@ -72,49 +72,50 @@ for Floor=NStory+1:-1:2
 end
 fprintf(INP,'\n');
 
-
-fprintf(INP,'# MF COLUMN NODES\n');
-for Floor=NStory+1:-1:1
-    if Floor==NStory+1
-        for Axis=1:NBay+1
-            nodeID=100*Floor+10*Axis+01;
-            Bay=max(1,Axis-1);
-            Section=MF_BEAMS{Floor-1,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idx=find(contains(SecData.Name,Section));
-            fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
+if FrameType~=4
+    fprintf(INP,'# MF COLUMN NODES\n');
+    for Floor=NStory+1:-1:1
+        if Floor==NStory+1
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+01;
+                Bay=max(1,Axis-1);
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData (Section, Units);
+                idx=find(contains(SecData.Name,Section));
+                fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
+            end
         end
-    end
-    if Floor~=1 && Floor~=NStory+1
-        for Axis=1:NBay+1
-            nodeID=100*Floor+10*Axis+03;
-            Bay=max(1,Axis-1);
-            Section=MF_BEAMS{Floor-1,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idx=find(contains(SecData.Name,Section));
-            fprintf(INP,'node %d  $Axis%d [expr $Floor%d + %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
+        if Floor~=1 && Floor~=NStory+1
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+03;
+                Bay=max(1,Axis-1);
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData (Section, Units);
+                idx=find(contains(SecData.Name,Section));
+                fprintf(INP,'node %d  $Axis%d [expr $Floor%d + %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
+            end
+            fprintf(INP,'\n');
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+01;
+                Bay=max(1,Axis-1);
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData (Section, Units);
+                idx=find(contains(SecData.Name,Section));
+                fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
+            end
+        end
+        if Floor==1
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+03;
+                fprintf(INP,'node %d  $Axis%d $Floor%d; ',nodeID,Axis,Floor);
+            end
         end
         fprintf(INP,'\n');
-        for Axis=1:NBay+1
-            nodeID=100*Floor+10*Axis+01;
-            Bay=max(1,Axis-1);
-            Section=MF_BEAMS{Floor-1,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idx=find(contains(SecData.Name,Section));
-            fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
-        end
-    end
-    if Floor==1
-        for Axis=1:NBay+1
-            nodeID=100*Floor+10*Axis+03;
-            fprintf(INP,'node %d  $Axis%d $Floor%d; ',nodeID,Axis,Floor);
-        end
     end
     fprintf(INP,'\n');
 end
-fprintf(INP,'\n');
 
-if FrameType~=1
+if FrameType==2 || FrameType==3
     fprintf(INP,'# MF BEAM NODES\n');
     for Floor=NStory+1:-1:2
         Story=Floor-1;
@@ -149,7 +150,6 @@ if FrameType~=1
 end
 
 if FrameType==1
-    
     fprintf(INP,'# MF BEAM NODES\n');
     for Floor=NStory+1:-1:2
         for Axis=1:NBay+1
@@ -201,6 +201,97 @@ if FrameType==1
         fprintf(INP,'\n');
     end
     fprintf(INP,'\n');
+end
+
+if FrameType==4
+    
+    fprintf(INP,'# MF COLUMN NODES\n');
+    for Floor=NStory+1:-1:1
+        if Floor==NStory+1
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+01;
+                Bay=max(1,Axis-1);
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData_RC (Section);
+                fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.H);
+            end
+        end
+        if Floor~=1 && Floor~=NStory+1
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+03;
+                Bay=max(1,Axis-1);
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData_RC (Section);
+                fprintf(INP,'node %d  $Axis%d [expr $Floor%d + %5.2f/2]; ',nodeID,Axis,Floor,SecData.H);
+            end
+            fprintf(INP,'\n');
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+01;
+                Bay=max(1,Axis-1);
+                Section=MF_BEAMS{Floor-1,Bay};
+                [SecData]=Load_SecData_RC (Section);
+                fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.H);
+            end
+        end
+        if Floor==1
+            for Axis=1:NBay+1
+                nodeID=100*Floor+10*Axis+03;
+                fprintf(INP,'node %d  $Axis%d $Floor%d; ',nodeID,Axis,Floor);
+            end
+        end
+        fprintf(INP,'\n');
+    end
+    fprintf(INP,'\n');
+
+    fprintf(INP,'# MF BEAM NODES\n');
+    for Floor=NStory+1:-1:2
+        for Axis=1:NBay+1
+            Story=Floor-1;
+            Section=MF_COLUMNS{Story,Axis};
+            [SecData]=Load_SecData_RC (Section);
+            
+            nodeID04=100*Floor+10*Axis+04;
+            nodeID02=100*Floor+10*Axis+02;
+            
+            if Axis==1
+                fprintf(INP,'node %d   [expr $Axis%d + %5.2f/2] $Floor%d; ',nodeID04,Axis,SecData.H,Floor);
+            end
+            if Axis~=1 && Axis~=NBay+1
+                fprintf(INP,'node %d   [expr $Axis%d - %5.2f/2] $Floor%d; ',nodeID02,Axis,SecData.H,Floor);
+                fprintf(INP,'node %d   [expr $Axis%d + %5.2f/2] $Floor%d; ',nodeID04,Axis,SecData.H,Floor);
+            end
+            if Axis==NBay+1
+                fprintf(INP,'node %d   [expr $Axis%d  - %5.2f/2] $Floor%d; ',nodeID02,Axis,SecData.H,Floor);
+            end
+        end
+        fprintf(INP,'\n');
+    end
+    fprintf(INP,'\n');
+    
+%     fprintf(INP,'# BEAM SPRING NODES\n');
+%     for Floor=NStory+1:-1:2
+%         Story=Floor-1;
+%         for Axis=1:NBay+1
+%             Section=MF_COLUMNS{Story,Axis};
+%             [SecData]=Load_SecData_RC (Section);
+%             
+%             nodeID40=1000*Floor+100*Axis+40;
+%             nodeID20=1000*Floor+100*Axis+20;
+%             
+%             if Axis==1
+%                 fprintf(INP,'node %d   [expr $Axis%d + %5.2f/2] $Floor%d; ',nodeID40,Axis,SecData.H,Floor);
+%             end
+%             if Axis~=1 && Axis~=NBay+1
+%                 fprintf(INP,'node %d   [expr $Axis%d - %5.2f/2] $Floor%d; ',nodeID20,Axis,SecData.H,Floor);
+%                 fprintf(INP,'node %d   [expr $Axis%d + %5.2f/2] $Floor%d; ',nodeID40,Axis,SecData.H,Floor);
+%             end
+%             if Axis==NBay+1
+%                 fprintf(INP,'node %d   [expr $Axis%d - %5.2f/2] $Floor%d; ',nodeID20,Axis,SecData.H,Floor);
+%             end
+%         end
+%         fprintf(INP,'\n');
+%     end
+%     fprintf(INP,'\n');
 end
 
 if any(Splice(:) == 1)

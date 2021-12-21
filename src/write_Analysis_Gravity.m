@@ -35,7 +35,7 @@ for Floor=NStory+1:-1:2
             if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * (0.5*HStory(2)+0.5*HStory(Story)) * (TAex1); end
         end
         
-        if PZ_Multiplier==1
+        if PZ_Multiplier==1  && FrameType~=4
             nodeID=400000+1000*Floor+100*Axis+03;
         else
             nodeID=(10*Floor+Axis)*10;

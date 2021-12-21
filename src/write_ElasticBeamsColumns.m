@@ -1,6 +1,5 @@
 function [EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Units)
 
-
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                     ELASTIC COLUMNS AND BEAMS                                    #\n');
 fprintf(INP,'####################################################################################################\n');
@@ -20,6 +19,7 @@ fprintf(INP,'set K11_1 [expr (1+2*$n)*$K44_1/(1+$n)];\n');
 fprintf(INP,'set K33_1 [expr 2*$K44_1];\n');
 fprintf(INP,'\n');
 
+if FrameType~=4
 count=1;
 fprintf(INP,'# COLUMNS\n');
 secID=100;
@@ -140,7 +140,7 @@ for Floor=NStory+1:-1:2
     fprintf(INP,'\n');
 end
 fprintf(INP,'\n');
-
+end
 
 
 %% EBFs (under development)

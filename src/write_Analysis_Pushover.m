@@ -1,4 +1,9 @@
 function write_Analysis_Pushover(INP,NStory,DriftPO,Units)
+global MainDirectory ProjectName ProjectPath
+clc;
+cd(ProjectPath)
+load(ProjectName,'PZ_Multiplier','FrameType')
+cd(MainDirectory)
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#											Pushover Analysis                     		    	   #\n');
@@ -15,14 +20,22 @@ EigenVal=XX(1,:);
 fprintf(INP,'# Create Load Pattern\n');
 fprintf(INP,'pattern Plain 222 Linear {\n');
 for Floor=NStory+1:-1:2
-    nodeID=400000+Floor*1000+1*100+03;
+    if PZ_Multiplier==1  && FrameType~=4
+        nodeID=400000+1000*Floor+100*1+03;
+    else
+        nodeID=(10*Floor+1)*10;
+    end
     fprintf(INP,'	load %d %7.5f 0.0 0.0\n',nodeID,EigenVal(1,Floor-1));
 end
 fprintf(INP,'}\n');
 fprintf(INP,'\n');
 
 fprintf(INP,'# Displacement Control Parameters\n');
-nodeID=400000+(NStory+1)*1000+1*100+04;
+    if PZ_Multiplier==1  && FrameType~=4
+        nodeID=400000+(NStory+1)*1000+1*100+04;
+    else
+        nodeID=(10*Floor+(NStory+1))*10;
+    end
 fprintf(INP,'set CtrlNode %d;\n', nodeID);
 fprintf(INP,'set CtrlDOF 1;\n');
 fprintf(INP,'set Dmax [expr %5.3f*$Floor%d];\n',DriftPO,NStory+1);

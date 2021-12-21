@@ -15,12 +15,18 @@
 # d_Col     	Column section depth
 # d_Beam    	Beam section depth
 # transfTag 	Geometric transformation ID
+# ShapeID 		The panel shape ID: 0:  No elements are removed
+#									2:  Left element is removed
+#									3:  Top element is removed
+#									4:  Right element is removed
+#									23: Left  and Top elements are removed
+#									34: Right and Top elements are removed
 #
 # Written by: Dr. Ahmed Elkady, University of Southampton, UK
 #
 ##################################################################################################################
 
-proc ConstructPanel_Cross {Axis Floor X_Axis Y_Floor E A_Panel I_Panel  d_Col d_Beam transfTag} {
+proc ConstructPanel_Cross {Axis Floor X_Axis Y_Floor E A_Panel I_Panel  d_Col d_Beam transfTag ShapID} {
  
 	# Construct Panel Node Notation
 	set NodeCL    [expr ($Floor*10+$Axis)*10];  # Grid Line Dummy Node
@@ -42,15 +48,23 @@ proc ConstructPanel_Cross {Axis Floor X_Axis Y_Floor E A_Panel I_Panel  d_Col d_
 	# node [NodeID]  [XCoordinate]   [YCoordinate]
 	node $NodeCL 		  $X_Axis            		$Y_Floor;
 	node $Node_XY01 [expr $X_Axis]            [expr $Y_Floor - $d_Beam/2];
+	if {$ShapeID != 2 && $ShapeID != 23} {
 	node $Node_XY02 [expr $X_Axis - $d_Col/2] [expr $Y_Floor]; 
+	}
+	if {$ShapeID != 3 && $ShapeID != 23 && $ShapeID != 34} {
 	node $Node_XY03 [expr $X_Axis]            [expr $Y_Floor + $d_Beam/2]; 
+	}
 	node $Node_XY04 [expr $X_Axis + $d_Col/2] [expr $Y_Floor];
 
 	# Construct Panel Element Property
 	#                                 tag              ndI          ndJ          A_PZ       E       I_PZ       transfTag
 	element elasticBeamColumn    $P_Elm_100XY01    $NodeCL   $Node_XY01     $A_Panel    $E      $I_Panel   $transfTag;
+	if {$ShapeID != 2 && $ShapeID != 23} {
 	element elasticBeamColumn    $P_Elm_100XY02    $NodeCL   $Node_XY02     $A_Panel    $E      $I_Panel   $transfTag;
+	}
+	if {$ShapeID != 3 && $ShapeID != 23 && $ShapeID != 34} {
 	element elasticBeamColumn    $P_Elm_100XY03    $NodeCL   $Node_XY03     $A_Panel    $E      $I_Panel   $transfTag;
+	}
 	element elasticBeamColumn    $P_Elm_100XY04    $NodeCL   $Node_XY04     $A_Panel    $E      $I_Panel   $transfTag;
 
  }

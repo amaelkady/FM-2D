@@ -39,7 +39,7 @@ for Floor=NStory+1:-1:2
         end
         
         Mass = Loadcol / g;
-        if PZ_Multiplier==1; nodeID=400000+1000*Floor+100*Axis+04; else; nodeID=(10*Floor+Axis)*10; end
+        if PZ_Multiplier==1 && FrameType~=4; nodeID=400000+1000*Floor+100*Axis+04; else; nodeID=(10*Floor+Axis)*10; end
         fprintf(INP,'mass %d %6.4f  1.e-9 1.e-9; ', nodeID, Mass);
         
         LoadColFloor=LoadColFloor+Loadcol;

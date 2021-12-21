@@ -41,6 +41,20 @@ if ExecutionOption==1
         CREATOR_MODEL_MRF(AnalysisTypeID,0);
         CREATOR_ANALYSIS (AnalysisTypeID,0);
         
+    elseif FrameType==4
+        
+        if EV~=1
+            app.ProgressText.Text='Running Preliminary Eigenvalue Analysis...'; drawnow;
+            CREATOR_MODEL_MRF_RC(1,0);
+            CREATOR_ANALYSIS(1,0);
+            eval(strcat('! OpenSees.exe TempModel.tcl'));
+            fclose all;
+        end
+        
+        app.ProgressText.Text='Creating Main tcl File...'; drawnow;
+        
+        CREATOR_MODEL_MRF_RC(AnalysisTypeID,0);
+        CREATOR_ANALYSIS (AnalysisTypeID,0);
     else
         
         app.ProgressText.Text='Running Preliminary Eigenvalue Analysis...'; drawnow;
@@ -75,8 +89,9 @@ else
     app.Image.Visible      = 'on';
     app.ProgressText.Text  = 'Running Preliminary Eigenvalue Analysis...'; drawnow;
     
-    if FrameType==1; CREATOR_MODEL_MRF(1,0); end
-    if FrameType~=1; CREATOR_MODEL_CBF(1,0); end
+    if     FrameType==1; CREATOR_MODEL_MRF(1,0);
+    elseif FrameType==4; CREATOR_MODEL_MRF_RC(1,0);
+    else                 CREATOR_MODEL_CBF(1,0); end
     CREATOR_ANALYSIS (1,0);
     eval(strcat('! OpenSees.exe TempModel.tcl'));
     fclose all;

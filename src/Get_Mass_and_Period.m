@@ -83,6 +83,8 @@ end
 
 if FrameType==1
     CREATOR_MODEL_MRF(1,0);
+elseif FrameType==4
+    CREATOR_MODEL_MRF_RC(1,0);
 else
    CREATOR_MODEL_CBF(1,0);
 end

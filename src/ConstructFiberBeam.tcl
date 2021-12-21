@@ -35,7 +35,7 @@ set L [expr sqrt(pow(($X2-$X1),2)+ pow(($Y2-$Y1),2))];
 if {$Splice_status==0} {
 
 	# Set nodeID for the first intermediate node
-	set nodeID [expr 100000+$Node1]
+	set nodeID [expr 500000+$Node1]
 
 	for {set i 1} {$i <= [expr $numSeg-1]} {incr i 1} {
 		set nodeid [expr $nodeID+$i]
@@ -47,7 +47,7 @@ if {$Splice_status==0} {
 
 	# Define segments
 	# set initial elementID
-	set ElementID [expr $eleID]
+	set ElementID [expr $eleID+500]
 	#puts "S0 $ElementID"
 
 	if {$numSeg>1} {
