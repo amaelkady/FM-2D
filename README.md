@@ -20,4 +20,4 @@ Citation:
 ---------
 Elkady, A. (2021). "FM-2D v1.2105" Zenodo, DOI: 10.5281/zenodo.4744358.
 
-Elkady, A. (2021). "FM-2D: Open-Source Platform for the Numerical Modeling and Seismic Analysis of Buildings." SoftwareX, (in press).
+Elkady, A. (2021). "FM-2D: Open-Source Platform for the Numerical Modeling and Seismic Analysis of Buildings." SoftwareX, 17(1), DOI: 10.1016/j.softx.2021.100927.
