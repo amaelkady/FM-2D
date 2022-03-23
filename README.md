@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="500" src="Screenshot.png" alt="FM-2D Main Console">
+  <img width="400" src="Screenshot.png" alt="FM-2D Main Console">
 </p>
 
 --------------
