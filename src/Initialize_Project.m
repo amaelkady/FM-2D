@@ -50,6 +50,12 @@ a                   = 0;
 b                   = 0;
 c                   = 0;
 
+Ec                = 0;    
+Er                = 0;   
+fc                = 0;
+fyR               = 0;
+muC               = 0;
+    
 GM                  = 0;
 
 TFreeVibration      = 0;
