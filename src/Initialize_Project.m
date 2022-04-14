@@ -28,6 +28,7 @@ Definestatus        = 0;
 Analysisstatus      = 0;
 Runstatus           = 0;
 Sigmastatus         = 0;
+cLoad_status        = 1;
 
 ModePO              = 1;
 DriftPO             = 0.1;
