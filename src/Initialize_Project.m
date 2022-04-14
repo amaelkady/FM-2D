@@ -55,6 +55,7 @@ Er                = 0;
 fc                = 0;
 fyR               = 0;
 muC               = 0;
+muR               = 0;
     
 GM                  = 0;
 
