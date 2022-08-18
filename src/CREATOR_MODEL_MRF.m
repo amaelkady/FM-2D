@@ -6,6 +6,7 @@ load(ProjectName)
 cd(MainDirectory)
 
 if TempPOrun==1; PM_Option=2; end
+if AnalysisTypeID==1; PM_Option=2; end
 
 % Open File to Write Code
 if AnalysisTypeID==1
