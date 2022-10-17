@@ -1,0 +1,15 @@
+[
+ return [subst {
+     [<p> "This is part of the Mason Emulation of [<a> href . Wub]."]
+     [<p> "This page is dynamically generated in response to a request for a non-existent file."]
+     [<p> "The URL which failed is:  [dict get $response -uri]"]
+     [<p> "It was generated at:  [clock format [clock seconds]], and won't be cached"]
+ }]
+
+### Local Variables: ***
+### mode:tcl ***
+### tcl-indent-level:4 ***
+### tcl-continued-indent-level:4 ***
+### indent-tabs-mode:nil ***
+### End: ***
+]

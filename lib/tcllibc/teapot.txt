@@ -1,0 +1,20 @@
+Package tcllibc 0.3.15
+Meta platform win32-x86_64
+Meta build::date 2019-03-07
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko {critcl 3.1.17} gecko
+Meta generated::by {critcl 3.1.17} gecko
+Meta generated::date critcl
+Meta require {Tcl 8.2} {Tcl 8.4} {Tcl 8.4} {Tcl 8.4} {Tcl 8.4} {Tcl 8.4}
+Meta require {Tcl 8.2} {Tcl 8.4} {Tcl 8.2} {Tcl 8.2} {Tcl 8.2} {Tcl 8.2}
+Meta require {Tcl 8.4} {Tcl 8.4}
+Meta entrytclcommand {eval "[list proc __critcl_load__ {dir} { ;     source [file join $dir critcl-rt.tcl] ;     set path [file join $dir [::critcl::runtime::MapPlatform]] ;     set ext [info sharedlibextension] ;     set lib [file join $path "tcllibc$ext"] ;     load $lib Tcllibc ;     package provide tcllibc 0.3.15 ;     catch {rename __critcl_load__ {}}}] ; [list __critcl_load__ $dir]"}
+Meta included critcl-rt.tcl win32-x86_64/tcllibc.dll

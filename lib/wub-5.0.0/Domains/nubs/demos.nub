@@ -1,0 +1,55 @@
+# demonstration urls
+domain /repo/ Repo tar 1 upload 1 root $::Site::docroot
+domain /tie/ Tie
+domain /sinorca/ Sinorca
+domain /simplicio/ Simplicio
+domain /ram/ RAM
+domain /CGI/ CGI root [file join $::Site::docroot cgi]
+#domain /dub/ Dub namespace ::Dub ctype x-text/html-fragment
+domain /code/ Commenter ctype x-text/html-fragment
+domain /said/ {Coco said} lambda {r {
+    set r [yield [Http Ok+ [yield] [<form> said "[<text> stuff][<submit> ok]"]]]
+    Query qvars [Query parse $r] stuff
+    return [Http Ok+ [yield [Http Ok+ $r [<a> href . "click here"]]] [<p> "You said: $stuff"]]
+}}
+
+domain /coco/ {Coco coco} lambda {r {
+    set r [yield]	;# initially just redirect
+    while {1} {
+	set content [<h1> "Coco - Coroutining"]
+	append content [<p> "You have called the coroutine [incr n] times."]
+	set r [yield [Http Ok [Http NoCache $r] $content]]
+    }
+}}
+
+domain /copf/ {Coco copf} lambda {r {
+    set referer [Http Referer $r]	;# remember referer
+    set r [yield]	;# initially just redirect
+    
+    set r [form $r [string map [list %REF $referer] {
+	[<h1> "Personal Information"]
+	[<p> "Referer: '%REF'"]
+	%MESSAGE
+	[<form> info {
+	    [<fieldset> personal {
+		[<legend> [<submit> submit "Personal Information"]]
+		[<text> forename title "Forename" $forename]
+		[<text> surname title "Surname" $surname]
+		[<br>][<text> phone title "Phone number" $phone]
+	    }]
+	}]
+    }] forename {
+	"Forename can't be empty."
+	{$forename ne ""}
+    } surname {
+	"Surname can't be empty."
+	{$surname ne ""}
+    } phone {
+	"Phone number has to look like a phone number."
+	{[regexp {^[-0-9+ ]+$} $phone]}
+    }]
+    # now all the variable/fields mentioned in [form] have valid values
+    
+    # resume where you were
+    return [Http Redirect $r $referer]
+}}

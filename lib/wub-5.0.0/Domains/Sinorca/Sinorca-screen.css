@@ -1,0 +1,1132 @@
+/************************************************************************
+   *                                                                       *
+   *                  Sinorcaish Screen-based Style Sheet                  *
+   *                 Copyright (C) 2004-07, John Zaitseff                  *
+   *                                                                       *
+   ************************************************************************/
+
+/* Author:  John Zaitseff <J.Zaitseff@zap.org.au>
+   Version: 1.3
+
+   Id: sinorcaish-screen.css 189 2007-03-22 01:35:44Z john $
+
+   This file provides the Sinorcaish style sheet for screen-based user
+   agents (ie, for ordinary Web browsers).  This file conforms to the
+   Cascading Style Sheets 2.1 specification.
+
+   The design of Sinorcaish is influenced by Sinorca (available from the
+   Open Source Web Design site, http://www.oswd.org/), which in turn was
+   based on the Acronis company web site (http://www.acronis.com/).  You
+   can find more information about this design from its home page on the
+   ZAP Group web site, http://www.zap.org.au/documents/styles/sinorcaish/.
+
+   This file may be redistributed and/or modified on the condition that
+   the original copyright notice is retained.
+   */
+
+
+/********** Global Styles **********/
+
+/* The global font size is set to 90% as  */
+/* most browsers' normal font size is too */
+/* large, at least when using Verdana     */
+
+body {
+  font-family:     Verdana, "DejaVu Sans", "Bitstream Vera Sans", "Lucida Sans", Arial, Helvetica, sans-serif;
+  font-size:       90%;	/* Allow IE/Win to resize the document */
+  color:           %BODY_FG;
+//  background:      %HIGHLIGHT_BG;
+  background:      %BODY_BG;
+  margin:          0;
+  padding:         0;
+  border:          none;
+}
+
+.hidden {			/* Used for content that should be displayed */
+          /* by non-stylesheet-aware browsers          */
+          display:         none !important;
+          }
+
+.notprinted {			/* Used for content that should not be */
+              }				/* printed to paper                    */
+
+.left > h1 {			/* Should be used once, following navhead */
+             font-size:1.5em;
+             letter-spacing:-5px;
+             margin:0 0 15px 12px;
+             font-weight:     normal;
+             color: %HEADER_LEFT;
+             background:      transparent;
+             }
+.fade {color: %FADE;}
+.high {color: %HIGH;}
+.blur {font-weight: italic; color: %BLUR;}
+
+/* Headings */
+
+h1,				/* Headings (H1-H6) should only be used in */
+h2,				/* the main content area                   */
+h3 {
+     font-weight:     bold;
+     text-align:      left;
+     margin:          1em 0 0 0;
+     padding:         0;
+     }
+
+h4,
+h5,
+h6 {
+     font-weight:     bold;
+     text-align:      left;
+     margin:          1.25em 0 0 0;
+     padding:         0;
+     }
+
+h1 { font-size:     150% }
+h2 { font-size:     125% }
+h3 { font-size:     105% }
+h4 { font-size:     100% }
+h5 { font-size:     80% }
+h7 { font-size:     72%  }
+
+
+/* Anchors */
+
+a:link {
+         text-decoration: none;
+         color:           %LINK;
+         background:      transparent;
+         }
+
+a:visited {
+            text-decoration: none;
+            color:           %VISITED;
+            background:      transparent;
+            }
+
+a:hover,
+a:active {
+           text-decoration: underline;
+           }
+
+
+/* Inline elements and classes */
+
+/* This style sheet assumes B, BIG, EM, I, */
+/* SMALL, STRONG, SUB and SUP are defined  */
+/* by the browser as per the HTML4 sample  */
+/* style sheet.                            */
+code,
+kbd,
+samp,
+tt {
+     font-family:     "Courier New", Courier, monospace;
+     font-size:       115%;	/* Courier tends to be a little too small */
+     line-height:     1.0;	/* Otherwise lines tend to spread out */
+     }
+
+kbd,
+code.markup,			/* HTML/CSS markup */
+span.markup,			/* Alternative form for HTML/CSS markup */
+.title {			/* Title in floating boxes / left sidebar */
+         font-weight:     bolder;
+         }
+
+abbr,
+acronym {
+          font:            inherit;	/* Don't use small-caps, etc. */
+          }
+
+.tooltip {
+           cursor:          help;
+           border-bottom:   1px dotted %TOOLTIP;
+           }
+
+.editing { background: %HEADER_BG;}
+.modified { color: green; }
+
+abbr[title],
+acronym[title] {
+                 cursor:          help;
+                 border-bottom:   1px dotted %TOOLTIP;
+                 }
+
+cite,
+dfn,
+var,
+.fn,				/* Filename */
+.url,				/* Uniform Resource Locator */
+.email {			/* E-mail address */
+         font-style:      italic;
+         }
+
+.program,			/* Command-line name of a computer program */
+.window,			/* Window or dialog box name */
+.menu,				/* Menu item in a computer program */
+.gui,				/* Generic GUI element in a computer program */
+.key {				/* Keypress in a computer program */
+       font-weight:     bolder;
+       }
+
+.clearboxes {			/* Clear navboxes and floatboxes */
+              clear:           right;
+              }
+
+.unicode {
+           font-family:     "Arial Unicode MS", "Lucida Sans Unicode", Verdana, "DejaVu Sans", "Bitstream Vera Sans", "Lucida Sans", Arial, Helvetica, sans-serif;
+           }
+
+
+/* Block-inline elements and classes */
+
+img {
+      vertical-align:  baseline;
+      margin:          0;
+      padding:         0;
+      border:          none;
+      }
+
+img.icon16 {			/* For 16x16 file-type icons */
+             vertical-align:  -2px;
+             }
+
+del,
+del * {				/* Required for Mozilla */
+        text-decoration: line-through;
+        }
+
+ins,
+ins * {				/* Required for Mozilla */
+        text-decoration: underline;
+        }
+
+.floatleft {			/* Left-floating images and spans */
+             margin:          0.5em 1.5em 0.5em 0;
+             float:           left;
+             }
+
+.floatright {			/* Right-floating images and spans */
+              margin:          0.5em 0 0.5em 1.5em;
+              float:           right;
+              }
+
+.nowrap {
+          white-space:     nowrap;
+          }
+
+
+/* Block elements */
+
+#main p {
+    margin:          1em 0;
+    padding:         0;
+    }
+
+p {
+    margin:          1em 0;
+    padding:         0;
+    }
+
+blockquote {			/* Should only be used in main content area, */
+             /* floating boxes or left sidebar.           */
+             margin:          1em 2.5em;
+             padding:         0;
+             }
+
+pre {				/* Should only be used in main content area  */
+      /* and floating boxes.                       */
+      font-family:     "Courier New", Courier, monospace;
+      font-size:       115%;	/* Courier tends to be a little too small */
+      line-height:     1.2;
+      margin:          1em 2.5em;
+      padding:         0;
+      }
+
+pre code,
+pre kbd,
+pre samp,
+pre tt {
+         font-size:       100%;	/* PRE is already enlarged above */
+         line-height:     1.2;	/* Use same value as for PRE above */
+         }
+
+hr {
+     color:           %BORDER;
+     background:      transparent;
+     height:          1px;	/* Required for IE/Win */
+     margin:          0;
+     padding:         0;
+     border-color:    %BORDER;
+     border-width:    1px;
+     border-style:    none none solid none;
+     }
+
+hr.lighter {			/* Warning: not printed out on paper */
+             color:           %HIGHLIGHT_BG;
+             background:      transparent;
+             border-color:    %HIGHLIGHT_BG;
+             }
+
+
+/* Lists */
+
+ol {
+     list-style:      decimal outside;
+     margin:          1em 0;
+     padding:         0 0 0 2.5em;
+     }
+
+ol.alpha {
+           list-style-type: lower-alpha;
+           }
+
+ol.number {
+            list-style-type: decimal;
+            }
+
+ul {
+     list-style:      square outside;
+     margin:          1em 0;
+     padding:         0 0 0 2.5em;
+     }
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+        margin-top:      0;
+        margin-bottom:   0;
+        }
+
+ol ul,				/* Override possible browser styles */
+ol ol ul,
+ol ul ul,
+ul ul,
+ul ol ul,
+ul ul ul {
+           list-style:      square outside;
+           }
+
+li {
+     margin:          0;
+     padding:         0;
+     }
+
+dl {
+     margin:          0.5em 0;
+     padding:         0;
+     }
+
+dt {
+     color: %H1;
+     font: inherit;	/* Don't make the text bold by default */
+     font-size: 120%;
+     font-weight: bold;
+     margin:          0.5em 0 0.25em 0;
+     padding:         0;
+     }
+
+dd {
+     margin:          0 0 0.5em 2.5em;
+     padding:         0;
+     }
+
+
+/* Tables */
+/* Tables should never be used for visual */
+/* formatting: that is the role of CSS!   */
+
+table.simple {
+               color:           inherit;
+               background:      inherit;	/* Don't make tables transparent */
+               border-collapse: collapse;
+               border-spacing:  0;
+               empty-cells:     show;
+               margin:          0.5em 2.5em;
+               padding:         0;
+               border:          1px solid %BORDER;
+               }
+
+table.simple caption {
+                       text-align:      center;
+                       caption-side:    top;
+                       margin:          0 2.5em 0.75em;
+                       padding:         0;
+                       border:          none;
+                       }
+
+table.simple td,
+table.simple th {
+                  text-align:      center;
+                  vertical-align:  middle;
+                  margin:          0;
+                  padding:         0.25em 0.5em;
+                  border:          1px solid %BORDER;
+                  }
+
+table.simple th,
+table.simple td.highlight,
+table.simple th.highlight {
+                            font-weight:     bold;
+                            color:           inherit;
+                            background:      %HIGHLIGHT_BG;
+                            }
+
+table.simple td.lighter,
+table.simple th.lighter {
+                          color:           inherit;
+                          background:      %LIGHTER;
+                          }
+
+table td.left,
+table th.left {
+                text-align:      left;
+                }
+
+table td.center,
+table th.center {
+                  text-align:      center;
+                  }
+
+table td.right,
+table th.right {
+                 text-align:      right;
+                 }
+
+
+/* Forms */
+
+form {
+       margin:          1em 0;
+       padding:         0;
+       border:          none;
+       }
+
+input,
+button,
+select,
+fieldset,
+legend {
+         font-family:     Verdana, "DejaVu Sans", "Bitstream Vera Sans", "Lucida Sans", Arial, Helvetica, sans-serif;
+         font-size:       95%;
+         color:           %BODY_FG;
+         background:      inherit;
+         vertical-align:  middle;
+         }
+
+textarea {
+           font-family:     "Courier New", Courier, monospace;
+           font-size:       100%;
+           color:           %BODY_FG;
+           background:      inherit;
+           vertical-align:  middle;
+           }
+
+fieldset {
+           font-size:       100%;
+           margin:          1em 0;
+           border:          1px solid %BORDER;
+           }
+
+legend {
+         font-size:       100%;
+         margin:          0 0.5em;
+         padding:         0 0.25em;
+         border:          none;
+         }
+
+table.formtable {
+                  color:           inherit;
+                  background:      inherit;
+                  border-collapse: collapse;
+                  border-spacing:  0;
+                  empty-cells:     show;
+                  margin:          0;
+                  padding:         0;
+                  border:          none;
+                  }
+
+table.formtable td,
+table.formtable th {
+                     text-align:      justify;
+                     vertical-align:  middle;
+                     margin:          0;
+                     padding:         0.25em 0.5em;
+                     border:          none;
+                     }
+
+table.formtable th {
+                     text-align:      center;
+                     font-weight:     bold;
+                     }
+
+table.formtable td.label,
+table.formtable th.label {
+                           text-align:      right;
+                           vertical-align:  top;
+                           }
+
+table.formtable td.vertspace,
+table.formtable th.vertspace {
+                               empty-cells:     show;
+                               margin:          0;
+                               padding:         0.5em 0;
+                               height:          1em;	/* Required for IE/Win */
+                               }
+
+table.formtable fieldset {
+                           margin:          0;
+                           }
+
+table.formtable fieldset td,
+table.formtable fieldset th {
+                              margin:          0.25em 0.5em;
+                              }
+
+.reqfield {
+            color:           red;
+            background:      transparent;
+            font-weight:     bolder;
+            }
+
+.info {
+        color:           gray;
+        background:      transparent;
+        font-size:       90%;
+        }
+
+
+/* The following HTML elements should NOT be used in documents using this
+   style sheet:
+
+   address - use the #footer style instead
+   q       - use &ldquo; and &rdquo; instead
+   */
+
+
+/********** Styles for Main Content **********/
+
+#main {
+        text-align:      justify;
+        line-height:     1.5;
+        color:           %BODY_FG;
+        background:      %BODY_BG;
+        padding:         0.25em 1.5em 0.5em 1em;
+        border-left:     1px solid %BORDER;
+        }
+
+.inset {
+         margin:          0 0 0 15%;
+         }
+
+#main h1 {			/* Should be used once, following navhead */
+           color:           %H1;
+           background:      transparent;
+           margin:          0 0 0em 0;
+           }
+
+#main h2 {			/* Should be used once, following navhead */
+           color:           %H1;
+           background:      transparent;
+           margin:          0 0 0em 0;
+           }
+
+#main h3 {			/* Should be used once, following navhead */
+           color:           %H1;
+           background:      transparent;
+           margin:          0 0 0em 0;
+           }
+
+#main form {
+             text-align:      left;
+             }
+
+#main .highlight {		/* Highlight box (for warnings, etc) */
+                   color:           inherit;
+                   background:      %HIGHLIGHT_BG;
+                   margin:          1em 0;
+                   padding:         1em 2.5em;
+                   border:          1px solid %BORDER;
+                   }
+
+#main .totop {			/* For "Top ^" lines in FAQs, etc */
+               font-size:       90%;
+               text-align:      right;
+               margin:          -0.75em 0 1em 0;
+               padding:         0 0 0.25em 0;
+               border-bottom:   1px solid %HIGHLIGHT_BG;
+               }
+
+#main table.simple td.highlight,  /* Else "#main .highlight" will override */
+#main table.simple th.highlight {
+                                  margin:          0;
+                                  padding:         0.25em 0.5em;
+                                  }
+
+
+/* Other styles related to the main content */
+
+#mainlink {			/* "Skip to main content" link */
+            display:         none !important;
+            }
+
+#navhead {			/* "Path to this page" information */
+           /* Warning: not printed out on paper */
+           font-size:       90%;
+           }
+
+#navhead hr {
+              display:         none;
+              }
+
+#endmain {
+           visibility:      hidden;
+           clear:           both;	/* Doesn't always work under IE/Win */
+           }
+
+
+/********** Styles for Floating Boxes **********/
+
+/* "navbox" is used to provide intra/inter- */
+/* page links; it is NOT printed out on     */
+/* paper.  "floatbox" is used to provide    */
+/* floating boxes that may appear anywhere  */
+/* in the main content; they ARE printed.   */
+.floatbox,
+.navbox {
+          overflow:        visible;
+          font-size:       95%;
+          line-height:     1.25;
+          margin:          0 0 0.75em 1.5em;
+          padding:         0.5em 1em;
+          border:          1px solid %BORDER;
+          float:           right;
+          clear:           right;
+          }
+
+.floatbox {
+            color:           %BODY_FG;
+            background:      %HIGHLIGHT_BG;
+            width:           35%;
+            }
+
+.navbox {
+          text-align:      left;
+          color:           %BODY_FG;
+          background:      %HIGHLIGHT_BG;
+          width:           12.5em;
+          }
+
+.floatbox hr,			/* Used for non-stylesheet-aware browsers */
+.navbox hr {
+             display:         none !important;
+             }
+
+.floatbox p,
+.navbox p {
+            margin:          0.75em 0;
+            padding:         0;
+            }
+
+.floatbox ol,
+.floatbox ul {
+               margin:          0.75em 0;
+               padding:         0 0 0 1.5em;
+               }
+
+.navbox ol,
+.navbox ul {
+             margin:          0.5em 0;
+             padding:         0 0 0 1.5em;
+             }
+
+.floatbox blockquote {
+                       margin:          0.75em 1.5em;
+                       padding:         0;
+                       }
+
+.floatbox pre {
+                font-size:       95%;
+                margin:          0.75em 1.5em;
+                padding:         0;
+                }
+
+.floatbox dt {
+               margin:          0.75em 0;
+               padding:         0;
+               }
+
+.floatbox dt {
+               margin:          0.75em 0 0.25em 0;
+               padding:         0;
+               }
+
+.floatbox dd {
+               margin:          0 0 0.75em 1.5em;
+               padding:         0;
+               }
+
+#main .floatbox .highlight {
+                             color:           inherit;
+                             background:      %BODY_BG;
+                             margin:          0.75em 0;
+                             padding:         0.75em 1.5em;
+                             }
+
+#main .floatbox table.simple {
+                               margin:          0.75em 0;
+                               }
+
+#main .floatbox table.simple th,
+#main .floatbox table.simple td.highlight,
+#main .floatbox table.simple th.highlight {
+                                            color:           inherit;
+                                            background:      %BODY_BG;
+                                            margin:          0;
+                                            padding:         0.25em 0.5em;
+                                            }
+
+
+/********** Styles for Header **********/
+
+/* In this style sheet, headers are composed */
+/* of three parts: left, right and subheader */
+/* Left part is ideally an image.            */
+
+#header {			/* Warning: not printed out on paper */
+          color:           %HEADER_FG;
+          background:      %HEADER_BG;
+          }
+
+#header a:link,
+#header a:visited {
+                    color:           %VISITED;
+                    background:      transparent;
+                    }
+
+#header .highlight,
+#header a.highlight:link,
+#header a.highlight:visited {
+                              color:           %BODY_BG;
+                              background:      transparent;
+                              }
+
+/* Left part of header (ideally an image but may be a link) */
+
+#header div.left {
+                   float:           left;
+                   clear:           left;
+                   margin:          0;
+                   padding:         0;
+                   }
+
+#header div.left img {
+                       /*display:         block;	Otherwise IMG is an inline, causing gaps */
+                       display:         inline;
+                       vertical-align:  middle;
+                       }
+
+#header div.left,
+#header div.left a:link,
+#header div.left a:visited {
+                             font-size:       200%;
+                             font-weight:     bold;
+                             text-decoration: none;
+                             color:           %BODY_BG;
+                             background:      transparent;
+                             }
+
+#header div.left p {
+                     margin:          0 0 0 0.25em;
+                     padding:         0;
+                     }
+
+#header div.left .alt {
+                        color:           %LEFT;
+                        background:      transparent;
+                        }
+
+/* Right part of header is for external/global links, search, etc */
+
+#header div.right {
+                    font-size:       90%;
+                    text-align:      right;
+                    margin:          0;
+                    padding:         0.5em 1.17em 0 1em;
+                    float:           right;
+                    clear:           right;
+                    }
+
+#header div.right a:link,
+#header div.right a:visited {
+                              margin:          0;
+                              padding:         0 0.5em;
+                              }
+
+#header div.right form {
+                         margin:          0;
+                         padding:         0.25em 0.5em 0 0;
+                         }
+
+#header div.right form input {
+                               font-size:       95%;
+                               vertical-align:  middle;
+                               }
+
+/* Subheader for global links */
+
+#header div.subheader {
+                        color:           %BODY_BG;
+                        background:      %HEADER_FG;
+                        margin:          0;
+                        padding:         0;
+                        border:          1px solid %HEADER_FG; /* Required for IE/Win */
+                        clear:           both;
+                        }
+
+#header div.subheader p {	/* To overcome an IE/Win unwanted padding */
+                          /* bug, still present in IE7.             */
+                          margin:          0;
+                          padding:         0.5em;
+                          }
+
+#header div.subheader a:link,
+#header div.subheader a:visited {
+                                  font-weight:     bolder;
+                                  color:           %BODY_BG;
+                                  background:      transparent;
+                                  margin:          0;
+                                  padding:         0 0.5em;
+                                  }
+
+#header div.subheader .highlight,
+#header div.subheader a.highlight:link,
+#header div.subheader a.highlight:visited {
+                                            color:           %SUBHEAD;
+                                            background:      transparent;
+                                            }
+
+
+/********** Styles for Left Sidebar **********/
+
+#sidebar {			/* Warning: not printed out on paper */
+           width:           15%;
+           border-right:    1px solid %BORDER;
+           float:           left;
+           clear:           both;
+           background:      %HIGHLIGHT_BG;
+           }
+
+#sidebar div {
+               font-size:       95%;
+               text-align:      left;
+               margin:          0;
+               padding:         0.5em 1em;
+               border-bottom:   1px solid %BORDER;
+               }
+
+#sidebar div.lighter {
+                       color:           inherit;
+                       background:      %BODY_BG;
+                       }
+
+#sidebar p {
+             margin:          0.5em 0;
+             }
+
+#sidebar .title a:link,
+#sidebar .title a:visited {
+                            color:           %BODY_FG;
+                            background:      transparent;
+                            }
+
+#sidebar ul {
+              list-style:      none outside;
+              margin:          0.5em 0;
+              padding:         0;
+              }
+
+#sidebar ul li {
+                 margin:          0;
+                 padding:         0.125em 0;
+                 }
+
+#sidebar ul li.highlight {
+                           color:           inherit;
+                           background:      %BODY_BG;
+                           margin-left:     -1em;
+                           margin-right:    -1em;
+                           padding-left:    1em;
+                           border-top:      1px solid %BORDER;
+                           border-bottom:   1px solid %BORDER;
+                           }
+
+#sidebar ul li.highlight a:link,
+#sidebar ul li.highlight a:visited {
+                                     color:           %BODY_FG;
+                                     background:      transparent;
+                                     }
+
+
+/********** Styles for Footer **********/
+
+#footer {
+          font-size:       90%;
+          text-align:      center;
+          color:           %FOOTER_FG;
+          background:      %FOOTER_BG;
+          margin:          0;
+          /*padding:         0.5em 1.67em 0.5em 15.25em;*/
+          padding:         0.5em 1.0em 0.5em 1.0em;
+          clear:           both;
+          }
+#footer p {
+    margin:          .25em 0;
+    padding:         0;
+}
+
+#footer a:link,
+#footer a:visited {
+                    text-decoration: underline;
+                    color:           %BODY_BG;
+                    background:      transparent;
+                    }
+
+#footer hr {
+             display:         none !important;
+             }
+
+/* End of the Sinorcaish style sheet */
+
+/* tables */
+table {
+        font-family:arial;
+        background-color: %TABLE_BG;
+        margin:10px 0pt 15px;
+        font-size: 8pt;
+        width: auto;
+        text-align: left;
+        }
+table thead tr th, table tfoot tr th {
+                                       background-color: %TABLE_HBG;
+                                       border: 1px solid #FFF;
+                                       font-size: 8pt;
+                                       padding: 4px;
+                                       }
+table tbody td {
+                 color: %TABLE_BBG;
+                 padding: 4px;
+                 background-color: #FFF;
+                 vertical-align: top;
+                 }
+table tbody tr.odd td {
+                        background-color: %TABLE_ODD;
+                        }
+
+/** *************************************************************************
+   * Base form styles
+   */
+
+/* Zero out padding and margin, adjust where needed later */
+form, fieldset, label, input, .checkbox, textarea, select, option, form div {
+                                                                              margin: 0;
+                                                                              padding: 0;
+                                                                              }
+fieldset {
+           margin: 1em 0;
+           padding: 1em;
+           border: 1px solid #999;
+           }
+legend {
+         font-weight: bold;
+         margin: 0 2% .5em 0;
+         padding: .2em .5em;
+         }
+input.text, textarea, select { 
+                               border: 1px solid #666; 
+                               border-right: 1px solid #ccc; 
+                               border-bottom: 1px solid #ccc;
+                               }
+option {
+         float: none;
+         clear: both;
+         margin-right: 2em;
+         }
+input.radio, input.checkbox { 
+                              margin-right: .5em;
+                              }
+/* Create a bit of padding for text inputs and selects */
+input.text, input.button, textarea, select {
+                                             padding: .2em;
+                                             }
+input.button { 
+               margin-right: 1em;
+               padding: .2em .6em;
+               }
+.readonly {	
+            color: #999;
+            background: #e7e7e7;
+            }
+/* standard widths */
+.w12 { width: 12% }
+.w25 { width: 25% }
+.w37 { width: 37% }
+.w50 { width: 50% }
+.w62 { width: 62% }
+.w75 { width: 75% }
+.w87 { width: 87% }
+.wauto { width: auto; }
+
+
+/** *************************************************************************
+   * Provide proper vertical alignment for expanded and compact forms
+   */
+
+.expandedform .row div, 
+.compactform div div label {
+                             padding-top: .5em;
+                             }
+
+
+/** *************************************************************************
+   * Expanded form layout styles
+   */
+
+.expandedform { overflow: hidden; } 
+.expandedform .row {
+                     padding: .3em 0;
+                     white-space: nowrap;
+                     overflow: hidden;
+                     clear: both;
+                     }
+.expandedform label, 
+.expandedform .row p, 
+.expandedform .row div, 
+.expandedform input, 
+.expandedform select, 
+.expandedform textarea {
+                         float: left;
+                         }
+/* change column widths for labels and inputs */
+.expandedform .text { width: 80%; }
+.expandedform label, .expandedform .row p {
+                                            width: 15%; 
+                                            margin: .5em 1em .5em 0;
+                                            text-align: right;
+                                            white-space: normal;
+                                            overflow: hidden;
+                                            }
+.expandedform .row div {
+                         white-space: nowrap;
+                         overflow: hidden;
+                         clear: none;
+                         }
+/* labels and form inputs inside of divs should not float */
+.expandedform .row div * {
+                           float: none;
+                           clear: none;
+                           }
+.expanded input.checkbox, 
+.expanded input.radio, 
+.expanded select { 
+                   margin-top: 1.5em;
+                   }
+.expandedform div div input { 
+                              margin-right: 0;
+                              }
+
+span.edspace { }
+/** *************************************************************************
+   * Compact form layout styles
+   */
+
+.compactform { overflow: hidden; } 
+.compactform div, 
+.compactform label, 
+.compactform input, 
+.compactform select, 
+.compactform textarea {
+                        float: left;
+                        }
+.compactform input.text, 
+.compactform select, 
+.compactform textarea {
+                        /* set width: auto to allow form element content 
+                           to set width otherwise 90% is a good setting */
+                        width: 90%; /* determines space between form elements */
+                        }
+
+/* Increase width of elements in twoper 
+   columns to provide better alignment */
+.compactform .twoper input.text, 
+.compactform .twoper select, 
+.compactform .twoper textarea {
+                                width: 95%;
+                                }
+
+.compactform div {
+                   width: 99%;
+                   margin-bottom: 1em; /* space between rows */
+                   clear: both;
+                   }
+
+/* Nested divs shouldn't clear floated elements */
+/* keeps nested divs from compounding margin value */
+.compactform div div {
+                       margin-bottom: 0; 
+                       clear: none;
+                       }
+/* Nested div label contents should determine their own width */
+.compactform div div label {
+                             width: auto;
+                             white-space: normal;
+                             /* unccomment to stack form inputs inside a row */
+                             /* clear: left; */
+                             margin-right: 1em;
+                             }
+/* Fix paragraph white space in Safari */
+.compactform div div p {
+                         margin: 0;
+                         padding: 0;
+                         }
+
+/* Compact layout - Set item width within rows */
+.oneper label, .oneper div     { width: 99%; } /* can't be 100%, IE bug */
+.twoper label, .twoper div     { width: 46%; }
+.threeper label, .threeper div { width: 32%; }
+.fourper label, .fourper div   { width: 23%; }
+.fiveper label, .fiveper div   { width: 19%; }
+.sixper label, .sixper div     { width: 15%; }
+.sevenper label, .sevenper div { width: 13%; }
+.eightper label, .eightper div { width: 11%; }
+.nineper label, .nineper div   { width: 10%; }
+.tenper label, .tenper div     { width: 8.7%; }
+
+.oneper label, .oneper div, 
+.twoper label, .twoper div, 
+.threeper label, .threeper div, 
+.fourper label, .fourper div, 
+.fiveper label, .fiveper div, 
+.sixper label, .sixper div, 
+.sevenper label, .sevenper div, 
+.eightper label, .eightper div, 
+.nineper label, .nineper div, 
+.tenper label, .tenper div {
+                             white-space: nowrap;
+                             overflow: hidden;
+                             border: none;
+                             border-collapse: collapse;
+                             }
+
+/** ************************************************************************* 
+   * Browser hacks
+   */
+
+/* Keep containers holding only floated elements from collapsing in Safari */
+.clearfix:after {
+                  content: ".";
+                  display: block;
+                  height: 0;
+                  clear: both;
+                  visibility: hidden;
+                  }

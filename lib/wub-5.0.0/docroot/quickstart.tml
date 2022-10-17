@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+[
+dict set response -dynamic 0
+return ""
+]
+<html>
+  <head>
+    <title>Wub Quick Start</title>
+    <meta name='description' content='Quick Start Wub HTTP Server in Pure Tcl'>
+    <meta name='keywords' content='web,server,pure,tcl'>
+    <meta name='author' content='Robert L Hicks / Design by Andreas Viklund - http://andreasviklund.com/'>
+    <link rel='stylesheet' type='text/css' href='css/style.css' title='800px style' media='screen,projection'>
+    <title>Quick Start Wub</title>
+  </head>
+  <h2>Dependencies:</h2>
+  
+  <p> Must have tcllib (see <a href='http://wiki.tcl.tk/1246'> Tcllib Wiki Page</a>)</P>
+    
+  <h2>Install and Run</h2>
+    
+  <dl>
+    <dt>Step 1</dt> <dd>Download the code (which you've probably done already):
+      <p><bold>svn checkout http://wub.googlecode.com/svn/trunk/ wub</bold><p>
+    </dd>
+    
+    <dt>Step 2</dt> <dd>Change into the wub/Wub directory:
+      <p><bold>cd wub/Wub/</bold></p>
+    </dd>
+    
+    <dt>Step 3</dt> <dd>configure the site.config (optional, the defaults are sensible)
+      <p>cp example.config site.config</p>
+    </dd>
+    
+    <dt>Step 3.1</dt> <dd>(option) edit site.config to your taste
+      <p></p>
+    </dd>
+    
+    <dt>Step 4</dt> <dd>Start the server:
+      <p>tclsh8.6 Site.tcl</p>
+    </dd>
+    
+    </dd>
+  </dl>
+    
+    <hr>
+    <address><a href='mailto:colin@chinix.com'>Colin McCormack</a></address>
+    <!-- Created: Thu Jan  5 13:00:57 EST 2006 -->
+    <!-- hhmts start -->
+Last modified: Mon Apr 13 19:19:33 EST 2009
+<!-- hhmts end -->
+  </body>
+</html>

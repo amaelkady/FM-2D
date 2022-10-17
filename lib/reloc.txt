@@ -1,0 +1,2 @@
+lib\tclConfig.sh
+lib\tdbc1.1.0\tdbcConfig.sh

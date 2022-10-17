@@ -1,0 +1,7 @@
+Package critcl_md5c 0.12
+Meta platform win32-x86_64
+Meta build::date 2019-03-07
+Meta generated::by {critcl 3.1.17} gecko
+Meta generated::date critcl
+Meta entrytclcommand {eval "[list proc __critcl_load__ {dir} { ;     source [file join $dir critcl-rt.tcl] ;     set path [file join $dir [::critcl::runtime::MapPlatform]] ;     set ext [info sharedlibextension] ;     set lib [file join $path "md5c$ext"] ;     load $lib Md5c ;     package provide critcl_md5c 0.12 ;     catch {rename __critcl_load__ {}}}] ; [list __critcl_load__ $dir]"}
+Meta included critcl-rt.tcl win32-x86_64/md5c.dll

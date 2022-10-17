@@ -1,0 +1,9 @@
+write an exposition of the technique of parsing to code. for Cameron
+
+generating code to 
+
+Wirth: program structure of interpreter should mirror input data structure.
+
+ParseGen: generator program structure should mirror output data structure.
+
+more expressive.

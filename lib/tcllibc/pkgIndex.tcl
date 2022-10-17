@@ -1,0 +1,2 @@
+if {![package vsatisfies [package provide Tcl] 8.4]} {return}
+package ifneeded tcllibc 0.3.15 "[list proc __critcl_load__ {dir} { ;     source [file join $dir critcl-rt.tcl] ;     set path [file join $dir [::critcl::runtime::MapPlatform]] ;     set ext [info sharedlibextension] ;     set lib [file join $path "tcllibc$ext"] ;     load $lib Tcllibc ;     package provide tcllibc 0.3.15 ;     catch {rename __critcl_load__ {}}}] ; [list __critcl_load__ $dir]"

@@ -1,0 +1,19 @@
+body { 
+  margin-left: 5%;
+  margin-right: 5%;
+ }
+table.TOC {
+  margin-left: 10%;
+  width: 80%;
+}
+table.TOC thead { 
+  font-weight: bold;
+}
+
+td.TOCnum {
+  background: lightgray;
+}
+
+pre { 
+  background: lightgray;
+}

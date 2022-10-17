@@ -1,0 +1,19 @@
+= Wub Architecture =
+
+Wub is a framework for writing web servers.  It provides a collection of tools for programmers to construct web servers.  While the programmer is free to assemble the components in any way they wish, some approaches are better supported than others, and this could be called Wub's architecture.
+
+Wub's Httpd module (and its attendant Listener and Responder modules) convert HTTP protocol interactions into tcl dicts containing HTTP protocol fields.  These 'request dicts' are transformed into 'response dicts' by the application using Wub (especially those in Domain/ and Utilities/) and are returned to via HTTP to the client.
+
+A request/response dict resembles a whiteboard upon which Domains and Utilities operate, reading fields left by earlier processing, creating and modifying fields as a result of their own operation.  Most modules act as functions, taking a request dict argument and returning a transformed dict result.
+
+One convention which is rigorously enforced is that non-protocol fields in request/response dicts have names of the form '-*', distinguishing them from HTTP fields which will eventually be sent to the client.
+
+[image:arch.png]
+
+== Workflow ==
+
+The Httpd package receives and parses data from a connected socket and generates a request dict from it.  After performing some analysis (such as Url and Query processing, User Agent processing and malicious client Blocking) Httpd (optionally) consults one of two Cache packages.  If the Cache can satisfy the request, it does so.  Otherwise, a configurable Incoming proc is called with the request.  A sample Incoming is provided in the supplied example Application.tcl, which acts through the Response module to dispatch incoming requests to an appropriate Domain by means of a switch over some fields in the request dict - specifically and primarily the -url field which contains the incoming request URL.  After Domain package handling, the returned response dict is queued up to be returned to the client via Httpd.
+
+In addition to the Cache module, there are two other filtering modules:  Convert (which handles mime type content negotiation and conversion) and Session (which manages sessions) which can apply to the output from any other Domain.
+
+Domain packages provide application-level semantics to a web server.  A range of example domains are provided.

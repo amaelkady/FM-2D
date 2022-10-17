@@ -1,0 +1,36 @@
+* TUPLES
+** T1: tuples are uniquely indexed by name and by immutable ordinal id number
+** T2: tuples have content of type (which may be a mime type)
+** T3: tuples may have other fields than oid, name, content, type
+
+* NAMING of tuples
+** N1: each tuple is uniquely named (from T1)
+** N2: a tuple's name may only comprise characters which are alnums, space, * or +
+** N3: tuple names may be composed by +, such a name is called a 'composite name'
+** N4: name composition is left-associative a+b+c is (a+b)+c
+
+* REFERENCES to tuples
+** R1: a reference with the prefix form /#id is a reference to the tuple whose ordinal is id (which might be used as an HTTP object reference)
+** R2: reference /n is a reference to the tuple whose name is n, and known as a 'simple reference'
+** R3: reference /n/c is equivalent to /n+c.  Both forms are known as 'compound references'
+** R4: a reference /n.ext is a request to convert the tuple n to the mime type of the extension, and is otherwise equivalent to /n (see P1)
+** R7: a reference /+n is resolved as ${referer}+n
+
+* TRANSCLUSION
+** T1: a reference /+n is a transclusion in the context of ${referer}
+** T2: a reference /n or /+n/ is a top level fetch
+
+* COMPOSITION - a reference /m+n (or /m/+n) is resolved in the following order:
+** C1: as a tuple named m+n (HTTP Moved?)
+** C2: as a tuple named type(m)+n (HTTP See?)
+** C3: if n has a leading *-character, then (QUESTIONABLE)
+*** C3.1 as an element n of the tuple m
+*** C3.2: as an operator n applied to m.
+
+* TYPE 
+** T1: a tuple will be transformed for presentation according to its type, its reference's .ext and client's HTTP Accept and the manner in which it is referenced (either for transclusion or for top-level presentation)
+** T2: the transformation of a tuple n will be performed by the operator n+*type(n).  If n+*type(n) is not of type text/tcl or text/js, then n+*type(n)+*type(type(n)) (and so on) will be sought.
+
+* OWNERSHIP and permissions
+** OW1: tuples are owned by a user and a group, which have distinct permissions
+** users and groups are themselves tuples named *user+n and *group+n

@@ -1,0 +1,2725 @@
+<h1>Sample Page using the Sinorcaish Stylesheet</h1>
+
+<p>This <strong>Sample Page</strong> shows you how to use the <a
+href="index.html">Sinorcaish stylesheet</a> to best advantage.  You are
+encouraged to examine the HTML source code whilst reading the rest of this
+document.  You may also want to consult the <a
+href="http://www.zap.org.au/documents/styles/sinorcaish/">official
+Sinorcaish web site</a> for updated instructions, updated stylesheets
+and/or appropriate images.</p>
+
+
+<h2 id="h-wub"><a href="/_wub">Wub</a> Integration</h2>
+
+<p>The Sinorcaish stylesheet is implemented as a pseudo-mimetype within <a href="/_wub">Wub</a> standard distribution, integrated with Wub's Conversion facilities.  The conversion will take a tcl dict containing named components and assemble it into an HTML fragment under the Sinorcaish stylesheet.</p>
+
+<p> Named components expected in the dict are:</p>
+    <dl>
+      <dt>Header Section</dt>
+      <dd>
+	<dl>
+	  <dt>header</dt>
+	  <dt>globlinks</dt>
+	  <dt>global</dt>
+	  <dt>sitelinks</dt>
+	</dl>
+      </dd>
+
+
+      <dt>Main Section</dt>
+      <dd>
+	<dl>
+	  <dt>breadcrumbs</dt>
+	  <dt>navbox</dt>
+	  <dt>sidebar</dt>
+	  <dt>content</dt>
+	</dl>
+      </dd>
+
+      <dt>Footer Section</dt>
+      <dd>
+	<dl>
+	  <dt>footer</dt>
+	  <dt>copyright</dt>
+	  <dt>footlinks</dt>
+	</dl>
+      </dd>
+    </dl>
+
+<h2 id="h-making-start">Making a Start</h2>
+
+<p>The best way to use the Sinorcaish stylesheet is to start with the
+supplied <a href="template.html">template document</a>.  So, make a copy
+of that file and fire up your favourite text editor &mdash; <a
+href="http://www.gnu.org/software/emacs/emacs.html">GNU Emacs</a> is a
+good one to use!</p>
+
+<p>The first thing you will notice about the template document is that it
+conforms to the <a href="http://www.w3.org/TR/xhtml1">XHTML 1.0 Strict
+standard</a>.  This means that you will need to be a little more picky
+about the HTML code you write &mdash; if in doubt, use the <a
+href="http://validator.w3.org/">W3 Markup Validation Service</a> to check
+your newly-created document.</p>
+
+<p>Start modifying your new file by changing the <code
+class="markup">&lt;title&gt;</code> element, as well as the Author,
+Description, Copyright and <code class="markup">&lt;link
+rev=&quot;made&quot;&gt;</code> meta-elements.  You would probably want to
+include an element of your web site&rsquo;s name in the title.  For
+example, the Sinorcaish Company web site might include
+&ldquo;Sinorcaish:&rdquo; as part of every title.</p>
+
+<p>The next element to modify is the location of the stylesheets.
+Sinorcaish actually uses <em>two</em> files to provide the style
+information needed: <a href="sinorcaish-screen.css" type="text/css"
+class="fn">sinorcaish-screen.css</a> for screen-based <span
+class="tooltip" title="Otherwise known as &ldquo;browsers&rdquo;">User
+Agents</span>, and <a href="sinorcaish-print.css" type="text/css"
+class="fn">sinorcaish-print.css</a> for printing HTML pages to paper.  You
+can, of course, rename the files at your leisure.</p>
+
+<p>Following the <code class="markup">&lt;head&gt;</code> element is the
+<dfn>visual page header</dfn>.  You will want to replace the left division
+with your own web site name (or replace the entire paragraph with an
+image; see the section on <a href="#h-main-design">Main Design
+Elements</a> for more information about doing this).  Similarly, replace
+the links in the right and subheader divisions with your own site-wide
+ones.  Note the presence of the <code class="markup">highlight</code>
+class: it indicates which part of your web site this particular page will
+fit into.</p>
+
+<p>Next comes the <dfn>left sidebar</dfn>.  Replace these links with ones
+that reflect the <em>local</em> page layout in this section of your web
+site.  Note the presence of the <code class="markup">highlight</code>
+class once again: it indicates the actual page you are editing.  Make sure
+you keep the associated &ldquo;(this page)&rdquo; line: it helps readers
+using non-visual or non-stylesheet-aware browsers make sense of your
+page.</p>
+
+
+<div class="floatbox">
+  <hr>
+  <p class="title">Maintaining a Largish Web Site</p>
+
+  <p>If you are planning to maintain a medium to large web site, you most
+    likely will want to split the header, sidebar and footer portions out
+    to other files, to be incorporated via server-side includes, dynamic
+    content creation systems or other means.  But you probably already
+    knew that.</p>
+  <hr>
+</div>
+
+
+<p>After the sidebar comes the <dfn>main content area</dfn>.  Since you
+are still modifying the template file, you probably don&rsquo;t need to
+make too many modifications here: the idea is that you first create an
+appropriate template file for your own web site, then copy that file as
+needed for all other pages.  You should modify the <dfn>navigation
+head</dfn> so that users will be able to find the path to this page in a
+logical fashion (the level-1 header provides the last part of this path).
+The <code class="markup">&lt;h1&gt;</code> level-1 header element should
+contain the same text as the page title, apart from any web site-wide
+prefixes.</p>
+
+<p>Finally, modify the <dfn>footer</dfn> to suit your web site.  If your
+template is for a corporate site, you will probably want to change the
+wording of the &ldquo;maintained by&rdquo; portion.  You should also make
+the Terms of Use and Privacy Policy links point to the appropriate
+documents.</p>
+
+
+<h2 id="h-main-design">Main Design Elements</h2>
+
+<p>The main design philosophy of the Sinorcaish stylesheet is the
+<em>separation of style and content</em>.  In other words, as much as is
+possible, all style information is contained in the CSS files (<a
+href="sinorcaish-screen.css" type="text/css"
+class="fn">sinorcaish-screen.css</a> and <a href="sinorcaish-print.css"
+type="text/css" class="fn">sinorcaish-print.css</a>), with your HTML
+documents containing text with minimal markup and boilerplate.  This
+allows you to concentrate on the structure and content of your documents
+without worrying too much about presentation.  It also makes your
+documents accessible to the visually-impaired and to those using
+non-stylesheet-aware browsers.</p>
+
+<p>As you have already seen in <a href="#h-making-start">Making a
+Start</a>, a typical document based on the Sinorcaish stylesheet is
+composed of four parts: the <dfn>visual page header</dfn>, the <dfn>left
+sidebar</dfn>, the <dfn>main content area</dfn> and the <dfn>footer</dfn>.
+In addition, the main content area can contain <dfn>floating boxes</dfn>
+that are displayed on the right-hand-side of the page.  Each of these
+design elements will be examined in turn.</p>
+
+
+<h3 id="design-header">Visual Page Header</h3>
+
+<p>The visual page header appears first in a typical document and is
+displayed at the top of the rendered page.  You should use this header to
+provide a unifying theme for your entire web site: each document should
+have essentially the same header.</p>
+
+<p>As shown in the <a href="template.html">Sinorcaish template file</a>,
+the visual page header is divided into three sections: the
+<dfn>left</dfn>, the <dfn>right</dfn> and the <dfn>subheader</dfn>, as
+shown in the following diagram:</p>
+
+<table class="simple extraspace" summary="Visual page header">
+  <tr>
+    <td class="width50">Left</td>
+    <td class="width50">Right</td>
+  </tr>
+  <tr>
+    <td colspan="2">Subheader</td>
+  </tr>
+</table>
+
+<p>The <strong>left</strong> part of the header is meant for a global
+title, such as the name of your web site.  Ideally, this would be provided
+by a suitably-styled image.  In that case, the markup would look something
+like the following:</p>
+
+<pre>
+&lt;div id=&quot;header&quot;&gt;
+  &lt;div class=&quot;left&quot;&gt;
+    &lt;a href=&quot;http://<var>www.example.com</var>/&quot;&gt;&lt;img src=&quot;<var>example.png</var>&quot;
+      alt=&quot;Browse the <var>Example</var> home page&quot; width=&quot;350&quot; height=&quot;60&quot; /&gt;&lt;/a&gt;
+  &lt;/div&gt;
+  <strong>...</strong>
+</pre>
+
+<p>As you can see from the above markup, the suggested size of the header
+image is about 250&ndash;500&nbsp;&times; 60 pixels.  The background of
+the image should either be a flat colour with RGB code <code
+class="markup">#8CA8E6</code> (to match the left header background), or
+include a linear gradient from <code class="markup">#3365CB</code> on the
+left to <code class="markup">#8CA8E6</code> on the right.  Text in the
+image should be white (<code class="markup">#FFFFFF</code>), or <code
+class="markup">#FF9800</code> for highlighting, with <code
+class="markup">#003399</code> for text shadows.  You can view a suitable
+example at the <a href="sample.html">top of this page</a>.  Creating your
+own header image is easy with the <a href="logo.html">step-by-step logo
+instructions</a> included with Sinorcaish.</p>
+
+<p>In the case of a linear gradient, the gradient need not appear across
+the entire image: you might want to divide the image into thirds, with the
+first third being the darker <code class="markup">#3365CB</code> colour,
+the second being the gradient and the third being the lighter <code
+class="markup">#8CA8E6</code> colour.</p>
+
+<p>If you do not wish to use an image, replace the previously-shown markup
+with something like the following:</p>
+
+<pre>
+&lt;div id=&quot;header&quot;&gt;
+  &lt;div class=&quot;left&quot;&gt;
+    &lt;p&gt;&lt;a href=&quot;http://<var>www.example.com</var>/&quot;&gt;<var>Example</var>
+      &lt;span class=&quot;alt&quot;&gt;<var>page</var>&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+  <strong>...</strong>
+</pre>
+
+<p>The <strong>right</strong> part of the header is meant for global
+and/or external links.  It can also contain code for searching your web
+site, as demonstrated on the <a
+href="http://www.zap.org.au/documents/styles/sinorcaish/example/">official
+Sinorcaish example page</a>.</p>
+
+<p>The <strong>subheader</strong> is designed to contain links to the main
+sections of your web site.  For example, you might decide to partition
+your company&rsquo;s on-line presence into Products, Services, Support and
+so on &mdash; much like this sample page.  Most of the pages on your site
+should then fall into one of these categories; the section a particular
+page falls into should be indicated with the <code
+class="markup">class=&quot;highlight&quot;</code> attribute.</p>
+
+<p>Please note that the only markup that should appear before the visual
+page header is the <dfn>mainlink</dfn>: a link to the start of the main
+content area.  It is <em>not</em> rendered by stylesheet-aware browsers,
+nor is it printed to paper.  Its purpose is to allow a visually-impaired
+user to quickly ignore all of the links that appear in the visual page
+header and left sidebar (imagine yourself listening to all of the links in
+these sections for each and every page!).</p>
+
+
+<h3 id="design-sidebar">Left Sidebar</h3>
+
+<p>The main purpose of the left sidebar is to provide navigation in the
+current (local) section of the web site.  Links should be provided to all
+pages at this level of the web site, as well as possibly to their parent.
+For example, the left sidebar of the Products overview page might list
+Product A, Product B and Product C as relevant links, as well as a link to
+the Overview page itself.  In turn, Product A&rsquo;s overview page might
+list Overview, What&rsquo;s New, Features, System Requirements, Download,
+Reviews, FAQ and Submit Comments as links in its left sidebar.</p>
+
+<p>The best way to provide all of the relevant links is to use an
+unordered list (<code class="markup">&lt;ul&gt;</code>), as shown in this
+document: apart from being styled correctly by the Sinorcaish stylesheet,
+non-visual or non-stylesheet-aware browsers will be able to render
+something meaningful.  You indicate the current page in the left sidebar
+by using the <code class="markup">class=&quot;highlight&quot;</code>
+attribute to the <code class="markup">&lt;li&gt;</code> element; you
+should also use the sample &ldquo;(this page)&rdquo; HTML fragment for
+accessibility.</p>
+
+<p>The left sidebar is actually a series of <code
+class="markup">&lt;div&gt;</code> markup sections, each of which is
+displayed one after the after, top to bottom.  You can have ordinary text
+and markup in the sidebar, as illustrated by this sample document.  Please
+note, however, that the left sidebar is <em>not</em> printed out to
+paper.</p>
+
+
+<h3 id="design-main">Main Content Area</h3>
+
+<p>The <dfn>main content area</dfn> is the portion of the document that
+will contain the vast majority of your prose.  This paragraph, for
+example, is part of the main content area, as are other paragraphs,
+headings, diagrams, tables, floating boxes and so on.  Its structure
+&mdash; particularly headings &mdash; is essentially dictated by your
+text.</p>
+
+<p>As illustrated by this sample document, each page should contain a main
+content area that starts with a <dfn>navigational head</dfn>.  This
+navigational head, identified by a <code class="markup">navhead</code> ID,
+allows readers to quickly locate this particular page in the web site
+hierarchy.  The <code class="markup">&lt;h1&gt;</code> level-1 header
+provides the last part of this navigational head; for this reason, a
+document based on the Sinorcaish stylesheet should have <strong>only one
+<code class="markup">&lt;h1&gt;</code> element.</strong></p>
+
+<p>Given that the level-1 heading appears only once (and should be
+similar, if not identical, to the document title), you should use level-2
+to level-6 headings (<code class="markup">&lt;h2&gt;</code> to <code
+class="markup">&lt;h6&gt;</code>) to indicate a document&rsquo;s
+structure.  In addition, you should <em>not</em> use headings in any
+section other than the main content area (you should not use headings in
+floating boxes, either).</p>
+
+<p>The different levels of headings can be used to indicate the importance
+(or otherwise) of this particular section in the prose.  In particular,
+level-2 and level-3 headings are larger than their surrounding text,
+level-4 headings are about the same size, and level-5 and level-6 headings
+are smaller.  This document, for example, only uses level-2 and level-3
+headings (apart from sample headings in the <a
+href="#h-html-sampler">Brief HTML Sampler</a>).</p>
+
+<p>Incidentally, a good rule of thumb to observe is that you should never
+place two headings (of any level) next to each other without placing some
+text between them.  Thus, for example, a level-2 header should not be
+followed by a level-3 header without an introductory paragraph of some
+sort &mdash; even a few words are usually sufficient.</p>
+
+<p>In addition to headings, you may use any valid XHTML markup in the main
+content area.  Many of these are illustrated in the <a
+href="#h-html-sampler">Brief HTML Sampler</a> found later in this sample
+document.  The only elements you should avoid are <code
+class="markup">&lt;address&gt;</code> and <code
+class="markup">&lt;q&gt;</code>, for reasons explained in the section on
+<a href="#samp-deprecated">Deprecated Elements</a>.</p>
+
+<p>The last element in the main content area should be <code
+class="markup">&lt;br id=&quot;endmain&quot; /&gt;</code>.  This forces
+the main content area to extend to at least the end of the left sidebar,
+should that sidebar be longer than your text.</p>
+
+
+<h3 id="design-floatbox">Floating Boxes</h3>
+
+<p>The Sinorcaish stylesheet provides you with two types of floating
+boxes: the <dfn>navigational box</dfn> for intra-page/inter-page links,
+and general <dfn>floating boxes</dfn> for sidebar-type content.</p>
+
+
+<div class="floatbox">
+  <hr>
+  <p class="hidden">[The following paragraphs represent a sidebar.  You
+    may need to read some of the text following this sidebar to fully
+    understand it.]</p>
+
+  <p class="title">Navigational Box Width</p>
+
+  <p>The default navigational box has a fixed width of 12.5em, where 1em
+    is typically defined to be the height of the letter &ldquo;M&rdquo;.
+    This may be too wide or too narrow for your links, in which case you
+    should add an attribute such as <code
+    class="markup">style=&quot;width: 14em&quot;</code>.</p>
+
+  <p>In general you should avoid using the <code
+    class="markup">style</code> attribute as it violates the principle of
+    separating style and content.  You should certainly avoid using any
+    units other than <code class="markup">em</code> for the width of the
+    navigational box.</p>
+
+  <hr>
+</div>
+
+
+<p>If your document is particularly long (as is this one) or is split into
+logically consecutive pages, you may want to include a <dfn>navigational
+box</dfn> just after the level-1 heading.  This box (identified by <code
+class="markup">&lt;div class=&quot;navbox&quot;&gt;</code>) should contain
+nothing more than an ordered list of links to the main section headings;
+these links are <em>not</em> meant to point to material that is not
+logically part of the current document &mdash; use the left sidebar for
+that.  In addition, please note that the navigational box is <em>not</em>
+printed out to paper, just as for the left sidebar.</p>
+
+<p>General-purpose <dfn>floating boxes</dfn> may be used to visually
+separate prose that is merely an aside to the ordinary flow of text.  You
+can see an example of such an aside (called a &ldquo;sidebar&rdquo; in
+typographical circles) on the right-hand side of this page, in the
+vicinity of this paragraph.</p>
+
+<p>The following markup may be used as a template whenever you wish to
+include a floating box in your document:</p>
+
+<pre>
+&lt;div class=&quot;floatbox&quot;&gt;
+  &lt;hr /&gt;
+  &lt;p class=&quot;hidden&quot;&gt;<var>(Hidden text)</var>&lt;/p&gt;
+  &lt;p class=&quot;title&quot;&gt;<var>Floating Box Title</var>&lt;/p&gt;
+  &lt;p&gt;<var>(Actual text)</var>&lt;/p&gt;
+  &lt;hr /&gt;
+&lt;/div&gt;
+</pre>
+
+<p>Notice the horizontal rules and hidden text: these are only displayed
+in non-visual or in non-stylesheet-aware browsers and help the reader to
+make sense of your document.  Depending on the content of the floating
+box, the hidden text may not need to be present.  Alternatively, it might
+read something like &ldquo;[The following paragraphs represent a sidebar.
+You may need to read some of the text following this sidebar to fully
+understand it.]&rdquo;.</p>
+
+<p>You should also note that the title of a floating box is given by a
+<code class="markup">title</code> class, not by a heading: headings are
+for main content only.</p>
+
+<p>By default, floating boxes have a width of about 35% of the main
+content area.  In general, you should not need to change this width,
+except in the case that you include <code
+class="markup">&lt;pre&gt;</code> or (wide) <code
+class="markup">&lt;table&gt;</code> elements within the actual floating
+box.</p>
+
+<p>One limitation of floating boxes is that they must appear
+<em>between</em> block-level elements such as paragraphs.  In other words,
+it is not possible to start a floating box in the middle of a paragraph.
+This is a limitation of XHTML in general, not of Sinorcaish in
+particular.</p>
+
+<p>Due to the Cascading Style Sheets 2.1 <a
+href="http://www.w3.org/TR/CSS21/visuren.html#floats">specification of
+floating elements</a>, floating boxes in this stylesheet do not always
+visually interact well with elements having the <code
+class="markup">highlight</code> class.  For example, if you have a
+highlighted paragraph defined by <code class="markup">&lt;p
+class=&quot;highlight&quot;&gt;</code>, the grey background of that
+paragraph may overlap the grey background of a floating box in its
+vicinity.  The way to avoid this situation is to include the <code
+class="markup">clearboxes</code> class as well:</p>
+
+<pre>
+&lt;p class=&quot;highlight clearboxes&quot;&gt;<var>Highlighted paragraph</var>&lt;/p&gt;
+</pre>
+
+<p>The <code class="markup">clearboxes</code> class is possibly even more
+important with the preformatted paragraph element (<code
+class="markup">&lt;pre&gt;</code>, with or without the <code
+class="markup">highlight</code> class).  The reason is that the XHTML
+specification forbids text inside such a paragraph from being wrapped,
+potentially causing the preformatted text to &ldquo;spill over&rdquo; into
+the floating box.  Adding the <code class="markup">clearboxes</code> class
+is <em>not</em> done by default, however, as it very much depends on the
+width of your preformatted content: if the text inside <code
+class="markup">&lt;pre&gt;</code> is narrow enough, it is probably not
+worth clearing any boxes, as doing so would generate a significant amount
+of empty space on your rendered page.</p>
+
+
+<h3 id="design-footer">Footer</h3>
+
+<p>The footer is the last section to appear in any Sinorcaish HTML
+document.  As suggested in the section on <a href="#h-making-start">Making
+a Start</a>, the footer allows you to include a link to your site&rsquo;s
+Copyright statement, Terms and Conditions of Use and/or Privacy Policy.
+You are also encouraged to include a date of last modification and a
+contact address for the person or group maintaining the web page.</p>
+
+<p>When modifying the template&rsquo;s footer, please keep in mind that,
+by default, all content in the footer <em>is</em> printed out on paper.
+The only exception is content protected by <code class="markup">&lt;span
+class=&quot;notprinted&quot;&gt;</code> elements, as shown in this sample
+page.  You should use the <code class="markup">notprinted</code> class to
+make sure that what is printed to paper makes sense: for example, the mere
+words &ldquo;Terms of Use&rdquo; and &ldquo;Privacy Policy&rdquo;
+don&rsquo;t make sense by themselves on paper and thus should not be
+printed.</p>
+
+<p>By the way, if you need to include a range of dates for the copyright
+notice, the correct way to do so is to use the <code
+class="markup">&amp;ndash;</code> XML entity.  For example:</p>
+
+<pre>
+Copyright <code class="markup">&amp;copy;</code> 2001<code class="markup">&amp;ndash;</code>07, John Zaitseff.  All rights reserved.
+</pre>
+
+<p>This is rendered as:</p>
+
+<blockquote>
+  <p>Copyright &copy; 2001&ndash;07, John Zaitseff.  All rights reserved.</p>
+</blockquote>
+
+<p>Finally, note the initial <code class="markup">&lt;hr&nbsp;/&gt;</code> in
+the footer: this allows non-visual or non-stylesheet-aware browsers to
+clearly separate the main content area from the footer.</p>
+
+
+<h3 id="design-testing">Testing Your Document</h3>
+
+<p>You should <em>always</em> check that your completed documents conform
+to the XHTML 1.0 Strict specification by using the free <a
+href="http://validator.w3.org/">W3 Markup Validation Service</a>.  In
+addition, you should test your web pages using a variety of browsers,
+particularly the latest versions of <a
+href="http://www.mozilla.org/products/firefox/">Mozilla Firefox</a>, <a
+href="http://www.konqueror.org/">Konqueror</a>, <a
+href="http://www.apple.com/safari/">Safari</a>, <a
+href="http://www.opera.com/">Opera</a> and <a
+href="http://www.microsoft.com/windows/ie/">Internet Explorer</a>
+(although Internet Explorer&nbsp;7, the current release, still has
+significant bugs in rendering HTML and CSS).</p>
+
+<p>If possible, you should also test your web pages using older versions
+of Internet Explorer, as many potential users of your web site may not be
+able to upgrade their browser (this document, for example, has been fully
+tested with Internet Explorer&nbsp;6 and&nbsp;7).</p>
+
+<p>As well as checking your web pages with the popular browsers, you
+should also use a text-mode browser such as <a
+href="http://lynx.isc.org/">Lynx</a> for testing &mdash; this will give
+you a reasonable &ldquo;feel&rdquo; for how visually-impaired users might
+experience your pages.</p>
+
+<p>One rather non-obvious item to check is how your pages will look when
+printed &mdash; the Sinorcaish stylesheet for printing is rather
+different from the one used to render your pages on-screen.</p>
+
+
+<h2 id="h-html-sampler">A Brief HTML Sampler</h2>
+
+
+<div class="navbox nb-htmlsampler-width">
+  <ol class="alpha">
+    <li><a href="#samp-headings">Headings</a></li>
+    <li><a href="#samp-inline">Inline Elements</a></li>
+    <li><a href="#samp-cust-inline">Custom Inline Styles</a></li>
+    <li><a href="#samp-block">Block-level Elements</a></li>
+    <li><a href="#samp-cust-block">Custom Block-level Styles</a></li>
+    <li><a href="#samp-lists">List Elements</a></li>
+    <li><a href="#samp-tables">Table Elements</a></li>
+    <li><a href="#samp-images">Images and Icons</a></li>
+    <li><a href="#samp-floatboxes">Floating Boxes</a></li>
+    <li><a href="#samp-forms">Forms</a></li>
+    <li><a href="#samp-faq-pages">FAQ-style Pages</a></li>
+    <li><a href="#samp-deprecated">Deprecated Elements</a></li>
+  </ol>
+</div>
+
+
+<p>This section of the sample document shows you how various HTML <span
+class="tooltip" title="Often called HTML &ldquo;tags&rdquo;">elements</span>
+appear under the Sinorcaish stylesheet.  It assumes you have already read
+and understood the section on <a href="#h-main-design">Main Design
+Elements</a>.  Each example is presented in a box similar to the
+following:</p>
+
+<div class="example nb-htmlsampler-fixup">
+
+  <p>This is a typical example box.  It contains a valid XHTML
+    paragraph.</p>
+
+</div>
+
+<p>You are strongly encouraged to read the source code of this document to
+see &ldquo;how it is done&rdquo;.  In particular, open the file <a
+href="sample.html" type="text/plain" class="fn">sample.html</a> using any
+text editor, then search for <code
+class="markup">id=&quot;h-html-sampler&quot;</code> to find the start of
+this section.</p>
+
+<p>By the way, if you examine the source code for the above example box,
+as well as the document header, you will find that it uses a special class
+to set the right margin when displayed on the screen.  This has the effect
+of avoiding the navigational box that would otherwise be rendered on top
+of it.  Since the navigational box is not printed to paper, there is no
+need for setting a right margin on the example box in that case.</p>
+
+<p>This special class is not really a generic solution (as it is very
+dependent on the width of the navigational box, which has its own custom
+style in this instance), hence its exclusion from the Sinorcaish
+stylesheet.</p>
+
+
+<h3 id="samp-headings">Headings</h3>
+
+<p>Only one level-1 heading may appear in the document, directly following
+a <code class="markup">&lt;div id=&quot;navhead&quot;&gt;</code> section.
+You may use level-2 to level-6 headings almost anywhere you like within
+the main content area (apart from within floating boxes).  For example:</p>
+
+<div class="example">
+
+  <h2>Level-2 Heading</h2>
+
+  <p>Whenever one needs &ldquo;filler text&rdquo;, one invariably uses
+    <cite>Lorem Ipsum</cite>.  This passage has been in use as filler
+    text since the 1500s and was originally taken and slightly mangled
+    from <cite>de Finibus Bonorum et Malorum</cite>, written by Cicero in
+    about 45&nbsp;B.C.</p>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.</p>
+
+  <h3>Level-3 Heading</h3>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <h4>Level-4 Heading</h4>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <h5>Level-5 Heading</h5>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <h6>Level-6 Heading</h6>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <p class="title">Paragraph with Title Class (not recommended)</p>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+</div>
+
+<p>As you can see from the example above, your use of level-5 and level-6
+headings should probably be limited, as they are rendered <em>smaller</em>
+than the surrounding text.  Furthermore, although the Paragraph with Title
+Class looks like a heading, it should <em>not</em> be used as one: the
+<code class="markup">title</code> class is meant to be used within the
+left sidebar and within floating boxes only.</p>
+
+
+<h3 id="samp-inline">Inline Elements</h3>
+
+<p>Many inline elements have already been used throughout this sample
+document.  This example brings them all together:</p>
+
+<div class="example">
+
+  <p>Ordinary text, as seen throughout this document.  An (almost
+    certainly) <a href="index.html">visited link</a> and a (probably) <a
+    href="#endmain">unvisited link</a>.</p>
+
+  <p>The Sinorcaish stylesheet assumes the following elements are defined
+    as per the HTML4 Sample Stylesheet: <em>emphasised text</em>,
+    <strong>strongly emphasised text</strong>.  You should probably avoid
+    <em><strong>strong&rsquo;ed em</strong></em> and
+    <strong><em>em&rsquo;ed strong</em></strong> text (although it will
+    probably work).</p>
+
+  <p>You should avoid physical markup elements such as <b>bold</b>,
+    <i>italic</i>, <i><b>bold italic</b></i> (and <b><i>italicised
+    bold</i></b>).  Instead, use elements that give meaning and structure
+    to your text.  The same applies to <tt>typewriter text</tt>,
+    <b><tt>b&nbsp;+ tt</tt></b>, <i><tt>i&nbsp;+ tt</tt></i>,
+    <tt><b><i>tt&nbsp;+ b&nbsp;+ i</i></b></tt> and other
+    permutations.</p>
+
+  <p>Avoid the following if possible, as it adds little semantic meaning:
+    <big>Bigger text,</big> <small>Smaller text.</small></p>
+
+  <p>You can use <sup>sup</sup> and <sub>sub</sub> as appropriate:
+    H<sub>2</sub>SO<sub>4</sub>, <i>a</i><sup>2</sup>&nbsp;+
+    <i>b</i><sup>2</sup>&nbsp;= <i>c</i><sup>2</sup>.</p>
+
+  <p>For computers and programming: <code>code</code>, <kbd>keyboard
+    input</kbd>, <samp>sample output</samp>, <var>variables</var>.  For
+    example, <code><var>var</var>++</code> in C increments the variable
+    <var>var</var>.  A typical example of these elements is when using
+    the <code class="markup">&lt;pre&gt;</code> element:</p>
+
+<pre>
+<samp>$ </samp><kbd>make <var>target</var></kbd>
+<samp>make: *** No rule to make target `<var>target</var>'.  Stop.</samp>
+</pre>
+
+  <p>Something more exotic: a <dfn>definition</dfn> is often useful; you
+    should really read <cite><a
+    href="http://www.oreilly.com/catalog/css2/">Cascading Style Sheets:
+    The Definitive Guide</a> (Second Edition)</cite> by Eric Meyer;
+    <del title="Deletion approved by John Zaitseff">deleted text</del>;
+    <ins title="Inserted by John Zaitseff, 10th November, 2004">inserted text</ins>;
+    abbreviations such as <abbr>Mr.</abbr> John Zaitseff or <abbr
+    title="United Nations">U.N.</abbr>; acronyms such as <acronym
+    title="North Atlantic Treaty Organization">NATO</acronym>.</p>
+
+</div>
+
+<p>Note the use of <code class="markup">&lt;abbr&gt;</code> and <code
+class="markup">&lt;acronym&gt;</code> in the above example: if the
+abbreviation or acronym has an associated <code
+class="markup">title</code> attribute, the element is displayed with a
+dotted underline; furthermore, holding your mouse cursor over the element
+will display the contents of the <code class="markup">title</code>.
+Unfortunately, the dotted underline is not displayed under older versions
+of Internet Explorer for Windows, as those browsers do not comply with
+the <a href="http://www.w3.org/TR/CSS21">CSS 2.1 Standard</a>.</p>
+
+<p>The use of the <code class="markup">title</code> attribute is entirely
+optional for all elements, including <code
+class="markup">&lt;del&gt;</code> and <code
+class="markup">&lt;ins&gt;</code>.</p>
+
+
+<h3 id="samp-cust-inline">Custom Inline Styles</h3>
+
+<p>The Sinorcaish stylesheet defines a number of custom inline styles for
+particular uses.  For example, filenames, URLs and e-mail addresses should
+all be displayed using the appropriate style class as part of the <code
+class="markup">&lt;span&gt;</code> or <code
+class="markup">&lt;a&gt;</code> element; HTML and CSS markup should use
+the <code class="markup">&lt;code class=&quot;markup&quot;&gt;</code>
+element and class; the <code class="markup">tooltip</code> class can
+provide underlined tooltips; program names, windows (and dialog boxes),
+menu items, individual keypresses and generic GUI elements in graphical
+applications can use appropriately-named classes; and most <a
+href="http://www.unicode.org/">Unicode</a> characters may be displayed
+using the <code class="markup">unicode</code> class:</p>
+
+<div class="example">
+
+  <p>A <span class="fn">filename</span>, <span class="url">URL</span> and
+    <span class="email">e-mail address</span>:
+
+    <a href="index.html" class="fn">index.html</a>,
+    <a href="http://www.zap.org.au/" class="url">http://www.zap.org.au/</a>,
+    <a href="mailto:J.Zaitseff@zap.org.au" class="email">J.Zaitseff@zap.org.au</a>.</p>
+
+  <p>HTML elements and the like can be marked up using <code
+    class="markup">&lt;code class=&quot;markup&quot;&gt;</code>.  If you
+    like, you can use <span class="markup">&lt;span
+    class=&quot;markup&quot;&gt;</span> instead: it&rsquo;s merely a
+    matter of taste.</p>
+
+  <p>Text with a <span class="tooltip" title="A sample tooltip!  Note that the title attribute must never be split across lines.">tooltip</span>.</p>
+
+  <p>Parts of a graphical computer application: OpenOffice Writer can be
+    invoked with the <span class="program">oowriter</span> command; the
+    <span class="window">End Session</span> dialog box; press <span
+    class="key">Alt+Tab</span> to select another window; modify the value
+    of the <span class="gui">Size</span> combo box; <span
+    class="menu">File&nbsp;&raquo; Quit</span> is just one way to
+    terminate programs under KDE.  By the way, note the use of <code
+    class="markup">&amp;nbsp;&amp;raquo;</code> between menu items.</p>
+
+  <p><span class="unicode">Unicode text uses a different font (or fonts)
+    to make sure as many Unicode characters as possible can be displayed.
+    For example:
+
+    /&#x02C8;k&#x028A;k&#x0259;b&#x028C;r&#x0259;/ (kookaburra),
+    <span lang="ru">&#x0414;&#x043E;&#x0431;&#x0440;&#x043E; &#x043F;&#x043E;&#x0436;&#x0430;&#x043B;&#x043E;&#x0432;&#x0430;&#x0442;&#x044C;!</span>
+    (&ldquo;welcome&rdquo; in Russian),
+    <span lang="el">&#x03A7;&#x03B1;&#x03AF;&#x03C1;&#x03B5;&#x03C4;&#x03B5;!</span>
+    (&ldquo;Rejoice!&rdquo; in Ancient Greek; &ldquo;&#x03B5;&rdquo;
+    should be &ldquo;&#x03F5;&rdquo;, but some fonts don&rsquo;t have the
+    latter symbol),
+    &larr;&uarr;&darr;&rarr; (arrows).</span></p>
+
+</div>
+
+<p>Please be aware that some browsers may not display overly-long tooltips
+correctly.  In addition, many browsers have problems displaying Unicode
+characters that are not present in the current font; the <code
+class="markup">unicode</code> class helps to reduce this problem (by
+selecting a font with as many characters in it as possible), but does not
+eliminate it.</p>
+
+
+<h3 id="samp-block">Block-level Elements</h3>
+
+<p>You have already seen the most common block-level element in continual
+use: the paragraph element (<code class="markup">&lt;p&gt;</code>).  Other
+standard elements are shown in the following example:</p>
+
+<div class="example">
+
+  <p><strong>Standard paragraph.</strong> Lorem ipsum dolor sit amet,
+    consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud
+    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+    dolore eu fugiat nulla pariatur.  Excepteur sint occaecat cupidatat
+    non proident, sunt in culpa qui officia deserunt mollit anim id est
+    laborum.</p>
+
+  <blockquote>
+
+    <p><strong>Block quote.</strong> Lorem ipsum dolor sit amet,
+      consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.  Ut enim ad minim veniam, quis
+      nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat.</p>
+
+    <p>Another paragraph in the block quote.  You can have multiple levels
+      of <code class="markup">&lt;blockquote&gt;</code>, as illustrated by
+      the following riddle from <cite>The Hobbit, or There And Back
+      Again</cite> by J.&nbsp;R.&nbsp;R. Tolkien:</p>
+
+    <blockquote>
+      <p>Alive without breath,<br>
+         As cold as death;<br>
+         Never thirsty, ever drinking,<br>
+         All in mail never clinking.</p>
+    </blockquote>
+
+    <p>The answer is &ldquo;a fish&rdquo;, of course!</p>
+
+  </blockquote>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+</div>
+
+<p>Note that the <code class="markup">del</code> and <code
+class="markup">ins</code> elements may be block-level as well as
+inline:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <del title="Who wants to read Lorem Ipsum anyway?">
+
+    <p>Lorem ipsum dolor sit amet, <em>consectetur adipisicing elit,</em>
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+      aliquip ex ea commodo consequat.</p>
+
+  </del>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ins>
+
+    <p>Lorem ipsum dolor sit amet, <em>consectetur adipisicing elit,</em>
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+      aliquip ex ea commodo consequat.</p>
+
+  </ins>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+</div>
+
+<p>The preformatted text element (<code class="markup">&lt;pre&gt;</code>)
+is mostly used for computer programs or for terminal-based transcripts.
+Please note that the content inside <code
+class="markup">&lt;pre&gt;</code>, as well as the starting and ending
+elements themselves, must <em>not</em> be indented with spaces or tabs.
+Most ordinary markup rules apply within the element:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<pre>
+/* The classic C program */
+
+#include &lt;stdio.h&gt;
+
+int main (int argc, char *argv[])
+{
+    (void) printf(&quot;hello, world\n&quot;);
+    return 0;
+}
+</pre>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<!-- The classes used in this next portion of code are local to this document -->
+<pre>
+<span class="c-comment">/* The classic C program, with syntax highlighting */</span>
+
+<span class="c-preproc">#include &lt;stdio.h&gt;</span>
+
+<span class="c-type">int</span> <span class="c-funcdef">main</span> (<span class="c-type">int</span> <span class="c-var">argc</span>, <span class="c-type">char</span> *<span class="c-var">argv</span>[])
+{
+    (<span class="c-type">void</span>) <span class="c-func">printf</span>(<span class="c-string">&quot;hello, world<span class="c-spchar">\n</span>&quot;</span>);
+    <span class="c-syntax">return</span> <span class="c-num">0</span>;
+}
+</pre>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+</div>
+
+
+<h3 id="samp-cust-block">Custom Block-level Styles</h3>
+
+<p>The Sinorcaish stylesheet allows you to place most block-level elements
+into a <code class="markup">highlight</code> mode:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <p class="highlight"><strong>A highlighted paragraph.</strong> Lorem
+    ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <p class="highlight"><strong>A highlighted paragraph directly following
+    another highlighted paragraph.</strong> Lorem ipsum dolor sit amet,
+    consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua.</p>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <blockquote class="highlight">
+    <p><strong>A highlighted block quote.</strong> Note the additional
+      space inside the box at the top and bottom, compared with the
+      highlighted paragraph.  Lorem ipsum dolor sit amet&hellip;</p>
+  </blockquote>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <div class="highlight">
+
+    <p><strong>A highlighted division.</strong> This has spacing the same
+      as a highlighted block quote.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  </div>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<!-- The classes used in this next portion of code are local to this document -->
+<pre class="highlight">
+<span class="c-comment">/* The classic C program, with syntax highlighting */</span>
+
+<span class="c-preproc">#include &lt;stdio.h&gt;</span>
+
+<span class="c-type">int</span> <span class="c-funcdef">main</span> (<span class="c-type">int</span> <span class="c-var">argc</span>, <span class="c-type">char</span> *<span class="c-var">argv</span>[])
+{
+    (<span class="c-type">void</span>) <span class="c-func">printf</span>(<span class="c-string">&quot;hello, world<span class="c-spchar">\n</span>&quot;</span>);
+    <span class="c-syntax">return</span> <span class="c-num">0</span>;
+}
+</pre>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+</div>
+
+<p>Please remember that highlighted elements (ie, elements with the <code
+class="markup">highlight</code> class) may interact rather badly with
+floating boxes, as discussed in the section on <a
+href="#design-floatbox">Floating Boxes</a>.</p>
+
+<p>Although not officially deprecated by the Sinorcaish stylesheet, you
+should try to avoid using horizontal rules, with or without the custom
+<code class="markup">lighter</code> class.  Please note that <code
+class="markup">&lt;hr class=&quot;lighter&quot;&nbsp;/&gt;</code> elements
+are <em>not</em> printed to paper:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <hr>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <hr class="lighter">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+</div>
+
+
+<h3 id="samp-lists">List Elements</h3>
+
+<p>There are essentially three types of lists supported by the XHTML
+standards: <dfn>ordered lists</dfn>, using the <code
+class="markup">&lt;ol&gt;</code> and <code
+class="markup">&lt;li&gt;</code> elements; <dfn>unordered lists</dfn>,
+using the <code class="markup">&lt;ul&gt;</code> and <code
+class="markup">&lt;li&gt;</code> elements; and <dfn>definition
+lists</dfn>, using the <code class="markup">&lt;dl&gt;</code>, <code
+class="markup">&lt;dt&gt;</code> and <code
+class="markup">&lt;dd&gt;</code> elements:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ol>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ol>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ul>
+    <li>First bullet point</li>
+    <li>Second bullet point</li>
+    <li>Third bullet point</li>
+  </ul>
+
+  <ol>
+    <li>Item 1 <strong>(Testing the spacing between two lists)</strong></li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ol>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ol class="alpha">
+    <li>Item a <strong>(Using <code class="markup">&lt;ol
+      class=&quot;alpha&quot;&gt;</code>)</strong></li>
+    <li>Item b</li>
+    <li>Item c</li>
+  </ol>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <dl>
+    <dt><strong>kookaburra</strong>
+      <span class="unicode">/&#x02C8;k&#x028A;k&#x0259;b&#x028C;r&#x0259;/</span>
+      (noun):</dt>
+    <dd>either of two Australian kingfishers renowned for their harsh
+      voices and call resembling human laughter:
+      <strong>1.</strong>&nbsp;the large, dark brown and white <dfn>common
+      kookaburra</dfn> (also known as the <dfn>laughing kookaburra</dfn>),
+      <span class="genus">Dacelo gigas</span>, native to eastern Australia
+      and introduced into western Australia and Tasmania; giant
+      kingfisher; laughing jackass.  <strong>2.</strong>&nbsp;a slightly
+      smaller bird with paler head, the <dfn>blue-winged kookaburra</dfn>,
+      <span class="genus">Dacelo leachii</span>, of tropical northern
+      Australia and New Guinea; barking jackass; howling jackass.
+      [Aboriginal]</dd>
+
+    <dt><strong>kangaroo</strong>
+      <span class="unicode">/k&#x00E6;&#x014B;g&#x0259;&#x02C8;ru/</span>
+      (noun):</dt>
+    <dd><cite>Macquarie Dictionary</cite>: any of the largest members of
+      the family Macropodidae, herbivorous marsupials of the Australian
+      region, with powerful hind legs developed for leaping, a sturdy tail
+      serving as a support and balance, a small head, and very short
+      forelimbs.  [Aboriginal; Guugu Yimidhirr <dfn>gangurru</dfn> a large
+      black or grey kangaroo]</dd>
+
+    <dd><cite>Merriam-Webster Dictionary</cite>: any of various
+      herbivorous leaping marsupial mammals (family Macropodidae) of
+      Australia, New Guinea, and adjacent islands with a small head, large
+      ears, long powerful hind legs, a long thick tail used as a support
+      and in balancing, and rather small forelegs not used in
+      progression.</dd>
+  </dl>
+
+  <!-- A definition list following another definition list -->
+  <dl>
+    <dt><strong>koala</strong>
+      <span class="unicode">/ko&#x028A;&#x02C8;al&#x0259;/</span>
+      (noun):</dt>
+    <dd>a tailless, grey, furry, arboreal marsupial, <span
+      class="genus">Phascolarctos cinereus</span>, of Australia, about
+      75&nbsp;cm long.  Also, <dfn>koala bear</dfn>.  [Aboriginal; Dharuk
+      <dfn>gulawang</dfn>; early spelling <dfn>koolah</dfn> replaced by
+      <dfn>koala</dfn> probably because of a scribal error]</dd>
+  </dl>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+</div>
+
+<p>Lists can contain other lists, as well as block elements (such as
+paragraphs) of their own:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ul>
+    <li><p><strong>Unordered lists with paragraphs inside each list
+      item.</strong> Lorem ipsum dolor sit amet, consectetur adipisicing
+      elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+      laboris nisi ut aliquip ex ea commodo consequat.</p></li>
+    <li><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+      do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut
+      enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+      ut aliquip ex ea commodo consequat.</p></li>
+    <li>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+        do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut
+        enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        nisi ut aliquip ex ea commodo consequat.</p>
+      <p><strong>Second paragraph within a single item.</strong> Lorem
+        ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad
+        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+        aliquip ex ea commodo consequat.</p>
+      <blockquote>
+        <p><strong>A blockquote as part of a list item.</strong> Lorem
+          ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat.</p>
+      </blockquote>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+<pre class="highlight">
+<i>{ The classic &quot;first program&quot; in Turbo Pascal }</i>
+
+<b>program</b> Hello;
+
+<b>begin</b>
+  writeln("Hello, world.")
+<b>end.</b>
+</pre>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna
+        aliqua.</p></li>
+  </ul>
+
+  <ul>
+    <li><p><strong>Second unordered list following the first.</strong>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+      aliquip ex ea commodo consequat.</p></li>
+  </ul>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ol>
+    <li>Item 1</li>
+    <li>Item 2:
+      <ol>
+        <li>Item 2.1</li>
+        <li>Item 2.2</li>
+        <li>Item 2.3</li>
+      </ol></li>
+    <li>Item 3</li>
+    <li>Item 4:
+      <ol class="alpha">
+        <li>Item 4a <strong>(Using <code class="markup">&lt;ol
+          class=&quot;alpha&quot;&gt;</code>)</strong></li>
+        <li>Item 4b:
+          <ol class="number">
+            <li>Item 4b.1 <strong>(Using <code class="markup">&lt;ol
+          class=&quot;number&quot;&gt;</code>)</strong></li>
+            <li>Item 4b.2</li>
+            <li>Item 4b.3:
+              <ol>
+                <li>Item 4b.3.1</li>
+                <li>Item 4b.3.2</li>
+                <li>Item 4b.3.3</li>
+              </ol></li>
+            <li>Item 4b.4</li>
+          </ol></li>
+        <li>Item 4c</li>
+      </ol></li>
+    <li>Item 5</li>
+  </ol>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <ul>
+    <li>Point A</li>
+    <li>Point B:
+      <ul>
+        <li>Point C</li>
+        <li>Point D:
+          <ul>
+            <li>Point E</li>
+            <li>Point F</li>
+            <li>Point G</li>
+          </ul></li>
+        <li>Point H</li>
+        <li>Point I:
+          <ul>
+            <li>Point J</li>
+            <li>Point K:
+              <ul>
+                <li>Point L</li>
+                <li>Point M</li>
+              </ul></li>
+            <li>Point N</li>
+          </ul></li>
+        <li>Point O</li>
+      </ul></li>
+    <li>Point P</li>
+  </ul>
+
+</div>
+
+<p>If you are nesting lists within lists, as shown in the previous
+example, you should make sure that you include some text between any two
+levels.  The reason for this is that some browsers otherwise leave an
+almost empty line instead of making the inner list start on the same line
+as the outer list.  In other words, you should design your nested lists as
+shown at Items 2, 4, 4b, 4b.3 and Points B, D, I and K in the example
+above.  You should <em>not</em> do something like the following:</p>
+
+<pre>
+&lt;ol&gt;
+  &lt;li&gt;<var>Item 1</var>&lt;/li&gt;
+  &lt;li&gt;   <strong>&lt;!-- You should <em>not</em> leave this line blank with no text on it! --&gt;</strong>
+    &lt;ol&gt;
+      &lt;li&gt;<var>Item 2.1</var>&lt;/li&gt;
+      &lt;li&gt;<var>Item 2.2</var>&lt;/li&gt;
+      <strong>...</strong>
+    &lt;/ol&gt;&lt;/li&gt;
+  <strong>...</strong>
+&lt;/ol&gt;
+</pre>
+
+
+<h3 id="samp-tables">Table Elements</h3>
+
+<p>Tables should be used to present tabular data, not for visually
+positioning page elements.  The Sinorcaish stylesheet defines a <code
+class="markup">simple</code> class for rather simplistic table formatting.
+You can highlight certain cells with the <code
+class="markup">highlight</code> and <code class="markup">lighter</code>
+style classes; you can also force the text alignment within a cell to be
+left, right or centred (the default).  Some simple examples:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <table class="simple nowrap" summary="Currency Values as at 1st November, 2004">
+    <caption>Currency Values as at 1st November, 2004</caption>
+    <thead>
+      <tr>
+        <th class="lighter">Currency</th>
+        <th>AUD</th>
+        <th>NZD</th>
+        <th>USD</th>
+        <th>EUR</th>
+        <th>JPY</th>
+        <th>GBP</th>
+        <th>CHF</th>
+        <th>CAD</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>AUD</th>
+        <td class="lighter">1</td>
+        <td>0.9162</td>
+        <td>1.337</td>
+        <td>1.709</td>
+        <td>0.01259</td>
+        <td>2.455</td>
+        <td>1.117</td>
+        <td>1.097</td>
+      </tr>
+      <tr>
+        <th>NZD</th>
+        <td>1.092</td>
+        <td class="lighter">1</td>
+        <td>1.459</td>
+        <td>1.865</td>
+        <td>0.01374</td>
+        <td>2.679</td>
+        <td>1.219</td>
+        <td>1.197</td>
+      </tr>
+      <tr>
+        <th>USD</th>
+        <td>0.7479</td>
+        <td>0.6852</td>
+        <td class="lighter">1</td>
+        <td>1.278</td>
+        <td>0.009416</td>
+        <td>1.836</td>
+        <td>0.8353</td>
+        <td>0.8203</td>
+      </tr>
+      <tr>
+        <th>EUR</th>
+        <td>0.5852</td>
+        <td>0.5362</td>
+        <td>0.7825</td>
+        <td class="lighter">1</td>
+        <td>0.007368</td>
+        <td>1.436</td>
+        <td>0.6536</td>
+        <td>0.6418</td>
+      </tr>
+      <tr>
+        <th>JPY</th>
+        <td>79.43</td>
+        <td>72.77</td>
+        <td>106.2</td>
+        <td>135.7</td>
+        <td class="lighter">1</td>
+        <td>195</td>
+        <td>88.71</td>
+        <td>87.11</td>
+      </tr>
+      <tr>
+        <th>GBP</th>
+        <td>0.4074</td>
+        <td>0.3732</td>
+        <td>0.5447</td>
+        <td>0.6962</td>
+        <td>0.005129</td>
+        <td class="lighter">1</td>
+        <td>0.455</td>
+        <td>0.4468</td>
+      </tr>
+      <tr>
+        <th>CHF</th>
+        <td>0.8954</td>
+        <td>0.8203</td>
+        <td>1.197</td>
+        <td>1.53</td>
+        <td>0.01127</td>
+        <td>2.198</td>
+        <td class="lighter">1</td>
+        <td>0.982</td>
+      </tr>
+      <tr>
+        <th>CAD</th>
+        <td>0.9118</td>
+        <td>0.8353</td>
+        <td>1.219</td>
+        <td>1.558</td>
+        <td>0.01148</td>
+        <td>2.238</td>
+        <td>1.018</td>
+        <td class="lighter">1</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <table class="simple" style="width: 35em" summary="Sample table">
+    <thead>
+      <tr>
+        <th>Col 1</th>
+        <th>Col 2</th>
+        <th>Col 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="left lighter">Left</td>
+        <td class="center">Centre</td>
+        <td class="right">Right</td>
+      </tr>
+      <tr>
+        <td>ABCDEFGHIJKLM</td>
+        <td class="highlight">ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ</td>
+        <td>ABCDEFGHIJKLM</td>
+      </tr>
+      <tr>
+        <td class="right">Right</td>
+        <td class="center">Centre</td>
+        <td class="left lighter">Left</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="simple" style="width: 35em" summary="Sample table">
+    <tr>
+      <td>R1C1</td>
+      <td class="lighter">R1C2</td>
+      <td>R1C3</td>
+    </tr>
+    <tr>
+      <td class="lighter">R2C1</td>
+      <td></td>
+      <td class="lighter">R2C3</td>
+    </tr>
+    <tr>
+      <td>R3C1</td>
+      <td class="lighter">R3C2</td>
+      <td>R3C3</td>
+    </tr>
+  </table>
+
+  <table class="simple" summary="Sample table">
+    <tr>
+      <td colspan="2" style="width: 14em">R1C1 + R1C2</td>
+      <td rowspan="2" style="width: 7em">R1C3 + R2C3</td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 7em">R2C1 + R3C1</td>
+      <td class="highlight" style="width: 7em">R2C2</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="width: 14em">R3C2 + R3C3</td>
+    </tr>
+  </table>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+</div>
+
+<p>Although tables may be nested to any degree, formatting the result can
+be quite tricky, as shown in the following example.  It is better to use
+the <code class="markup">colspan</code> and <code
+class="markup">rowspan</code> attributes, as illustrated in the second
+table:</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <table class="simple" summary="Sample embedded table">
+    <caption>Using Embedded Simple Tables</caption>
+    <tr>
+      <td class="lighter">R1C1</td>
+      <td>R1C2</td>
+      <td class="lighter">R1C3</td>
+    </tr>
+    <tr>
+      <td>R2C1</td>
+      <td>
+        <table class="simple" summary="Sample embedded table">
+          <tr>
+            <td class="lighter">iR1C1</td>
+            <td>iR1C2</td>
+            <td class="lighter">iR1C3</td>
+          </tr>
+          <tr>
+            <td>iR2C1</td>
+            <td class="lighter">iR2C2</td>
+            <td>iR2C3</td>
+          </tr>
+          <tr>
+            <td class="lighter">iR3C1</td>
+            <td>iR3C2</td>
+            <td class="lighter">iR3C3</td>
+          </tr>
+        </table>
+      </td>
+      <td>R2C3</td>
+    </tr>
+    <tr>
+      <td class="lighter">R3C1</td>
+      <td>R3C2</td>
+      <td class="lighter">R3C3</td>
+    </tr>
+  </table>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <table class="simple" summary="Sample table">
+    <caption>Using a Single Simple Table</caption>
+    <tr>
+      <td class="lighter">R1C1</td>
+      <td colspan="3">R1C2</td>
+      <td class="lighter">R1C3</td>
+    </tr>
+    <tr>
+      <td rowspan="3">R2C1</td>
+      <td class="lighter">iR1C1</td>
+      <td>iR1C2</td>
+      <td class="lighter">iR1C3</td>
+      <td rowspan="3">R2C3</td>
+    </tr>
+    <tr>
+      <td>iR2C1</td>
+      <td class="lighter">iR2C2</td>
+      <td>iR2C3</td>
+    </tr>
+    <tr>
+      <td class="lighter">iR3C1</td>
+      <td>iR3C2</td>
+      <td class="lighter">iR3C3</td>
+    </tr>
+    <tr>
+      <td class="lighter">R3C1</td>
+      <td colspan="3">R3C2</td>
+      <td class="lighter">R3C3</td>
+    </tr>
+  </table>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+</div>
+
+<p>It is likely that you will need to create custom styles for your own
+tables, in order to present them in their best light.  The Sinorcaish
+stylesheet definitions provide you with a starting point to do so.  Please
+remember that you should minimise the excessive use of colour and of thick
+or dark borders, in order to harmonise with the rest of the document.</p>
+
+
+<h3 id="samp-images">Images and Icons</h3>
+
+<p>You may embed images into your document as you would normally, using
+the <code class="markup">&lt;img&gt;</code> element.  By default, images
+are aligned with the text baseline; images within links have <em>no</em>
+border.  In addition, you may force your images to &ldquo;float&rdquo; to
+the left or right by using the <code class="markup">floatleft</code> and
+<code class="markup">floatright</code> classes respectively (as shown in
+the following example).  In this case, your images should <em>not</em>
+contain a white or transparent border, as the stylesheet takes care of
+this for you.</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+
+    <!-- Floating image to the left -->
+    <img src="gradient.png" alt="[Gradient]" width="325" height="60"
+      class="floatleft">
+
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam,
+
+    <!-- Floating image to the right -->
+    <img src="gradient.png" alt="[Gradient]" width="325" height="60"
+      class="floatright">
+
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.  Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+    officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit
+    amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+    ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis
+    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.</p>
+
+</div>
+
+<p>Including a caption with the floated image is a little trickier: you
+need to ensure your markup does not cause the current paragraph to be
+terminated prematurely.  For this reason, you should use the following as
+a template:</p>
+
+<pre>
+&lt;span class=&quot;floatleft&quot;&gt;   <span class="xml-comment">&lt;-- or &quot;floatright&quot; --&gt;</span>
+  &lt;br class=&quot;hidden&quot; /&gt;
+  &lt;img src=&quot;<var>url</var>&quot; alt=&quot;<var>[text]</var>&quot; width=&quot;<var>w</var>&quot; height=&quot;<var>h</var>&quot; /&gt;&lt;br /&gt;
+  &lt;strong&gt;<var>Figure 1: Short caption text</var>&lt;/strong&gt;
+  &lt;br class=&quot;hidden&quot; /&gt;
+&lt;/span&gt;
+</pre>
+
+<p>Notice that a <code class="markup">&lt;span&gt;</code> element is used
+to contain the image and caption: <code
+class="markup">&lt;table&gt;</code> and <code
+class="markup">&lt;div&gt;</code>, as well as <code class="markup">&lt;hr
+/&gt;</code>, are block-level elements and <em>cannot</em> appear within
+a paragraph (this is a limitation of XHTML in general, not of Sinorcaish
+in particular).  In general, you must only use inline elements, such as
+those described in <a href="#samp-inline">Inline Elements</a> and <a
+href="#samp-cust-inline">Custom Inline Styles</a>, within floating spans.</p>
+
+<p>Secondly, note the hidden line breaks (<code class="markup">&lt;br
+class=&quot;hidden&quot; /&gt;</code>) at the start and end of the
+floated span: these are only displayed in non-visual or in
+non-stylesheet-aware browsers and help the reader to make sense of your
+document.</p>
+
+<p>Finally, you should keep the image captions short, as these will not
+be wrapped to the width of the image.  As a final resort, you may need to
+use additional <code class="markup">&lt;br /&gt;</code> elements to keep
+the caption width reasonable.</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+
+    <!-- Floating image and caption to the left -->
+    <span class="floatleft">
+      <br class="hidden">
+
+      <img src="gradient.png" alt="[Gradient]" width="325" height="60"><br>
+      <strong>Figure 1: Left-floating image</strong>
+
+      <br class="hidden">
+    </span>
+
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+
+    <!-- Floating image and caption to the right -->
+    <span class="floatright">
+      <br class="hidden">
+
+      <img src="gradient.png" alt="[Gradient]" width="325" height="60"><br>
+      <strong>Figure 2: Right-floating image</strong>
+
+      <br class="hidden">
+    </span>
+
+    commodo consequat.  Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+    officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit
+    amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+    ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis
+    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.</p>
+
+</div>
+
+<p>The Sinorcaish stylesheet includes a special class, <code
+class="markup">icon16</code>, for 16&nbsp;&times; 16 <a
+href="http://www.zap.org.au/documents/icons/file-icons/">file-type
+icons</a>:</p>
+
+<div class="example">
+
+  <p>Every good web designer should read the
+    <a href="http://www.w3.org/TR/CSS21/css2.pdf"><img src="file-pdf.png"
+    alt="[PDF]" class="icon16" width="16" height="16"></a>&nbsp;<a
+    href="http://www.w3.org/TR/CSS21/css2.pdf">Cascading Style Sheets 2.1
+    Specification</a> (1.5&nbsp;MB).</p>
+
+</div>
+
+<p>If you examine the source code for the previous example, you will note
+that it follows the following form (attributes omitted for clarity):</p>
+
+<pre>
+&lt;a&gt;&lt;img&gt;&lt;/a&gt;<strong>&amp;nbsp;</strong>&lt;a&gt;<var>link text</var>&lt;/a&gt; (<var>size</var>)
+</pre>
+
+<p>In particular, note that the hyperlink <code
+class="markup">&lt;a&gt;</code> appears <em>twice</em>.  This prevents the
+space between the icon and the link text from being highlighted when using
+the mouse.</p>
+
+
+<h3 id="samp-floatboxes">Floating Boxes</h3>
+
+<p>You may include almost any valid inline, block-level, list or table
+element in floating boxes.  The only exceptions are headings, which should
+be used in the main content area only, and horizontal rules, which are
+used for non-visual or non-stylesheet-aware browsers only.</p>
+
+<div class="example">
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.</p>
+
+  <div class="floatbox">
+    <hr>
+      <p class="title">Sample Floating Box 1</p>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+    <hr>
+  </div>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.  Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+    officia deserunt mollit anim id est laborum.</p>
+
+  <div class="floatbox" style="width: 65%">
+    <hr>
+      <p class="title">Sample Floating Box 2 (wider than normal)</p>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+      <blockquote>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+          do eiusmod tempor incididunt ut labore et dolore magna
+          aliqua.</p>
+      </blockquote>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+      <p class="highlight">Lorem ipsum dolor sit amet, consectetur
+        adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua.</p>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<pre class="highlight">
+<i>{ The classic &quot;first program&quot; in Turbo Pascal }</i>
+
+<b>program</b> Hello;
+
+<b>begin</b>
+  writeln("Hello, world.")
+<b>end.</b>
+</pre>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+      <ol>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ol>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+      <ul>
+        <li>First bullet point</li>
+        <li>Second bullet point</li>
+        <li>Third bullet point</li>
+      </ul>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+      <dl>
+        <dt>KB</dt>
+        <dd>Kilobytes: 1,024 bytes</dd>
+
+        <dt>MB</dt>
+        <dd>Megabytes: 1,024&nbsp;&times; 1,024 bytes, ie, 1,048,576
+          bytes</dd>
+      </dl>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+      <table class="simple" style="width: 100%" summary="Sample table">
+        <tr>
+          <th>Col 1</th>
+          <th>Col 2</th>
+          <th>Col 3</th>
+        </tr>
+        <tr>
+          <td>R1C1</td>
+          <td>R1C2</td>
+          <td>R1C3</td>
+        </tr>
+        <tr>
+          <td rowspan="2">R2C1+R3C1</td>
+          <td colspan="2">R2C2+R2C3</td>
+        </tr>
+        <tr>
+          <td>R3C2</td>
+          <td class="lighter">R3C3</td>
+        </tr>
+      </table>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+    <hr>
+  </div>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.  Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+    officia deserunt mollit anim id est laborum.</p>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.  Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+    officia deserunt mollit anim id est laborum.</p>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim
+    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat.  Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in
+    culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.  Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+    officia deserunt mollit anim id est laborum.</p>
+
+</div>
+
+
+<h3 id="samp-forms">Forms</h3>
+
+<p>The Sinorcaish stylesheet allows you to design pages containing
+interactive HTML forms.  Such pages represent one of the few places that
+tables may be used for visual formatting, as traditionally form elements
+need to be vertically aligned with each other.</p>
+
+<div class="example">
+
+  <form action="sample.html" method="get">
+
+    <p>Please note that fields marked with <span class="reqfield">&bull;</span>
+      are required.</p>
+
+    <table class="formtable" summary="Table to align sample form">
+      <tr>
+        <td class="label nowrap"><label for="f-input-text">Input text:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td><input type="text" name="input-text" id="f-input-text" value="" size="50" maxlength="250"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-input-text2">Input text (disabled):</label></td>
+        <td><input type="text" name="input-text2" id="f-input-text2" value="(Disabled text)" size="50" maxlength="250" disabled="disabled"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-input-password">Input password:</label></td>
+        <td><input type="password" name="input-password" id="f-input-password" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-input-file">Input file:</label></td>
+        <td><input type="file" name="input-file" id="f-input-file" value="" accept="image/*" size="25"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap">Input checkbox:</td>
+        <td>
+          <label for="f-input-checkbox-1"><input type="checkbox" name="input-checkbox" id="f-input-checkbox-1" value="1" checked="checked">Check 1</label><br>
+          <label for="f-input-checkbox-2"><input type="checkbox" name="input-checkbox" id="f-input-checkbox-2" value="2">Check 2</label><br>
+          <label for="f-input-checkbox-3"><input type="checkbox" name="input-checkbox" id="f-input-checkbox-3" value="3">Check 3</label><br>
+          <label for="f-input-checkbox-4"><input type="checkbox" name="input-checkbox" id="f-input-checkbox-4" value="4" disabled="disabled">Check 4 (disabled)</label>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap">Input radio:</td>
+        <td>
+          <label for="f-input-radio-1"><input type="radio" name="input-radio" id="f-input-radio-1" value="1" checked="checked">Radio 1</label>&nbsp;
+          <label for="f-input-radio-2"><input type="radio" name="input-radio" id="f-input-radio-2" value="2">Radio 2</label>&nbsp;
+          <label for="f-input-radio-3"><input type="radio" name="input-radio" id="f-input-radio-3" value="3">Radio 3</label>&nbsp;
+          <label for="f-input-radio-4"><input type="radio" name="input-radio" id="f-input-radio-4" value="4" disabled="disabled">Radio 4 (disabled)</label>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-textarea">Textarea:</label></td>
+        <td>
+<textarea name="textarea" id="f-textarea" cols="50" rows="4">
+Text line 1
+Text line 2
+</textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-select">Select:</label></td>
+        <td>
+          <select name="select" id="f-select">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+            <option value="6">Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+            <option value="9">Option 9</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-select2">Select (size 4):</label></td>
+        <td>
+          <select name="select2" id="f-select2" size="4" multiple="multiple">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+            <option value="6">Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+            <option value="9">Option 9</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap">Fieldset / Legend:</td>
+        <td>
+          <fieldset>
+            <legend>Sample legend</legend>
+            <table class="formtable" summary="Table to align inner part of sample form">
+              <tr>
+                <th class="label"></th>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
+                <th>E</th>
+              </tr>
+              <tr>
+                <td class="label">Question 1</td>
+                <td><input type="radio" name="q1" id="f-q1-a" value="A"></td>
+                <td><input type="radio" name="q1" id="f-q1-b" value="B"></td>
+                <td><input type="radio" name="q1" id="f-q1-c" value="C"></td>
+                <td><input type="radio" name="q1" id="f-q1-d" value="D"></td>
+                <td><input type="radio" name="q1" id="f-q1-e" value="E"></td>
+              </tr>
+              <tr>
+                <td class="label">Question 2</td>
+                <td><input type="radio" name="q2" id="f-q2-a" value="A"></td>
+                <td><input type="radio" name="q2" id="f-q2-b" value="B"></td>
+                <td><input type="radio" name="q2" id="f-q2-c" value="C"></td>
+                <td><input type="radio" name="q2" id="f-q2-d" value="D"></td>
+                <td><input type="radio" name="q2" id="f-q2-e" value="E"></td>
+              </tr>
+              <tr>
+                <td class="label">Question 3</td>
+                <td><input type="radio" name="q3" id="f-q3-a" value="A"></td>
+                <td><input type="radio" name="q3" id="f-q3-b" value="B"></td>
+                <td><input type="radio" name="q3" id="f-q3-c" value="C"></td>
+                <td><input type="radio" name="q3" id="f-q3-d" value="D"></td>
+                <td><input type="radio" name="q3" id="f-q3-e" value="E"></td>
+              </tr>
+              <tr>
+                <td class="label">Question 4</td>
+                <td><input type="radio" name="q4" id="f-q4-a" value="A"></td>
+                <td><input type="radio" name="q4" id="f-q4-b" value="B"></td>
+                <td><input type="radio" name="q4" id="f-q4-c" value="C"></td>
+                <td><input type="radio" name="q4" id="f-q4-d" value="D"></td>
+                <td><input type="radio" name="q4" id="f-q4-e" value="E"></td>
+              </tr>
+              <tr>
+                <td class="label">Question 5</td>
+                <td><input type="radio" name="q5" id="f-q5-a" value="A"></td>
+                <td><input type="radio" name="q5" id="f-q5-b" value="B"></td>
+                <td><input type="radio" name="q5" id="f-q5-c" value="C"></td>
+                <td><input type="radio" name="q5" id="f-q5-d" value="D"></td>
+                <td><input type="radio" name="q5" id="f-q5-e" value="E"></td>
+              </tr>
+            </table>
+          </fieldset>
+        </td>
+      </tr>
+      <tr>
+        <td class="label"></td>
+        <td><input type="submit" value="Submit">&nbsp;<input type="reset" value="Reset"></td>
+      </tr>
+    </table>
+
+  </form>
+
+</div>
+
+<p>Please note that the following form is entirely fictional: please do
+<em>not</em> fill it out or submit it!</p>
+
+<div class="example">
+
+  <form action="sample.html" method="get">
+
+    <div>
+      <input type="hidden" name="form-id" value="42">
+    </div>
+
+    <h2>Evaluate the Sinorcaish Professional stylesheet</h2>
+
+    <p>Thank you for your interest in the <strong>Sinorcaish
+      Professional</strong> stylesheet.  This stylesheet includes
+      professionally-designed graphical images that you can use to
+      enhance your web site.</p>
+
+    <p>Please fill out the following form to receive a serial number for
+      the Sinorcaish Professional stylesheet.  This serial number will
+      allow you to download and evaluate this product.  If you have
+      already registered your interest in this product, some of the
+      fields in this form may be pre-filled in.</p>
+
+    <p>Fields marked with <span class="reqfield">&bull;</span> are
+      required.</p>
+
+    <table class="formtable" summary="Table to align the sample form">
+
+      <tr>
+        <td class="label nowrap"><label for="f-salutation">Salutation:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td>
+          <select name="salutation" id="f-salutation">
+            <option value="" selected="selected">(Select one)</option>
+            <option value="Mr"  >Mr</option>
+            <option value="Mrs" >Mrs</option>
+            <option value="Miss">Miss</option>
+            <option value="Ms"  >Ms</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-firstname">First Name:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td><input type="text" name="firstname" id="f-firstname" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-lastname">Last Name:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td><input type="text" name="lastname" id="f-lastname" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="vertspace"></td>
+      </tr>
+
+      <tr>
+        <td class="label nowrap"><label for="f-email">E-mail Address:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td><input type="text" name="email" id="f-email" value="" size="50" maxlength="250"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-password">Password:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td><input type="password" name="password" id="f-password" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-password2">Confirm Password:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td><input type="password" name="password2" id="f-password2" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="vertspace"></td>
+      </tr>
+
+      <tr>
+        <td class="label nowrap"><label for="f-jobtitle">Job Title:</label></td>
+        <td><input type="text" name="jobtitle" id="f-jobtitle" value="" size="50" maxlength="250"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-company">Company/Organisation:</label></td>
+        <td><input type="text" name="company" id="f-company" value="" size="50" maxlength="250"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-address">Address:</label></td>
+        <td><input type="text" name="address" id="f-address" value="" size="50" maxlength="500"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-city">City/Town/Suburb:</label></td>
+        <td><input type="text" name="city" id="f-city" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-state">State/Province:</label></td>
+        <td>
+          <select name="state" id="f-state" onchange="document.getElementById('f-country').value = this.value.substring(0,2); return true;">
+            <option value="" selected="selected">(Select one)</option>
+
+            <optgroup label="United States">
+              <option value="US-AL">Alabama</option>
+              <option value="US-AK">Alaska</option>
+              <option value="US-AZ">Arizona</option>
+              <option value="US-AR">Arkansas</option>
+              <option value="US-AE">Armed Forces &ndash; AE</option>
+              <option value="US-AA">Armed Forces Americas</option>
+              <option value="US-AP">Armed Forces Pacific</option>
+              <option value="US-CA">California</option>
+              <option value="US-CO">Colorado</option>
+              <option value="US-CT">Connecticut</option>
+              <option value="US-DE">Delaware</option>
+              <option value="US-DC">District of Columbia</option>
+              <option value="US-FL">Florida</option>
+              <option value="US-GA">Georgia</option>
+              <option value="US-HI">Hawaii</option>
+              <option value="US-ID">Idaho</option>
+              <option value="US-IL">Illinois</option>
+              <option value="US-IN">Indiana</option>
+              <option value="US-IA">Iowa</option>
+              <option value="US-KS">Kansas</option>
+              <option value="US-KY">Kentucky</option>
+              <option value="US-LA">Louisiana</option>
+              <option value="US-ME">Maine</option>
+              <option value="US-MD">Maryland</option>
+              <option value="US-MA">Massachusetts</option>
+              <option value="US-MI">Michigan</option>
+              <option value="US-MN">Minnesota</option>
+              <option value="US-MS">Mississippi</option>
+              <option value="US-MO">Missouri</option>
+              <option value="US-MT">Montana</option>
+              <option value="US-NE">Nebraska</option>
+              <option value="US-NV">Nevada</option>
+              <option value="US-NH">New Hampshire</option>
+              <option value="US-NJ">New Jersey</option>
+              <option value="US-NM">New Mexico</option>
+              <option value="US-NY">New York</option>
+              <option value="US-NC">North Carolina</option>
+              <option value="US-ND">North Dakota</option>
+              <option value="US-OH">Ohio</option>
+              <option value="US-OK">Oklahoma</option>
+              <option value="US-OR">Oregon</option>
+              <option value="US-PA">Pennsylvania</option>
+              <option value="US-RI">Rhode Island</option>
+              <option value="US-SC">South Carolina</option>
+              <option value="US-SD">South Dakota</option>
+              <option value="US-TN">Tennessee</option>
+              <option value="US-TX">Texas</option>
+              <option value="US-UT">Utah</option>
+              <option value="US-VT">Vermont</option>
+              <option value="US-VA">Virginia</option>
+              <option value="US-WA">Washington</option>
+              <option value="US-WV">West Virginia</option>
+              <option value="US-WI">Wisconsin</option>
+              <option value="US-WY">Wyoming</option>
+            </optgroup>
+            <optgroup label="Canada">
+              <option value="CA-AB">Alberta</option>
+              <option value="CA-BC">British Columbia</option>
+              <option value="CA-MB">Manitoba</option>
+              <option value="CA-NB">New Brunswick</option>
+              <option value="CA-NF">Newfoundland</option>
+              <option value="CA-NT">Northwest Territories</option>
+              <option value="CA-NS">Nova Scotia</option>
+              <option value="CA-NU">Nunavut</option>
+              <option value="CA-ON">Ontario</option>
+              <option value="CA-PE">Prince Edward Island</option>
+              <option value="CA-QC">Quebec</option>
+              <option value="CA-SK">Saskatchewan</option>
+              <option value="CA-YT">Yukon</option>
+            </optgroup>
+            <optgroup label="Australia">
+              <option value="AU-ACT">Australian Capital Territory</option>
+              <option value="AU-NSW">New South Wales</option>
+              <option value="AU-NT" >Northern Territory</option>
+              <option value="AU-QLD">Queensland</option>
+              <option value="AU-SA" >South Australia</option>
+              <option value="AU-TAS">Tasmania</option>
+              <option value="AU-VIC">Victoria</option>
+              <option value="AU-WA" >Western Australia</option>
+            </optgroup>
+          </select>
+          <span class="info">(if in U.S., Canada or Australia)</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-postcode">ZIP/Postcode:</label></td>
+        <td><input type="text" name="postcode" id="f-postcode" value="" size="10" maxlength="25"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-country">Country:</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td>
+          <select name="country" id="f-country">
+            <option value="" selected="selected">(Select one)</option>
+
+            <!-- This list of countries was taken directly from ISO 3166-1 -->
+            <option value="AF">Afghanistan</option>
+            <option value="AX">&Aring;land Islands</option>
+            <option value="AL">Albania</option>
+            <option value="DZ">Algeria</option>
+            <option value="AS">American Samoa</option>
+            <option value="AD">Andorra</option>
+            <option value="AO">Angola</option>
+            <option value="AI">Anguilla</option>
+            <option value="AQ">Antarctica</option>
+            <option value="AG">Antigua and Barbuda</option>
+            <option value="AR">Argentina</option>
+            <option value="AM">Armenia</option>
+            <option value="AW">Aruba</option>
+            <option value="AU">Australia</option>
+            <option value="AT">Austria</option>
+            <option value="AZ">Azerbaijan</option>
+            <option value="BS">Bahamas</option>
+            <option value="BH">Bahrain</option>
+            <option value="BD">Bangladesh</option>
+            <option value="BB">Barbados</option>
+            <option value="BY">Belarus</option>
+            <option value="BE">Belgium</option>
+            <option value="BZ">Belize</option>
+            <option value="BJ">Benin</option>
+            <option value="BM">Bermuda</option>
+            <option value="BT">Bhutan</option>
+            <option value="BO">Bolivia</option>
+            <option value="BA">Bosnia and Herzegovina</option>
+            <option value="BW">Botswana</option>
+            <option value="BV">Bouvet Island</option>
+            <option value="BR">Brazil</option>
+            <option value="IO">British Indian Ocean Territory</option>
+            <option value="VG">British Virgin Islands</option>
+            <option value="BN">Brunei Darussalam</option>
+            <option value="BG">Bulgaria</option>
+            <option value="BF">Burkina Faso</option>
+            <option value="BI">Burundi</option>
+            <option value="KH">Cambodia</option>
+            <option value="CM">Cameroon</option>
+            <option value="CA">Canada</option>
+            <option value="CV">Cape Verde</option>
+            <option value="KY">Cayman Islands</option>
+            <option value="CF">Central African Republic</option>
+            <option value="TD">Chad</option>
+            <option value="CL">Chile</option>
+            <option value="CN">China</option>
+            <option value="CX">Christmas Island</option>
+            <option value="CC">Cocos (Keeling) Islands</option>
+            <option value="CO">Colombia</option>
+            <option value="KM">Comoros</option>
+            <option value="CG">Congo</option>
+            <option value="CK">Cook Islands</option>
+            <option value="CR">Costa Rica</option>
+            <option value="CI">Cote d&rsquo;Ivoire</option>
+            <option value="HR">Croatia</option>
+            <option value="CU">Cuba</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Czech Republic</option>
+            <option value="KP">Democratic People&rsquo;s Republic of Korea</option>
+            <option value="CD">Democratic Republic of the Congo</option>
+            <option value="DK">Denmark</option>
+            <option value="DJ">Djibouti</option>
+            <option value="DO">Dominican Republic</option>
+            <option value="DM">Dominica</option>
+            <option value="EC">Ecuador</option>
+            <option value="EG">Egypt</option>
+            <option value="SV">El Salvador</option>
+            <option value="GQ">Equatorial Guinea</option>
+            <option value="ER">Eritrea</option>
+            <option value="EE">Estonia</option>
+            <option value="ET">Ethiopia</option>
+            <option value="FK">Falkland Islands (Malvinas)</option>
+            <option value="FO">Faroe Islands</option>
+            <option value="FM">Federated States of Micronesia</option>
+            <option value="FJ">Fiji</option>
+            <option value="FI">Finland</option>
+            <option value="MK">Former Yugoslav Republic of Macedonia</option>
+            <option value="FR">France</option>
+            <option value="GF">French Guiana</option>
+            <option value="PF">French Polynesia</option>
+            <option value="TF">French Southern Territories</option>
+            <option value="GA">Gabon</option>
+            <option value="GM">Gambia</option>
+            <option value="GE">Georgia</option>
+            <option value="DE">Germany</option>
+            <option value="GH">Ghana</option>
+            <option value="GI">Gibraltar</option>
+            <option value="GR">Greece</option>
+            <option value="GL">Greenland</option>
+            <option value="GD">Grenada</option>
+            <option value="GP">Guadeloupe</option>
+            <option value="GU">Guam</option>
+            <option value="GT">Guatemala</option>
+            <option value="GG">Guernsey</option>
+            <option value="GW">Guinea-Bissau</option>
+            <option value="GN">Guinea</option>
+            <option value="GY">Guyana</option>
+            <option value="HT">Haiti</option>
+            <option value="HM">Heard Island and McDonald Islands</option>
+            <option value="VA">Holy See (Vatican City State)</option>
+            <option value="HN">Honduras</option>
+            <option value="HK">Hong Kong</option>
+            <option value="HU">Hungary</option>
+            <option value="IS">Iceland</option>
+            <option value="IN">India</option>
+            <option value="ID">Indonesia</option>
+            <option value="IQ">Iraq</option>
+            <option value="IE">Ireland</option>
+            <option value="IR">Islamic Republic of Iran</option>
+            <option value="IM">Isle of Man</option>
+            <option value="IL">Israel</option>
+            <option value="IT">Italy</option>
+            <option value="JM">Jamaica</option>
+            <option value="JP">Japan</option>
+            <option value="JE">Jersey</option>
+            <option value="JO">Jordan</option>
+            <option value="KZ">Kazakhstan</option>
+            <option value="KE">Kenya</option>
+            <option value="KI">Kiribati</option>
+            <option value="KW">Kuwait</option>
+            <option value="KG">Kyrgyzstan</option>
+            <option value="LA">Lao People&rsquo;s Democratic Republic</option>
+            <option value="LV">Latvia</option>
+            <option value="LB">Lebanon</option>
+            <option value="LS">Lesotho</option>
+            <option value="LR">Liberia</option>
+            <option value="LY">Libyan Arab Jamahiriya</option>
+            <option value="LI">Liechtenstein</option>
+            <option value="LT">Lithuania</option>
+            <option value="LU">Luxembourg</option>
+            <option value="MO">Macao</option>
+            <option value="MG">Madagascar</option>
+            <option value="MW">Malawi</option>
+            <option value="MY">Malaysia</option>
+            <option value="MV">Maldives</option>
+            <option value="ML">Mali</option>
+            <option value="MT">Malta</option>
+            <option value="MH">Marshall Islands</option>
+            <option value="MQ">Martinique</option>
+            <option value="MR">Mauritania</option>
+            <option value="MU">Mauritius</option>
+            <option value="YT">Mayotte</option>
+            <option value="MX">Mexico</option>
+            <option value="MC">Monaco</option>
+            <option value="MN">Mongolia</option>
+            <option value="ME">Montenegro</option>
+            <option value="MS">Montserrat</option>
+            <option value="MA">Morocco</option>
+            <option value="MZ">Mozambique</option>
+            <option value="MM">Myanmar</option>
+            <option value="NA">Namibia</option>
+            <option value="NR">Nauru</option>
+            <option value="NP">Nepal</option>
+            <option value="AN">Netherlands Antilles</option>
+            <option value="NL">Netherlands</option>
+            <option value="NC">New Caledonia</option>
+            <option value="NZ">New Zealand</option>
+            <option value="NI">Nicaragua</option>
+            <option value="NG">Nigeria</option>
+            <option value="NE">Niger</option>
+            <option value="NU">Niue</option>
+            <option value="NF">Norfolk Island</option>
+            <option value="MP">Northern Mariana Islands</option>
+            <option value="NO">Norway</option>
+            <option value="PS">Occupied Palestinian Territory</option>
+            <option value="OM">Oman</option>
+            <option value="PK">Pakistan</option>
+            <option value="PW">Palau</option>
+            <option value="PA">Panama</option>
+            <option value="PG">Papua New Guinea</option>
+            <option value="PY">Paraguay</option>
+            <option value="PE">Peru</option>
+            <option value="PH">Philippines</option>
+            <option value="PN">Pitcairn</option>
+            <option value="PL">Poland</option>
+            <option value="PT">Portugal</option>
+            <option value="PR">Puerto Rico</option>
+            <option value="QA">Qatar</option>
+            <option value="KR">Republic of Korea</option>
+            <option value="MD">Republic of Moldova</option>
+            <option value="RE">Reunion</option>
+            <option value="RO">Romania</option>
+            <option value="RU">Russian Federation</option>
+            <option value="RW">Rwanda</option>
+            <option value="SH">Saint Helena</option>
+            <option value="KN">Saint Kitts and Nevis</option>
+            <option value="LC">Saint Lucia</option>
+            <option value="PM">Saint Pierre and Miquelon</option>
+            <option value="VC">Saint Vincent and the Grenadines</option>
+            <option value="WS">Samoa</option>
+            <option value="SM">San Marino</option>
+            <option value="ST">Sao Tome and Principe</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="SN">Senegal</option>
+            <option value="RS">Serbia</option>
+            <option value="SC">Seychelles</option>
+            <option value="SL">Sierra Leone</option>
+            <option value="SG">Singapore</option>
+            <option value="SK">Slovakia</option>
+            <option value="SI">Slovenia</option>
+            <option value="SB">Solomon Islands</option>
+            <option value="SO">Somalia</option>
+            <option value="ZA">South Africa</option>
+            <option value="GS">South Georgia and the South Sandwich Islands</option>
+            <option value="ES">Spain</option>
+            <option value="LK">Sri Lanka</option>
+            <option value="SD">Sudan</option>
+            <option value="SR">Suriname</option>
+            <option value="SJ">Svalbard and Jan Mayen</option>
+            <option value="SZ">Swaziland</option>
+            <option value="SE">Sweden</option>
+            <option value="CH">Switzerland</option>
+            <option value="SY">Syrian Arab Republic</option>
+            <option value="TW">Taiwan, Province of China</option>
+            <option value="TJ">Tajikistan</option>
+            <option value="TH">Thailand</option>
+            <option value="TL">Timor-Leste</option>
+            <option value="TG">Togo</option>
+            <option value="TK">Tokelau</option>
+            <option value="TO">Tonga</option>
+            <option value="TT">Trinidad and Tobago</option>
+            <option value="TN">Tunisia</option>
+            <option value="TR">Turkey</option>
+            <option value="TM">Turkmenistan</option>
+            <option value="TC">Turks and Caicos Islands</option>
+            <option value="TV">Tuvalu</option>
+            <option value="UG">Uganda</option>
+            <option value="UA">Ukraine</option>
+            <option value="AE">United Arab Emirates</option>
+            <option value="GB">United Kingdom</option>
+            <option value="TZ">United Republic of Tanzania</option>
+            <option value="US">United States</option>
+            <option value="UM">United States Minor Outlying Islands</option>
+            <option value="UY">Uruguay</option>
+            <option value="VI">U.S. Virgin Islands</option>
+            <option value="UZ">Uzbekistan</option>
+            <option value="VU">Vanuatu</option>
+            <option value="VE">Venezuela</option>
+            <option value="VN">Viet Nam</option>
+            <option value="WF">Wallis and Futuna</option>
+            <option value="EH">Western Sahara</option>
+            <option value="YE">Yemen</option>
+            <option value="ZM">Zambia</option>
+            <option value="ZW">Zimbabwe</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="vertspace"></td>
+      </tr>
+
+      <tr>
+        <td class="label nowrap"><label for="f-phone">Phone:</label></td>
+        <td><input type="text" name="phone" id="f-phone" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-fax">Fax:</label></td>
+        <td><input type="text" name="fax" id="f-fax" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label nowrap"><label for="f-mobile">Cell/Mobile:</label></td>
+        <td><input type="text" name="mobile" id="f-mobile" value="" size="25" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="label"></td>
+        <td><span class="info">Please use only digits 0&ndash;9, hyphens
+          and blank spaces.  You may also use &ldquo;<strong>+</strong>&rdquo;
+          to indicate an international prefix (eg,
+          &ldquo;<strong>+61</strong>&rdquo; for Australia).</span></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="vertspace"></td>
+      </tr>
+
+      <tr>
+        <td class="label"><label for="f-source">How did you hear about
+          us?</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td>
+          <select name="source" id="f-source">
+            <option value="" selected="selected">(Select one)</option>
+            <option value="1" >Don&rsquo;t remember</option>
+            <option value="2" >Saw an Ad banner on the Web</option>
+            <option value="3" >Heard from friend / co-worker</option>
+            <option value="4" >Received e-mail from the ZAP Group</option>
+            <option value="5" >Result at a keyword search site (Google, MSN, etc)</option>
+            <option value="6" >Result at a software search site (Download.com, Tucows, etc)</option>
+            <option value="7" >Found on the ZAP Group web site</option>
+            <option value="8" >Found on the Open Source Web Design site</option>
+            <option value="9" >Read an article or product review</option>
+            <option value="10">Other</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label"><label for="f-timeframe">What is your timeframe
+          for a possible purchase of Sinorcaish
+          Professional?</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td>
+          <select name="timeframe" id="f-timeframe">
+            <option value="" selected="selected">(Select one)</option>
+            <option value="1">30 days</option>
+            <option value="2">60 days</option>
+            <option value="3">90 days</option>
+            <option value="4">Greater than 90 days</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label"><label for="f-sitesize">How large is your web
+          site?</label>&nbsp;<span class="reqfield">&bull;</span></td>
+        <td>
+          <select name="sitesize" id="f-sitesize">
+            <option value="" selected="selected">(Select one)</option>
+            <option value="1">Less than 100 pages</option>
+            <option value="2">100 &ndash; 999 pages</option>
+            <option value="3">1000 &ndash; 9999 pages</option>
+            <option value="4">More than 10,000 pages</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="vertspace"></td>
+      </tr>
+
+      <tr>
+        <td class="label"><label for="f-comments">Additional Comments:</label></td>
+        <td><textarea name="comments" id="f-comments" cols="50" rows="8"></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="vertspace"></td>
+      </tr>
+
+      <tr>
+        <td class="label"></td>
+        <td><input type="submit" value="Submit">&nbsp;<input type="reset" value="Reset"></td>
+      </tr>
+
+    </table>
+
+  </form>
+
+</div>
+
+
+<h3 id="samp-faq-pages">FAQ-style Pages</h3>
+
+<p>The Sinorcaish stylesheet includes a <code class="markup">totop</code>
+class that can be used for links to the top of the page.  The following
+example shows you how to create a <acronym
+title="Frequently Asked Questions">FAQ</acronym>-style page, which makes
+use of this class.  The only change you would need to make from this
+example to your document would be to replace the level-2 heading, <code
+class="markup">&lt;h2&gt;</code>, with a level-1 heading <code
+class="markup">&lt;h1&gt;</code>.</p>
+
+<div class="example">
+
+  <h2>Frequently Asked Questions</h2>
+
+  <ul>
+    <li><a href="#faq-using">Is it hard to use the Sinorcaish
+      stylesheet?</a></li>
+    <li><a href="#faq-getting">Where can I download the Sinorcaish
+      stylesheet?</a></li>
+    <li><a href="#faq-copyright">Can I remove your name from the template
+      file?</a></li>
+    <li><a href="#faq-googleads">Will you develop a right sidebar for
+      Google Ads?</a></li>
+    <li><a href="#faq-time">How long did it take you to develop
+      Sinorcaish?</a></li>
+  </ul>
+
+  <hr class="lighter">
+
+
+  <h4 id="faq-using">Is it hard to use the Sinorcaish stylesheet?</h4>
+
+  <p>Not at all!  Simply follow the instructions in <a
+    href="#h-making-start">Making a Start</a> &mdash; you&rsquo;ll be on
+    your way in no time.</p>
+
+  <div class="totop"><a href="#main">Top <img src="totop.png" alt="^" width="10" height="10"></a></div>
+
+
+  <h4 id="faq-getting">Where can I download the Sinorcaish stylesheet?</h4>
+
+  <p>You can download Sinorcaish from the <a
+    href="http://www.oswd.org/design/preview/id/1794/">Open Source Web
+    Design group</a> or from the <a
+    href="http://www.zap.org.au/documents/styles/sinorcaish/">official
+    Sinorcaish web site</a>.  The version available from the official web
+    site includes appropriate sample images that you can use in your own
+    documents.</p>
+
+  <div class="totop"><a href="#main">Top <img src="totop.png" alt="^" width="10" height="10"></a></div>
+
+
+  <h4 id="faq-copyright">Can I remove your name from the template file?</h4>
+
+  <p>Yes, absolutely!  You may redistribute and/or modify the <a
+    href="template.html">template file</a> without <em>any</em>
+    restriction.  This means, naturally enough, that you can remove the
+    author&rsquo;s name from that file (particularly from the copyright
+    statement) and replace it with your own.</p>
+
+  <p>Please note, however, that you must retain the original copyright
+    notice in the Sinorcaish CSS stylesheet files (<a
+    href="sinorcaish-screen.css" type="text/css"
+    class="fn">sinorcaish-screen.css</a> and <a href="sinorcaish-print.css"
+    type="text/css" class="fn">sinorcaish-print.css</a>), as well as in
+    this <a href="sample.html">sample document</a>, in the <a
+    href="index.html">overview document</a> and in the <a
+    href="logo.html">logo image instructions</a>.  This is essentially a
+    matter of giving credit where credit is due.</p>
+
+  <div class="totop"><a href="#main">Top <img src="totop.png" alt="^" width="10" height="10"></a></div>
+
+
+  <h4 id="faq-googleads">Will you develop a right sidebar for Google Ads?</h4>
+
+  <p>No, as that would not fit the desired &ldquo;look and feel&rdquo; of
+    Sinorcaish.  However, there is nothing preventing you from modifying
+    the CSS stylesheet files yourself &mdash; as long as you retain the
+    original copyright notices in those files.</p>
+
+  <div class="totop"><a href="#main">Top <img src="totop.png" alt="^" width="10" height="10"></a></div>
+
+
+  <h4 id="faq-time">How long did it take you to develop Sinorcaish?</h4>
+
+  <p>That&rsquo;s a fairly difficult question to answer&hellip;
+    &ldquo;About two or three weeks of on-and-off writing and
+    developing&rdquo; is probably as close an answer as the author can
+    come up with for the first version of Sinorcaish!</p>
+
+  <div class="totop"><a href="#main">Top <img src="totop.png" alt="^" width="10" height="10"></a></div>
+
+</div>
+
+
+<h3 id="samp-deprecated">Deprecated Elements</h3>
+
+<p>You should <em>not</em> use the following deprecated elements with the
+Sinorcaish stylesheet:</p>
+
+<blockquote>
+  <dl>
+    <dt><code class="markup">&lt;address&gt;</code></dt>
+    <dd>You should use <code class="markup">&lt;div
+      id=&quot;footer&quot;&gt;</code> (ie, Sinorcaish footers)
+      instead.  This was essentially a design decision made when
+      implementing the Sinorcaish stylesheet.</dd>
+
+    <dt><code class="markup">&lt;q&gt;</code></dt>
+    <dd>You should use <code class="markup">&amp;ldquo;</code> and <code
+      class="markup">&amp;rdquo;</code> instead.  The reason for this is
+      the somewhat spotty support for <code
+      class="markup">&lt;q&gt;</code> in the first place, as well as a
+      lack of support in Internet Explorer for CSS properties <code
+      class="markup">quotes</code> and <code
+      class="markup">content</code>, as well as pseudo-elements <code
+      class="markup">:before</code> and <code
+      class="markup">:after</code>.</dd>
+  </dl>
+</blockquote>
+
+
+<h2 id="h-final-word">The Final Word</h2>
+
+<p>The Sinorcaish stylesheet was created by <a
+href="http://www.zap.org.au/~john/">John Zaitseff</a> and submitted to
+the <a href="http://www.oswd.org/">Open Source Web Design group</a> in
+December, 2004; it was last updated in March, 2007.  You should consult
+the <a href="http://www.zap.org.au/documents/styles/sinorcaish/">official
+Sinorcaish web site</a> for updated style sheets and associated
+images.</p>
+
+<p>You may freely redistribute and/or modify the Sinorcaish CSS stylesheet
+files (<a href="sinorcaish-screen.css" type="text/css"
+class="fn">sinorcaish-screen.css</a> and <a href="sinorcaish-print.css"
+type="text/css" class="fn">sinorcaish-print.css</a>) on the condition that
+the original copyright notice is preserved.  The same condition applies to
+this <a href="sample.html">sample document</a>, to the <a
+href="index.html">overview document</a> and to the <a
+href="logo.html">logo image instructions</a>.  You may redistribute and/or
+modify the associated <a href="template.html">template file</a> without
+<em>any</em> such restriction.  These conditions may be waived; write to
+<a href="mailto:J.Zaitseff@zap.org.au">John Zaitseff</a> for details.</p>
+
+<p>Your comments, suggestions, corrections and enhancements are always
+warmly welcomed!  Please send these by e-mail to <a
+href="mailto:J.Zaitseff@zap.org.au"
+class="email">J.Zaitseff@zap.org.au</a>.  In addition, you are encouraged
+to send a short note to the same address should you use this stylesheet in
+one of your own web sites.  Happy coding!</p>
+
+
+<br id="endmain">
+</div>

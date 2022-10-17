@@ -1,0 +1,86 @@
+lappend auto_path [pwd]
+package require stx2html
+
+set test1 {test of 
+paragraph
+splitting
+ with leading space
+
+This is a new paragraph set off by two newlines
+
+
+This is separated by three newlines.
+
+ The leading spaces signal that
+ this is a preformatted paragraph
+ which will preserve
+ its internal newlines
+
+---
+
+== Char Level ==
+
+It also armours < and > chars.
+
+It also armours lbrace {, rbrace }, dollar $, and asterisk * chars
+
+[this is interpreted as a local reference]
+
+http://google.com|external http://google.com|external
+
+[http://google.com this is an external link]
+
+[[this is not a reference]]
+
+''strong'', '''italic''' and '''''strong italic'''''
+
+----
+
+* this is a list element
+
+* this is the second element in the list
+
+An interpolated para
+
+# this is an ordered list element
+
+# this is the second element in olist
+
+; this is a def list : which has two parts
+
+; this is a second def : and here's what it means
+
+# what happens
+# with a list
+ where you want to add a para
+# in the middle
+
+=== a header at level three === with tag
+
+* this is a nested list
+*# with a num list
+*# inside it
+*#* and an
+*#* unnumbered list
+*# inside that
+* cool huh
+}
+
+puts [stx::translate $test1]
+set len1 [string length $test1].0
+#set time1 [time {stx::para $test1} 1000]
+#puts "$len1: $time1 [expr {[lindex $time1 0] / $len1}]"
+
+set fd [open junk.html w]
+puts $fd {<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+    <html>
+    <head>
+    <title></title>
+    </head>
+    <body>}
+puts $fd [lindex [stx2html::translate $test1] 0]
+puts $fd {
+    </body>
+    </html>
+}
+close $fd

@@ -1,0 +1,24 @@
+This is the Wub base - it contains useful packages for
+ implementing a pure tcl HTTP1.1 server.
+
+Configuring Wub.
+===============
+
+The server will read configuration when the [Site init] or [Site start] commands are invoked.
+
+Configuration dicts are applied in the following order:
+
+1) hard-coded sensible defaults invisible to the application.
+
+2) args to [Site init] or [Site start] are interpreted as configuration dict
+
+3) ::$argv is interrogated for a value for the home configuration variable
+
+4) .ini files as specified by $ini configuration variable are read from the $home directory (which defaults to the Site.tcl directory, but can be passed in as above) and interpreted as configuration.
+
+5) the file $home/vars.tcl (if any) is sourced into the ::Site namespace - any variable definitions there override configuration variables.
+
+6) ::$argv is interpreted as a configuration dict, so command-line variables override everything preceding.
+
+
+

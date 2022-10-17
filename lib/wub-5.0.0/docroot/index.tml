@@ -1,0 +1,91 @@
+[
+dict set response -title "Wub Server in Pure Tcl"
+dict lappend response -headers [<meta> name description content "Wub HTTP Server in Pure Tcl"]
+dict lappend response -headers [<meta> name keywords content "web,server,pure,tcl"]
+dict lappend response -headers [<meta> name author content {Colin McCormack, Robert L Hicks / Design by Andreas Viklund - http://andreasviklund.com/}]
+dict lappend response -headers [<stylesheet> /css/style.css screen,projection]
+
+if {[catch {set response [::sticky loader $response hotzone #sticky event click]} e eo]} {
+   #puts stderr "STICKY BEFORE: $e ($eo)"
+}
+  return [<img> id sticky title "double click to create a sticky note" style "position: absolute; top: 0pt; left: 0pt" src /jquery/images/ok.png]
+]
+
+  <div id='wrap'>
+    <div id='header'>
+      <p id='toplinks'>Wed Jul 19, 2006</p>
+      <h1><img src='images/tclp.gif' alt='animated Tcl gif'>Wub<span class='fade'>&nbsp;Httpd</span></h1>
+      <p id='slogan'>A dynamic server in a dynamic language...</p>
+    </div>
+    
+    <div id='content'>
+      <h2>As simple as it gets...</h2>
+      
+      <p>Wub is a pure Tcl web server implementing near HTTP 1.1</p>
+      <p>Wub servers are designed as a series of pluggable building blocks called "<a href='docs/Domains/'>domains</a>".</p>
+      
+      <p>Wub is a pure Tcl implementation of a Web server. It runs as a Tcl script on top of <a href=''>Tcl 8.6+</a>.</p>
+      
+      <p>While this server works fine as a stand alone web server, the intent is to embed applications within it.</p>
+      
+      <p>The <a href='doc/Architecture.stx'>Wub Architecture</a> page provides an architectural overview.</p>
+      
+      <p>The interpreted nature of Tcl allows <a href='/nub/nubs'>dynamic reconfiguration of the server</a>. Once the core interface between the web server and the hosted application is defined, it is possible to manage the web server, upload Safe-Tcl control scripts, download logging information, and otherwise debug the Tcl part of the application without restarting the application.</p>
+      
+      <ul>
+      <li>Site Configuration File: [<a> href file:[::Site var Wub home]/[::Site var Wub config] "[::Site var Wub home]/[::Site var Wub config]"]</li>
+      <li>Site Document Root: [<a> href file:[::Site var Wub docroot] "[::Site var Wub docroot]"]</li>
+      </ul>
+
+      <p class='box'><strong>Note:</strong>  The server is distributed under a
+	<a href='#'>copyright</a> that allows free use.</p>
+    </div>
+    
+    <div id='sidebar'>
+      <p class='list1'>Control/Status</p>
+      <p class='list2'><a href='/nub/nubs'>Server configuration</a></p>
+      <!-- <p class='list2'><a href='http:/_stats/'>Server stats</a></p> -->
+      <!-- <p class='list2last'><a href='#'>Control panel</a></p> -->
+      <p class='list1'><a href='docs/'>Documentation</a></p>
+      <p class='list2'><a href='quickstart.tml'>Quick Start</a></p>
+      <p class='list2'><a href='docs/Server/'>Server</a></p>
+      <p class='list2'><a href='docs/Domains/'>Domains</a></p>
+      <p class='list2'><a href='docs/Utilities/'>Utilities</a></p>
+      <p class='list2'><a href='doc/Architecture.stx'>Architecture</a></p>
+      
+      <p class='list1'><a href='/introspect/'>Introspection</a></p>
+      <p class='list2'><a href='/introspect/pkg'>Packages</a></p>
+      <p class='list2'><a href='/introspect/api'>Files</a></p>
+      <p class='list2'><a href='/introspect/map'>Url Handlers</a></p>
+      <p class='list2'><a href='/introspect/ns/::'>Namespaces</a></p>
+      <p class='list2'><a href='/introspect/req'>Request Dict</a></p>
+      <p class='list2'><a href='/introspect/imglib'>Image Lib</a></p>
+      <p class='listend'></p>
+
+      <!-- <h2>Server stats:</h2>
+	   <p>Home hits: 6</p>-->
+      
+      <h2>Tcl version:</h2>
+      <p>Running: [info patchlevel]</p>
+      
+    </div>
+    
+    <div id='footer'>
+      <p>\[
+	<a href='#'>Home</a> |
+	<a href='#'>Status</a> |
+	<a href='#'>Learn</a> |
+	<a href='#'>CGI Tests</a> |
+	<a href='#'>Templates</a> |
+	<a href='#'>Access Control</a> |
+	<a href='#'>Reference Manual</a> ]
+      </p>
+    </div>
+    
+  </div>
+  <hr>
+  <address><a href='mailto:colin@chinix.com'>Colin McCormack</a></address>
+<!-- Created: Thu Jan  5 13:00:57 EST 2006 -->
+<!-- hhmts start -->
+Last modified: Tue Sep 14 10:19 AEST 2010
+<!-- hhmts end -->

@@ -1,0 +1,56 @@
+code default {set r [Http NotFound $r]; <p> "[dict get $r -uri] Not Found"}
+
+# The following nubs are redirects, they generate a redirect from the first to the second URL
+redirect / /wub/	;# site default is Wub
+redirect /favico.ico /images/favico.ico	;# find the icon in /images
+
+# important to have a robots.txt
+# The literal nub returns whatever content is given in its first argument as a response
+# to requests for the URL.  An optional second argument gives its content-type
+literal /robots.txt {User-agent: *
+Disallow:
+} text/plain
+
+# main wub documentation and nub configuration
+
+# The /wub/ domain is a Mason domain, handled by the Mason package.
+# The Mason object created by this nub will be called 'wub' and may
+# be referenced in other nubs.  The remaining arguments are passed to Mason's constructor
+domain /wub/ {Mason ::wub} auth .before wrapper .after root $::Site::docroot
+domain /sticky/ {Sticky ::sticky} file ./sticky.db hotzone #sticky 
+
+# The /nub/ domain is handled by the Nub package.  It's unnamed
+domain /nub/ Nub
+
+# The /jquery/ domain is handled by the jQ package
+domain /jquery/ JQ
+
+# Useful static content directories
+# The following File domains, handled by the File package, are all named for their respective
+# content.  So the /css/ domain is handled by an object constructed as [File create css ...] with
+# constructor args as specified.
+domain /icons/ Icons
+domain /css/ {File css} root [file join $::Site::docroot css] expires tomorrow
+domain /images/ {File images} root [file join $::Site::docroot images] expires "next week"
+domain /scripts/ {File scripts} root [file join $::Site::docroot scripts] expires tomorrow
+domain /html/ {File html} root [file join $::Site::docroot html]
+domain /bin/ {File bin} root [file join $::Site::docroot bin]
+domain /wub/docs/ About
+
+# the following nub rewrites all urls of the form /*.jpg at the top level
+# so they appear to be under the /images/ URL.  It picks the parsed URL path
+# directly from the request dict to regenerate the URL in script form.
+rewrite {^/[^/]+[.](jpg|gif|png|ico)$} {/images/[lindex [split [dict get $r -path] /] end]}
+
+# the following nub rewrites all urls of the form /*.css at the top level
+# so they appear under the /css/ URL, using the -regsub rewrite form, substituting
+# the examined URL directly into its result using tcl's regsub command.patth
+rewrite {^(/[^/]+)[.]css$} -regsub {/css/\1.css}
+
+# just for fun
+# The code domain evaluates its first argument as a tcl script, and returns it with the 
+# optional type specified by the second domain
+code /clock.txt {clock format [clock seconds]} text/plain
+
+# demo the tupler domain
+domain /tuple/ {Tupler ::tupler}

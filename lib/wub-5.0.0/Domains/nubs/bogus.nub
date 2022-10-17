@@ -1,0 +1,6 @@
+# block some bogus URLs
+# URLs of the following forms are blocked by the server.
+block /*.exe
+block /*.php
+block /*.wmv
+block /cgi-bin/

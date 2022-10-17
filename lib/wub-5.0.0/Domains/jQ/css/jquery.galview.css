@@ -1,0 +1,189 @@
+	.gvContainer{
+		width:600px;
+		height:356px;
+		background:url(../img/bg_main.jpg);
+		overflow:hidden;
+		position:relative;
+	}
+	.gvContainer .gvHolder{
+		position:absolute;
+		top:0;
+		left:0;
+		margin-left:0;
+		margin-top:0;
+	}
+	.gvHeader{
+		width:600px;
+		background:url(../img/bg_top.jpg);
+		color:#fff;
+		font:bold 11px Geneva, Arial, Helvetica, sans-serif;
+		height:44px;
+		position:relative;
+	}
+	.gvHeader span{
+		color:#fff;
+		font:bold 20px/44px Verdana, Arial, Helvetica, sans-serif;
+		padding-left:35px;
+	}
+
+	.gvFooter{
+		width:600px;
+		background: url(../img/bg_bot.jpg);
+		color:#fff;
+		font:bold 11px Geneva, Arial, Helvetica, sans-serif;
+		height:20px;
+		text-align:center;
+	}
+	.gvFooter .gvLinks{
+		padding:0px auto;
+		padding-top:3px;
+	}
+	.gvFooter a{
+		padding:0 10px;
+		width:15px;
+		background:#CCCCCC;
+		color:#666666;
+	}
+	.gvFooter a:hover{
+		background:#fff;
+		color:#666666;
+	}
+	.gvHeader strong{
+		padding-left:10px;
+		font:bold 11px/20px Geneva, Arial, Helvetica, sans-serif;
+	}
+	.gvHeader a.gvFullSizeText{
+		position:absolute;
+		right:0;
+		top:0;
+		display:none;
+		font:bold 10px/20px Verdana, Arial, Helvetica, sans-serif;
+		color:#fff;
+		width:120px;
+		text-align:right;
+		padding-right:5px;
+	}
+	.gvContainer .gvItem{
+		width:116px;
+		text-align:center;
+		vertical-align:middle;
+		height:85px;
+		position:relative;
+		float:left;
+		border:1px solid #6E8D2B;
+		margin:1px;
+		overflow:hidden;
+	}
+	/*stupid ie6 fix*/
+	* html .gvContainer .gvItem {
+		margin-left: 0;
+		margin-right: 2px;
+	}
+	.gvContainer .gvItem .gvOpen{
+		position:absolute;
+		top:0;
+		left:0;
+		height:15px;
+		width:116px;
+		font:bold 8px/15px Verdana, Arial, Helvetica, sans-serif;
+		color:#6E8D2B;
+		background:#C1FD3E ;
+		border-bottom:1px solid #6E8D2B;
+		text-align:right;
+		text-transform:uppercase;
+	}
+	.gvContainer .gvItem img{
+		position:absolute;
+		top:0;
+		left:0;
+		padding:0;
+		margin:0;
+		margin-left:0;
+		margin-top:0;border:none;
+		cursor:pointer;
+	}
+	.gvImgContainer{
+		position:absolute;
+		top:0;
+		left:0;
+		width:600px;
+		height:356px;
+		display:none;
+		overflow:hidden;
+		background:url(../img/bg_main.jpg);
+	}
+	.gvImgContainer .gvDescText{
+		width:400px;
+		position:absolute;
+		bottom:0;
+		left:50%;
+		margin-left:-200px;
+		font:11px/15px Verdana, Arial, Helvetica, sans-serif;
+		color:#6E8D2B;
+		background:#C1FD3E ;
+		border:1px solid #6E8D2B;
+		border-bottom:none;
+		display:none;	
+		padding:3px;	
+	}
+	.gvImgContainer img{border:none;padding:0;margin:0;
+		cursor:pointer;
+		display:none;}
+	.gvLoader{
+		background:url(../img/loadingAnimation.gif);
+		width:42px;
+		height:42px;
+		position:absolute;
+		left:50%;
+		top:50%;
+		margin-left:-21px;
+		margin-top:-21px;
+		display:none;
+	}
+	.gvLoaderMini{
+		background:url(../img/loadingAnimation.gif);
+		width:42px;
+		height:42px;
+		position:absolute;
+		left:50%;
+		top:50%;
+		margin-left:-21px;
+		margin-top:-21px;
+	}
+	
+/**************************jqModal***************************/
+
+/* jqModal base Styling courtesy of;
+	Brice Burgess <bhb@iceburg.net> */
+
+/* The Window's CSS z-index value is respected (takes priority). If none is supplied,
+	the Window's z-index value will be set to 3000 by default (in jqModal.js). You
+	can change this value by either;
+	  a) supplying one via CSS
+	  b) passing the "zIndex" parameter. E.g.  (window).jqm({zIndex: 500}); */
+	
+.jqmWindow {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #6E8D2B;
+}
+.jqmWindow img{margin:10px 0 10px 10px;}
+.jqmOverlay { background-color: #C1FD3E; }
+
+/* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select> form elements, etc.) */
+* iframe.jqm {position:absolute;top:0;left:0;z-index:-1;
+	width: expression(this.parentNode.offsetWidth+'px');
+	height: expression(this.parentNode.offsetHeight+'px');
+}
+
+/* Fixed posistioning emulation for IE6
+     Star selector used to hide definition from browsers other than IE6
+     For valid CSS, use a conditional include instead */
+* html .jqmWindow {
+     position: absolute;
+     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+}

@@ -1,0 +1,80 @@
+#! /bin/sh
+#
+#	handle the tclhttpd web server
+#
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/wub/wikit/Site.tcl
+NAME=wub
+DESC="Wub Web Server"
+TCLSH=/usr/bin/tclsh
+STARTER="daemon"
+
+test -x $DAEMON || exit 0
+
+# Include Wub defaults if available
+if [ -f /etc/default/wub ] ; then
+	. /etc/default/wub
+fi
+
+set -e
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC with $STARTER: "
+	if [ $STARTER = "daemon" ]; then
+	    /usr/bin/daemon --name=wub \
+		--chdir /usr/local/wub/wikit \
+		--dbglog=/var/log/wub/wub.daemon \
+		--user=www-data.www-data --umask=005 \
+		--respawn --inherit --core \
+		--errlog=/var/log/wub/wub.err --output=/var/log/wub/wub.out \
+		$TCLSH $DAEMON $DAEMON_OPTS
+	else
+	    start-stop-daemon --start --quiet --background \
+		--chuid www-data:www-data \
+		--pidfile /var/run/$NAME.pid --make-pidfile \
+		--exec $TCLSH -- $DAEMON $DAEMON_OPTS
+	fi
+	echo "$NAME."
+	;;
+
+  stop)
+	echo -n "Stopping $DESC: "
+	if [ $STARTER = "daemon" ]; then
+	    /usr/bin/daemon --user www-data.www-data --name=wub --stop
+	else
+	    start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
+		--exec $TCLSH
+	fi
+	echo "$NAME."
+	;;
+
+  restart|force-reload)
+	#
+	#	If the "reload" option is implemented, move the "force-reload"
+	#	option to the "reload" entry above. If not, "force-reload" is
+	#	just the same as "restart".
+	#
+	echo -n "Restarting $DESC: "
+	if [ $STARTER = "daemon" ]; then
+	    /usr/bin/daemon --user www-data.www-data --name=wub --restart
+	else
+	    start-stop-daemon --stop --quiet --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON
+	    sleep 1
+	    start-stop-daemon --start --quiet --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON -- $DAEMON_OPTS
+	fi
+
+	echo "$NAME."
+	;;
+
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

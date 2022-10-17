@@ -1,0 +1,141 @@
+Mk4too is part of Mk4tcl, hence also in every Tclkit - it refers to an OO-style interface which exposes considerably more of the relational functionality of Metakit's C++ core engine.  These commands are available once you do a "set view [[mk::view open db.viewname]]".  The resulting view is a Tcl command object.  To clean it up, use "$view close; unset view".
+
+Status info of mk4too can be found at [http://www.equi4.com/mk4too].
+
+09may03 [jcw] - ''The information below is most welcome (dunno who added it), but let me point out that mk4too is sort of, eh... "on hold".  It is not likely to become supported in its current form ever.  The preferred interface for the time being is '''oomk''' [http://www.equi4.com/oomk].  Oomk uses the mk4too commands internally, and is based on [Snit].''
+----
+These are unofficial and incomplete docs for the mk4too interface to [metakit] for tcl.
+
+=== $view close=== 
+
+=== $view delete cursor ?cursor2?=== 
+
+=== $view exists cursor ?prop ...?=== 
+
+=== $view find ?prop value ...?=== 
+
+=== $view get cursor ?prop ...?=== 
+
+=== $view properties=== 
+
+=== $view insert cursor ?prop ...?=== 
+
+=== $view open cursor prop=== 
+
+=== $view search prop value=== 
+
+=== $view select ?..?=== 
+
+=== $view set cursor prop ?value prop value ...?=== 
+
+=== $view size size ?newsize?=== 
+
+=== $view loop loop cursor ?first? ?limit? ?step? body=== 
+
+=== $view view blocked=== 
+Create mapped view which blocks its rows in two levels.
+
+This view acts like a large flat view, even though the actual rows are stored in blocks, which are rebalanced automatically to maintain a good trade-off between block size and number of blocks.
+
+The underlying view must be defined with a single view property, with the structure of the subview being as needed.
+
+=== $view view clone=== 
+Constructs a new view with the same structure but no data. 
+
+Structural information can only be maintain for the top level, subviews will be included but without any properties themselves.
+
+=== $view view concat view=== 
+Create view with rows from another view appended. 
+
+Constructs a view which has all rows of this view, and all rows of the second view appended. The structure of the second view is assumed to be identical to this one. This operation is a bit similar to appending all rows from the second view, but it does not actually store the result anywhere, it just looks like it.
+
+=== $view view copy=== 
+Construct a new view with a copy of the data. 
+
+=== $view view different $view2=== 
+Create view with all rows not in both views (no dups).
+
+Calculates the "XOR" of two sets. This will only work if both input views are sets, i.e. they have no duplicate rows in them.
+
+=== $view view dup=== 
+Construct a new view with a copy of the data.
+
+The copy is a deep copy, because subviews are always copied in full.
+
+=== $view view flatten prop=== 
+Create view with a specific subview expanded, like a join.
+
+=== $view view groupby subview prop ?prop ...?=== 
+Create view with a subview, grouped by the specified properties. 
+
+This operation is similar to the SQL 'GROUP BY', but it takes advantage of the fact that MetaKit supports nested views. The view returned from this member has one row per distinct group, with an extra view property holding the remaining properties. If there are N rows in the original view matching key X, then the result is a row for key X, with a subview of N rows. The properties of the subview are all the properties not in the key.
+
+=== $view view hash map ?numkeys?=== 
+Create mapped view which adds a hash lookup layer
+
+This view creates and manages a special hash map view, to implement a fast find on the key. The key is defined to consist of the first numKeys_ properties of the underlying view.
+
+The map_ view must be empty the first time this hash view is used, so that MetaKit can fill it based on whatever rows are already present in the underlying view. After that, neither the underlying view nor the map view may be modified other than through this hash mapping layer. The defined structure of the map view must be "_H:I,_R:I".
+
+This view is modifiable. Insertions and changes to key field properties can cause rows to be repositioned to maintain hash uniqueness. Careful: when a row is changed in such a way that its key is the same as in another row, that other row will be deleted from the view.
+
+=== $view view indexed map unique prop ?prop ...?=== 
+Create mapped view which maintains an index permutation
+
+This is an identity view which somewhat resembles the ordered view, it maintains a secondary "map" view to contain the permutation to act as an index. The indexed view presents the same order of rows as the underlying view, but the index map is set up in such a way that binary search is possible on the keys specified. When the "unique" parameter is true, insertions which would create a duplicate key are ignored.
+
+=== $view view intersect view=== 
+Create view with all rows also in the given view (no dups)
+
+Calculates the set intersection. This will only work if both input views are sets, i.e. they have no duplicate rows in them.
+
+=== $view view join view prop ?prop ...?=== 
+Create view which is the relational join on the given keys. 
+
+=== $view view map view=== 
+Create view which remaps another given view. 
+
+Remapping constructs a view with the rows indicated by another view. The first property in the order_ view must be an int property with index values referring to this one. The size of the resulting view is determined by the order_ view and can differ, for example to act as a subset selection (if smaller).
+
+=== $view view minus view=== 
+Create view with all rows not in the given view (no dups).
+
+=== $view view ordered ?numkeys?=== 
+Create mapped view which keeps its rows ordered. 
+
+This is an identity view, which has as only use to inform MetaKit that the underlying view can be considered to be sorted on its first numKeys_ properties. The effect is that c4_View::Find will try to use binary search when the search includes key properties (results will be identical to unordered views, the find will just be more efficient).
+
+This view is modifiable. Insertions and changes to key field properties can cause rows to be repositioned to maintain the sort order. Careful: when a row is changed in such a way that its key is the same as in another row, that other row will be deleted from the view. 
+
+=== $view view pair view=== 
+Create view which pairs each row with corresponding row. 
+
+=== $view view product view=== 
+Create view which is the cartesian product with given view. 
+
+The cartesian product is defined as every combination of rows in both views. The number of entries is the product of the number of entries in the two views, properties which are present in both views will use the values defined in this view.
+
+=== $view view project prop ?prop ...?=== 
+Create view with the specified property arrangement.
+
+The result is virtual, it merely maintains a permutation to access the underlying view. This "derived" view uses change notification to track changes to the underlying view, but this only works when based on views which properly generate change notifications (.e. raw views, selections, and other projections).
+
+=== $view view range start finish ?step?=== 
+Create view which is a segment/slice (default is up to end). 
+
+Returns a view which is a subset, either a contiguous range, or a "slice" with element taken from every step_ entries. If the step is negative, the same entries are returned, but in reverse order (start_ is still lower index, it'll then be returned last).
+
+=== $view view readonly=== 
+Create an identity view which only allows reading
+
+=== $view view rename oprop nprop=== 
+Create view with one property renamed (must be of same type). 
+
+=== $view view restrict asIndex pos count=== 
+Restrict the search range for rows.
+
+=== $view view union view=== 
+Create view which is the set union (assumes no duplicate rows). 
+
+=== $view view unique=== 
+Create view with all duplicate rows omitted.

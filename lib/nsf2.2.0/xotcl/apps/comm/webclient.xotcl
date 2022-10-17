@@ -1,0 +1,9 @@
+#!/usr/bin/env tclsh
+# -*- Tcl -*-
+
+package require XOTcl 2.0; namespace import ::xotcl::*
+
+@ @File {description {For a sample webclient, see packages/comm/xocomm.test}}
+package require xotcl::comm::httpAccess
+set hostport localhost:8086
+SimpleRequest r0 -url http://$hostport/logo-100.jpg

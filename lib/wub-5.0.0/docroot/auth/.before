@@ -1,0 +1,16 @@
+[
+ # This file is evaluated after content is received but prior to conversion
+ # this script file performs basic authentication
+ lassign [Http Credentials $response] userid pass
+ if {$userid ne "admin" || $pass ne "admin"} {
+     set challenge "Please login user: 'admin' password: 'admin'"
+     set content "You must login with user: 'admin' password: 'admin'"
+     set response [Http Unauthorized $response [Http BasicAuth $challenge] $content x-text/html-fragment]
+ }
+### Local Variables: ***
+### mode:tcl ***
+### tcl-indent-level:4 ***
+### tcl-continued-indent-level:4 ***
+### indent-tabs-mode:nil ***
+### End: ***
+]

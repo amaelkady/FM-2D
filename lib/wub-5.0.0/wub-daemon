@@ -1,0 +1,89 @@
+#! /bin/sh
+#
+#	Start/Stop Wub server
+#
+set -x
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/lib/Wub/Wub/Site.tcl
+DAEMON_OPTS=""
+DESC="Wub Web Server"
+TCLSH=/usr/bin/tclsh
+STARTER="daemon"
+HOME=/var/www/wub/Wub/
+LOGS=/var/log/wub/
+USER=www-data
+
+# load defaults by service
+NAME=`sed -e 's/-.*$//' <<EOF
+$0
+EOF`
+NAME=`basename $NAME`
+if [ $NAME = ""]; then
+    NAME="wub";
+fi
+
+# Include named defaults if available
+if [ -f "/etc/default/$NAME" ] ; then
+	. /etc/default/$NAME
+fi
+
+if [ $HOME = ""]; then
+    HOME = `dirname $DAEMON`;
+fi
+
+set -e
+ulimit -c 1000000
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC with $STARTER: "
+	if [ $STARTER = "daemon" ]; then
+	    /usr/bin/daemon --name=$NAME --chdir=$HOME --dbglog=$LOGDIR/wub.daemon --user=$USER.$USER --umask=005 --respawn --inherit --core --verbose=1 --debug=1 --errlog=$LOGDIR/wub.err --output=$LOGDIR/wub.out --command="$TCLSH $DAEMON $DAEMON_OPTS"
+	else
+	    start-stop-daemon --start --quiet --background \
+		--chuid $USER:$USER \
+		--pidfile /var/run/$NAME.pid --make-pidfile \
+		--exec $TCLSH -- $DAEMON $DAEMON_OPTS
+	fi
+	echo "$NAME."
+	;;
+
+  stop)
+	echo -n "Stopping $DESC: "
+	if [ $STARTER = "daemon" ]; then
+	    /usr/bin/daemon --user $USER.$USER --name=$NAME --stop
+	else
+	    start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
+		--exec $TCLSH
+	fi
+	echo "$NAME."
+	;;
+
+  restart|force-reload)
+	#
+	#	If the "reload" option is implemented, move the "force-reload"
+	#	option to the "reload" entry above. If not, "force-reload" is
+	#	just the same as "restart".
+	#
+	echo -n "Restarting $DESC: "
+	if [ $STARTER = "daemon" ]; then
+	    /usr/bin/daemon --user $USER.$USER --name=$NAME --restart
+	else
+	    start-stop-daemon --stop --quiet --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON
+	    sleep 1
+	    start-stop-daemon --start --quiet --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON -- $DAEMON_OPTS
+	fi
+
+	echo "$NAME."
+	;;
+
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

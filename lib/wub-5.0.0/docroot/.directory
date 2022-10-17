@@ -1,0 +1,13 @@
+[
+ set dir [file join [dict get $response -root] [string trim [dict get $response -suffix] /]]
+ set dir [Dict dir $dir]
+ dict set response -content $dir
+ dict set response content-type x-text/dict
+
+### Local Variables: ***
+### mode:tcl ***
+### tcl-indent-level:4 ***
+### tcl-continued-indent-level:4 ***
+### indent-tabs-mode:nil ***
+### End: ***
+]

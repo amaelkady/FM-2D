@@ -1,0 +1,15 @@
+# Https module defines the HTTPS network listener
+# relies upon ca to supply certificates, etc
+Https {
+    -myaddr localhost
+    -host localhost
+    -port 8081	;# listener's port
+    -ca ca	;# Nub which controls our CA (if any)
+}
+
+# This nub instantiates the CA
+ca {
+    domain CA
+    url /ca/
+    -loaddir [file join $Wub::topdir CA]
+}
