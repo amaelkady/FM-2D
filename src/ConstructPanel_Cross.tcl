@@ -26,7 +26,7 @@
 #
 ##################################################################################################################
 
-proc ConstructPanel_Cross {Axis Floor X_Axis Y_Floor E A_Panel I_Panel  d_Col d_Beam transfTag ShapID} {
+proc ConstructPanel_Cross {Axis Floor X_Axis Y_Floor E A_Panel I_Panel  d_Col d_Beam transfTag ShapeID} {
  
 	# Construct Panel Node Notation
 	set NodeCL    [expr ($Floor*10+$Axis)*10];  # Grid Line Dummy Node
