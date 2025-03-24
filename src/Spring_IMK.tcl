@@ -51,7 +51,6 @@
 
 proc Spring_IMK {SpringID NodeI NodeJ E Fy Ix d htw bftf ry L Ls Lb My PgPye CompositeFlag ConnectionType Units} {
 
-set n 10.0;
 if {$Units == 1} {
 	set c1 1.0;
 	set c2 1.0;	
@@ -65,6 +64,7 @@ if {$Units == 1} {
 }
 
 
+set n 100.0;
 set K  [expr ($n+1.0) * 6 * $E * $Ix / $L];
 
 #######################################################################################################

@@ -51,6 +51,8 @@ proc Spring_IMK_RC {SpringID NodeI NodeJ fc Ec fy Es b h d1 s rho_C rho_T rho_I 
 # Pre-calculation parameters
 ###################################################################
 
+set n 10.0;
+
 if {$Units == 1} {
 	set c_unit 1.0;
 } else {
@@ -110,7 +112,7 @@ set theta_u  	[expr $theta_p_tot + $theta_pc];
 set McMy     	[expr 1.25 	 				* pow(0.890,$PPc) 								* pow(0.91,(0.01*$c_unit*$fc))];
 set lambda   	[expr 170.7	 				* pow(0.270,$PPc) * pow(0.10,$s/$d)];
 set Et   	 	[expr $lambda * $My * $theta_y];
-set Ke   	 	[expr $My / $theta_y];
+set Ke   	 	[expr ($n+1.0) * $My / $theta_y];
 #set lambda   [expr 127.2	 			* pow(0.190,$PPc) * pow(0.24,$s/$d) * pow(0.595,$VpVn) * pow(4.25,$rho_sh_eff)];
 set MresMy      	0.01;
 
