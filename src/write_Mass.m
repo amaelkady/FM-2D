@@ -1,6 +1,5 @@
 function write_Mass(INP, EL_ELEMENTS)
 global ProjectName ProjectPath
-clc;
 load(strcat(ProjectPath,ProjectName))
 
 fprintf(INP,'###################################################################################################\n');

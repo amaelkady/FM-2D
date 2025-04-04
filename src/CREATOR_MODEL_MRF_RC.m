@@ -36,7 +36,7 @@ write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E
 
 write_PreCalculatedGeometry (INP, NStory, NBay, HStory, WBay, WBuilding, MF_BEAMS, CGP_RigidOffset, MGP_RigidOffset, a, b, FrameType, Units);
 
-write_Nodes (INP, NStory, NBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, EBF_W, Splice, HStory, PZ_Multiplier, MFconnection, Units);
+write_Nodes (INP, NStory, NBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, EBF_W, Splice, HStory, Units);
 
 [EL_ELEMENTS] = write_ElasticBeamsColumns_RC (INP, NStory, NBay, ColElementOption, BeamElementOption, MF_COLUMNS, MF_BEAMS, nIntegration, coeff_cracked);
 

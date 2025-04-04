@@ -1,7 +1,9 @@
 function write_Analysis_Pushover(INP,NStory,DriftPO,Units)
+
 global ProjectName ProjectPath
-clc;
 load(strcat(ProjectPath,ProjectName),'PZ_Multiplier','FrameType')
+
+clc;
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#											Pushover Analysis                     		    	   #\n');

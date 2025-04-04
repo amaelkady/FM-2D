@@ -1,7 +1,9 @@
 function write_Analysis_Gravity(INP)
+
 global ProjectName ProjectPath
-clc;
 load(strcat(ProjectPath,ProjectName))
+
+clc;
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                      STATIC GRAVITY ANALYSIS                                    #\n');
@@ -62,6 +64,7 @@ for Floor=NStory+1:-1:2
                 if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1)) * (TAex1); end
                 SumLoadMF  = SumLoadMF + Load;
             end
+
         elseif Floor==NStory+1
                                            Load_ToT  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TA_MF      + cCL_W * Cladding * (0.5*HStory(2)) * (Perimeter/nMF);
             for AxisX=1:NBay+1
@@ -69,6 +72,7 @@ for Floor=NStory+1:-1:2
                 if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TribAreaEx + cCL_W * Cladding * 0.5*HStory(Story) * (TAex1); end
                 SumLoadMF  = SumLoadMF + Load;
             end
+
         elseif Floor==2
                                           Load_ToT   = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TA_MF      + cCL_W * Cladding * ((HStory(2)*0.5+HStory(1)*0.5)) * (Perimeter/nMF);
             for AxisX=1:NBay+1
@@ -76,6 +80,7 @@ for Floor=NStory+1:-1:2
                 if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * (HStory(2)*0.5+HStory(Story)*0.5) * (TAex1); end
                 SumLoadMF  = SumLoadMF + Load;
             end
+            
         end
         Load_GF=(Load_ToT-SumLoadMF)/2;
         nodeID=(Floor*10+Axis)*10;
