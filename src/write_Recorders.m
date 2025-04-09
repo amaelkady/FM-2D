@@ -5,6 +5,9 @@ fprintf(INP,'#                                             RECORDERS            
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'\n');
 
+fprintf(INP,'setMaxOpenFiles 2048\n');
+fprintf(INP,'\n');
+
 fprintf(INP,'# EIGEN VECTORS\n');
 for Story=1:NStory
     fprintf(INP,'recorder Node -file $MainFolder/EigenAnalysis/EigenVectorsMode%d.out -node ',Story);

@@ -18,14 +18,12 @@ fprintf(INP,'set a0 [expr $zeta*2.0*$w%d*$w%d/($w%d + $w%d)];\n',DampModeI,DampM
 fprintf(INP,'set a1 [expr $zeta*2.0/($w%d + $w%d)];\n',DampModeI,DampModeJ);
 fprintf(INP,'set a1_mod [expr $a1*(1.0+$n)/$n];\n');
 
-% fprintf(INP,'region 1 -ele  ');
 fprintf(INP,'region 1 -eleOnly  ');
 for i=1:size(EL_ELEMENTS,1)
     fprintf(INP,'%d ',EL_ELEMENTS(i,1));
 end
 fprintf(INP,' -rayleigh 0.0 0.0 $a1_mod 0.0;\n');
 
-% fprintf(INP,'region 2 -node  ');
 fprintf(INP,'region 2 -nodeOnly  ');
 for Floor=2:NStory+1
     for Axis=1:NBay+3
@@ -37,7 +35,6 @@ for Floor=2:NStory+1
 end
 fprintf(INP,' -rayleigh $a0 0.0 0.0 0.0;\n');
 
-% fprintf(INP,'region 3 -eleRange  900000  999999 -rayleigh 0.0 0.0 [expr $a1_mod/10] 0.0;\n');
 fprintf(INP,'region 3 -eleOnlyRange  900000  999999 -rayleigh 0.0 0.0 [expr $a1_mod/10] 0.0;\n');
 fprintf(INP,'\n');
 

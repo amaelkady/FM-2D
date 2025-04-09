@@ -8,7 +8,7 @@ xx=xx(1:end-4);
 xx= xx(~isspace(xx)); % remove spaces from project name to get opensees file name
 OpenSEESFileName = [xx,'.tcl'];
 
-Version             = 'v2504';
+Version             = 'v2504_R1';
 BuildOption         = 2;
 ExecutionOption     = 1;
 Uncertainty         = 0;
@@ -121,4 +121,4 @@ Sigma.zeta              = 1.e-9;
 Sigma.GI                = 1.e-9;
 
 % save the initialized data in the project *.mat file
-save(strcat(ProjectPath,ProjectName), '-regexp', '^(?!(event|app)$).')
+save(strcat(ProjectPath,ProjectName), '-regexp', '^(?!(event|app)$).','-v7.3','-nocompression');
