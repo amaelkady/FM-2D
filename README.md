@@ -1,10 +1,7 @@
 <p align="center">
-  <img width="800" src="Screenshot.png" alt="FM-2D Main Console">
+  <img width="800" src="misc\Screenshot.png" alt="FM-2D Main Console">
+  <img width="800" src="misc\FM2Dvisualization-gif.gif" alt="FM-2D Local Visualization">
 </p>
-
-![FM2Dvisualization-ezgif com-crop](https://github.com/user-attachments/assets/f00e6e3f-4417-4fd8-8a9f-d60a7b9e9f82)
-
---------------
 
 ## FM-2D
 Frame Modeler 2D is an open-source MATLAB-based computational platform for modeling and analyzing building assets in OpenSEES using state-of-the-art modeling and dynamic analyses guidelines. The current version supports steel MRFs, CBFs and EBFs.
