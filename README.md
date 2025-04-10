@@ -1,6 +1,7 @@
 <p align="center">
   <img width="800" src="misc\Screenshot.png" alt="FM-2D Main Console">
   <img width="800" src="misc\FM2Dvisualization-gif.gif" alt="FM-2D Local Visualization">
+  <img width="800" src="misc\FM2D_PH_progression-gif.gif" alt="FM-2D PH Progression">
 </p>
 
 ## FM-2D
