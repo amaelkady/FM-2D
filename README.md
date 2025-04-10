@@ -2,6 +2,8 @@
   <img width="800" src="Screenshot.png" alt="FM-2D Main Console">
 </p>
 
+![FM2Dvisualization-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/5ea7d0de-0dcf-4b47-aac6-e03d8fa6898a)
+
 --------------
 
 ## FM-2D
