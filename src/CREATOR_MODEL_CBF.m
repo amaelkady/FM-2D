@@ -43,6 +43,7 @@ write_PZspring(INP,NStory,NBay,PZ_Multiplier,EL_Multiplier,CompositeX,MF_COLUMNS
 write_BraceRigidLinks (INP, NStory, NBay, FrameType, BraceLayout,PZ_Multiplier);
 
 write_GPspring (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_L123, MGP_tp, MGP_Lc, CGP_L123, CGP_tp, CGP_Lc, Units);
+%write_FiberGP (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_tp, MGP_Lc, CGP_tp, CGP_Lc, Units);
 
 write_Braces (INP, NStory, NBay, BRACES, Brace_L, FrameType, BraceLayout, nSegments, initialGI, nIntegration, Units);
 
