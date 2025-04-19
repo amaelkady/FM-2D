@@ -3,7 +3,18 @@ global MainDirectory ProjectName ProjectPath
 
 cd(RFpath);
 mkdir('Results');
+
+% Delete existing analysis folder
+try
+cd ('Results'); 
+if     EV==1;   rmdir 'EigenAnalysis' s; 
+elseif PO==1;   rmdir 'Pushover' s;  
+elseif ELF==1;  rmdir 'ELF' s; 
+elseif CDPO==1; rmdir 'CDPO' s; 
+elseif TTH==1;  rmdir 'TTH' s; end
+end
 cd (MainDirectory);
+
 
 if ExecutionOption==1
     
