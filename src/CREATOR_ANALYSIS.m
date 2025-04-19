@@ -31,23 +31,14 @@ end
 
 if AnalysisTypeID==2
     write_Analysis_Pushover(INP,NStory,DriftPO,Units);
-end
-
-if AnalysisTypeID==3
+elseif AnalysisTypeID==3
     write_Analysis_Dynamic(INP,NStory,NBay,HStory,zeta,DampModeI,DampModeJ,TFreeVibration,dtstep,EL_ELEMENTS,PZ_Multiplier,CollapseSDR);
-end
-
-if AnalysisTypeID==4
+elseif AnalysisTypeID==4
     write_Analysis_ELF(INP,NStory,ELF_Profile);
-end
-
-if AnalysisTypeID==5
+elseif AnalysisTypeID==5
     write_Analysis_Pushover_Tsunami_CDPO(INP,NStory,DriftPO,Units);
-end
-
-if AnalysisTypeID==6
+elseif AnalysisTypeID==6
     write_Analysis_TTH(INP,NStory,NBay,HStory,zeta,DampModeI,DampModeJ,dtstep,EL_ELEMENTS,PZ_Multiplier,CollapseSDR, Floor_F, TTHdt)
 end
-
 
 fprintf(INP,'wipe all;\n');
