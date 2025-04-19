@@ -22,7 +22,7 @@
 # Integrator Used: Modified Implicit: Hilbert Hughes Taylor with Increment Reduction
 # #######################################################################################
 
-proc DynamicAnalysisCollapseSolverX {dt dt_anal_Step GMtime numStories DriftLimit MFFloorNodes EGFFloorNodes h1 htyp TraceGFDrift StartTime MaxRunTime} {
+proc DynamicAnalysisCollapseSolverX {dt dt_anal_Step GMtime numStories DriftLimit MFFloorNodes EGFFloorNodes HStory TraceGFDrift StartTime MaxRunTime} {
 
 set x [clock seconds];
 set RunTime [expr $x - $StartTime];
@@ -45,7 +45,7 @@ set ok [analyze $NumSteps $dt_anal_Step];
 
 # Check Max Drifts for Collapse by Monitoring the CollapseFlag Variable
 source SDRlimitTester.tcl;
-SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 
 
 if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
@@ -62,7 +62,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 	
 	# While the GM did not finish OR while analysis is failing
 	while {$controlTime < $GMtime || $ok !=0 } {
-		SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+		SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 		if  {$CollapseFlag == "YES"  || $RunTime > $MaxRunTime} {
 			set ok 0; break;
 		} else {
@@ -82,7 +82,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm KrylovNewton
 			integrator Newmark 0.50 0.25
 			set ok [analyze 10 [expr $dt_anal_Step/2.0]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -97,7 +97,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm KrylovNewton
 			integrator Newmark 0.50 0.25
 			set ok [analyze $NewRemainSteps [expr $dt_anal_Step]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -110,7 +110,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			test EnergyIncr 1.0e-2 200 0			
 			algorithm KrylovNewton -initial
 			set ok [analyze 10 [expr $dt_anal_Step/2.0]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -124,7 +124,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm KrylovNewton
 			integrator Newmark 0.50 0.25
 			set ok [analyze $NewRemainSteps [expr $dt_anal_Step]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -139,7 +139,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm KrylovNewton
 			integrator Newmark 0.50 0.25
 			set ok [analyze $NewRemainSteps [expr 0.001]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -149,7 +149,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			test EnergyIncr 1.0e-2 100  0
 			algorithm KrylovNewton -initial
 			set ok [analyze 10 [expr $dt_anal_Step/2.0]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -163,7 +163,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm KrylovNewton
 			integrator Newmark 0.50 0.25
 			set ok [analyze 5 [expr 0.0001]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -178,7 +178,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm KrylovNewton
 			integrator Newmark 0.50 0.25
 			set ok [analyze $NewRemainSteps [expr $dt_anal_Step]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}
@@ -195,7 +195,7 @@ if  {$CollapseFlag == "YES" || $RunTime > $MaxRunTime} {
 			algorithm Newton
 
 			set ok [analyze 10 [expr 0.0001]]
-			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $h1 $htyp $TraceGFDrift
+			SDRlimitTester $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
 			if  {$CollapseFlag == "YES"} {
 				set ok 0
 			}			

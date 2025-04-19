@@ -11,7 +11,7 @@
 #
 # #######################################################################################
 
-proc SDRlimitTester {numStories SDRlimit MFFloorNodes EGFFloorNodes h1 htyp TraceGFDrift} {
+proc SDRlimitTester {numStories SDRlimit MFFloorNodes EGFFloorNodes HStory TraceGFDrift} {
 
  global CollapseFlag
  set CollapseFlag "NO"
@@ -21,17 +21,20 @@ proc SDRlimitTester {numStories SDRlimit MFFloorNodes EGFFloorNodes h1 htyp Trac
  
 	 # Read the Floor Node Displacements and Deduce the Story Drift Ratio
 	 for {set i 0} {$i<=$numStories-1} {incr i} {
+	 
+	  	set hi 	   [lindex $HStory $i];
+
 		if { $i==0 } {
 			set Node [lindex $MFFloorNodes $i]
 			set NodeDisplI [nodeDisp $Node 1]
-			set SDR_MF [expr $NodeDisplI/$h1]
+			set SDR_MF [expr $NodeDisplI/$hi]
 			lappend SMFDrift [list $SDR_MF]
 			
 			# Addition by Ahmed Elkady 14 Dec 2016 for Tracing Drifts in EGF
 			if { $TraceGFDrift == 1} {
 				set Node [lindex $EGFFloorNodes $i]
 				set NodeDisplI [nodeDisp $Node 1]
-				set SDR_EGF [expr $NodeDisplI/$h1]
+				set SDR_EGF [expr $NodeDisplI/$hi]
 				lappend GFDrift [list $SDR_EGF]		
 			}
 			
@@ -40,7 +43,7 @@ proc SDRlimitTester {numStories SDRlimit MFFloorNodes EGFFloorNodes h1 htyp Trac
 			set NodeDisplI [nodeDisp $NodeI 1]
 			set NodeJ [lindex $MFFloorNodes [expr $i-1]]
 			set NodeDisplJ [nodeDisp $NodeJ 1]
-			set SDR_MF [expr ($NodeDisplI - $NodeDisplJ)/$htyp]
+			set SDR_MF [expr ($NodeDisplI - $NodeDisplJ)/$hi]
 			lappend SMFDrift [list  $SDR_MF]
 			
 			# Addition by Ahmed Elkady 14 Dec 2016 for Tracing Drifts in EGF
@@ -49,7 +52,7 @@ proc SDRlimitTester {numStories SDRlimit MFFloorNodes EGFFloorNodes h1 htyp Trac
 				set NodeDisplI [nodeDisp $NodeI 1]
 				set NodeJ [lindex $EGFFloorNodes [expr $i-1]]
 				set NodeDisplJ [nodeDisp $NodeJ 1]
-				set SDR_EGF [expr ($NodeDisplI - $NodeDisplJ)/$htyp]
+				set SDR_EGF [expr ($NodeDisplI - $NodeDisplJ)/$hi]
 				lappend GFDrift [list  $SDR_EGF]		
 			}
 		}
