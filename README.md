@@ -23,7 +23,7 @@ Frame Modeler 2D is an open-source MATLAB-based computational platform for model
 
 --> Brief outline on forking, we suggest this [link](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow)
 
---> Full introduction to Git and GitHub, we suggest watching this [playlist](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZF9C0YMKuns9sLDzK6zoiV)
+--> Full introduction to Git and GitHub, I suggest watching this [playlist](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZF9C0YMKuns9sLDzK6zoiV)
 
 ## Citation
 Elkady, A. (2022). "FM-2D: Open-Source Platform for the Numerical Modeling and Seismic Analysis of Buildings." SoftwareX, 17(1), DOI: [10.1016/j.softx.2021.100927](https://www.sciencedirect.com/science/article/pii/S2352711021001679).
