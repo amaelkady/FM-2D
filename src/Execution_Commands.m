@@ -99,7 +99,8 @@ if ExecutionOption==1
     
     if EV==1
         app.ProgressText.Text='Running Eigenvalue Analysis...'; drawnow;
-        evalc(strcat(['! OpenSEES.exe ', OpenSEESFileName]));
+        %evalc(strcat(['! OpenSEES.exe ', OpenSEESFileName]));
+        eval(strcat('! OpenSees.exe TempModel.tcl'));
         Process_EigenAnalysis;
     else
         app.Image.Visible      = 'on';
