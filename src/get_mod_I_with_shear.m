@@ -8,16 +8,21 @@ if Kshearstatus==1
     G = E/2/(1+0.3);
 
     if MemberType=="Column"
-        if Story==1 && Support==1; K_flexure    = 3*E*SecData.Ix(idx)/HStory(Story)*0.5; end
-        if Story==1 && Support~=1; K_flexure    = 3*E*SecData.Ix(idx)/HStory(Story)*1.0; end
-        if Story~=1;               K_flexure    = 3*E*SecData.Ix(idx)/HStory(Story)*0.5;  end
 
-        K_shear      = G*SecData.Area(idx)*HStory(Story)/(0.85+2.32*SecData.bf(idx)*SecData.tf(idx)/SecData.d(idx)/SecData.tw(idx));
+        Lcolumn = HStory(Story);
+
+        if     Story==1 && Support==1; K_flexure    = 3*E*SecData.Ix(idx)/Lcolumn*0.5; 
+        elseif Story==1 && Support~=1; K_flexure    = 3*E*SecData.Ix(idx)/Lcolumn*1.0; 
+        elseif Story~=1;               K_flexure    = 3*E*SecData.Ix(idx)/Lcolumn*0.5; end
+
+        K_shear      = G*SecData.Area(idx)*Lcolumn/(0.85+2.32*SecData.bf(idx)*SecData.tf(idx)/SecData.d(idx)/SecData.tw(idx));
     
     elseif MemberType=="Beam"
     
-        K_flexure    = 3*E*SecData.Ix(idx)/WBay(Bay)*0.5;
-        K_shear      = G*SecData.Area(idx)*WBay(Bay)/(0.85+2.32*SecData.bf(idx)*SecData.tf(idx)/SecData.d(idx)/SecData.tw(idx));
+        Lbeam = WBay(Bay);
+
+        K_flexure    = 3*E*SecData.Ix(idx)/Lbeam*0.5;
+        K_shear      = G*SecData.Area(idx)*Lbeam/(0.85+2.32*SecData.bf(idx)*SecData.tf(idx)/SecData.d(idx)/SecData.tw(idx));
 
     end
 
