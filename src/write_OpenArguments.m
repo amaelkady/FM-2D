@@ -1,4 +1,4 @@
-function write_OpenArguments(INP, NStory, FrameType, EQ, PO, ELF, CDPO, TTH, MaxRunTime, CompositeX, Animation, MainDirectory, RFpath, ModePO, DriftPO, DampModeI, DampModeJ, zeta, BuildOption, AnalysisTypeID, Units)
+function write_OpenArguments(INP, NStory, FrameType, EQ, PO, ELF, CDPO, TTH, MaxRunTime, CompositeX, Animation, MainDirectory, RFpath, ModePO, DriftPO, DampModeI, DampModeJ, zeta, BuildOption, AnalysisTypeID, Version, Units)
 global ProjectName ProjectPath
 
 % HEADER LINES
@@ -7,7 +7,9 @@ fprintf(INP,'###################################################################
 if     FrameType==1; fprintf(INP,'#                        %d-story MRF Building',NStory);
 elseif FrameType==2; fprintf(INP,'#                        %d-story CBF Building',NStory);
 elseif FrameType==3; fprintf(INP,'#                        %d-story EBF Building',NStory); end
-if     Units==1; fprintf(INP,'   [Units: kN and mm]\n'); else; fprintf(INP,'   [Units: kip and in]\n');  end
+if     Units==1;     fprintf(INP,'   [Units: kN and mm]\n'); 
+else;                fprintf(INP,'   [Units: kip and in]\n');  end
+                     fprintf(INP,'#                                  version %s\n',string(Version));
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'\n');
