@@ -35,7 +35,7 @@ fprintf(INP,'\n');
 fprintf(INP,'# BASIC MATERIALS\n');
 fprintf(INP,'uniaxialMaterial Elastic  9  1.e-9; 		#Flexible Material \n');
 fprintf(INP,'uniaxialMaterial Elastic  99 1000000000.;  #Rigid Material \n');
-load('Material_Database.mat')
+load('resources\database\Material_Database.mat')
 if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
 if FrameType==4
     fprintf(INP,'uniaxialMaterial Steel02 666  $fyR $Er 0.01 18 0.925 0.15;  #Rebar Material \n')
