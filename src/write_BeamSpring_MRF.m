@@ -5,80 +5,48 @@ fprintf(INP,'#                                           MF BEAM SPRINGS        
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'\n');
 
-% if ModelELOption==2
-%     for Floor=NStory+1:-1:2
-%         Story=Floor-1;
-%         for Axis=1:NBay+1
-%             Bay=max(1,Axis-1);
-%             Axisi=Bay; Axisj=Bay+1;
-% 
-%             SpringID_L=900000+Floor*1000+Axis*100+02;
-%             SpringID_R=900000+Floor*1000+Axis*100+04;
-% 
-%             if Axis~=1 && Axis~=NBay+1
-%                 iNode = 1000*Floor+100*Axis+20;
-%                 jNode = 100*Floor+10*Axis+02;
-%                 fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_L,iNode,jNode);
-%                 iNode = 100*Floor+10*Axis+04;
-%                 jNode = 1000*Floor+100*Axis+40;
-%                 fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_R,iNode,jNode);
-%             end
-%             if Axis==1
-%                 iNode = 100*Floor+10*Axis+04;
-%                 jNode = 1000*Floor+100*Axis+40;
-%                 fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_R,iNode,jNode);
-%             end
-%             if Axis==NBay+1
-%                 iNode = 1000*Floor+100*Axis+20;
-%                 jNode = 100*Floor+10*Axis+02;
-%                 fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_L,iNode,jNode);
-%             end
-%         end
-%         fprintf(INP,'\n');
-%     end
-% 
-% else
-    
-    fprintf(INP,'# Command Syntax \n');
-    fprintf(INP,'# Spring_IMK SpringID iNode jNode E fy Ix d htw bftf ry L Ls Lb My PgPye CompositeFLAG MFconnection Units; \n');
-    fprintf(INP,'\n');
+fprintf(INP,'# Command Syntax \n');
+fprintf(INP,'# Spring_IMK SpringID iNode jNode E fy Ix d htw bftf ry L Ls Lb My PgPye CompositeFLAG MFconnection Units; \n');
+fprintf(INP,'\n');
 
-    for Floor=NStory+1:-1:2
-        Story=min(NStory,Floor);
-        for Axis=1:NBay+1
-            Bay=max(1,Axis-1);
-            Axisi=Bay; Axisj=Bay+1;
-            Section=MF_BEAMS{Floor-1,Bay};
-            [SecDataB]=Load_SecData (Section,Units);
-            idxB=min(find(contains(SecDataB.Name,Section)));
+for Floor=NStory+1:-1:2
+    Story=min(NStory,Floor);
+    for Axis=1:NBay+1
+        Bay=max(1,Axis-1);
+        Axisi=Bay; Axisj=Bay+1;
+        Section=MF_BEAMS{Floor-1,Bay};
+        [SecDataB]=Load_SecData (Section,Units);
+        idxB=min(find(contains(SecDataB.Name,Section)));
 
-            Section=MF_COLUMNS{Story,Axisi};
-            [SecDataCi]=Load_SecData (Section,Units);
-            idxCi=min(find(contains(SecDataCi.Name,Section)));
+        Section=MF_COLUMNS{Story,Axisi};
+        [SecDataCi]=Load_SecData (Section,Units);
+        idxCi=min(find(contains(SecDataCi.Name,Section)));
 
-            Section=MF_COLUMNS{Story,Axisj};
-            [SecDataCj]=Load_SecData (Section,Units);
-            idxCj=min(find(contains(SecDataCj.Name,Section)));
-            
-            L_RBS   = a *  SecDataB.bf(idxB)+ b * SecDataB.d(idxB)/2;
-            L_BEAM  =  WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj) - 2*L_RBS;
-            Ls_BEAM = (WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj) - 2*L_RBS)*0.5;
-            Lb_BEAM = (WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj))          *0.5;
-            
-            A_RBS  =     SecDataB.Area(idxB) - 4 * c * SecDataB.bf(idxB)*SecDataB.tf(idxB);
-            I_RBS  =     SecDataB.Ix(idxB)   - 4 * c * SecDataB.bf(idxB) *SecDataB.tf(idxB)*((SecDataB.d(idxB)-SecDataB.tf(idxB))/2)^2 - 4 *c * SecDataB.bf(idxB)*SecDataB.tf(idxB)^3/12;
-            Z_RBS  =2 * (SecDataB.bf(idxB)   - 2 * c * SecDataB.bf(idxB))*SecDataB.tf(idxB)*(SecDataB.d(idxB)/2-SecDataB.tf(idxB)/2) + 2 * (SecDataB.d(idxB)/2-SecDataB.tf(idxB))*SecDataB.tw(idxB)*(SecDataB.d(idxB)/2-SecDataB.tf(idxB))/2;
-            
-            My=1.1*Z_RBS*fy;
-            
-            SpringID_L=900000+Floor*1000+Axis*100+02;
-            SpringID_R=900000+Floor*1000+Axis*100+04;
-            
-            Node20 = 1000*Floor+100*Axis+20;
-            Node02 = 100 *Floor+10 *Axis+02;
-            Node40 = 1000*Floor+100*Axis+40;
-            Node04 = 100 *Floor+10 *Axis+04;
-            
+        Section=MF_COLUMNS{Story,Axisj};
+        [SecDataCj]=Load_SecData (Section,Units);
+        idxCj=min(find(contains(SecDataCj.Name,Section)));
+
+        L_RBS   = a *  SecDataB.bf(idxB)+ b * SecDataB.d(idxB)/2;
+        L_BEAM  =  WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj) - 2*L_RBS;
+        Ls_BEAM = (WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj) - 2*L_RBS)*0.5;
+        Lb_BEAM = (WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj))          *0.5;
+
+        A_RBS  =     SecDataB.Area(idxB) - 4 * c * SecDataB.bf(idxB)*SecDataB.tf(idxB);
+        I_RBS  =     SecDataB.Ix(idxB)   - 4 * c * SecDataB.bf(idxB) *SecDataB.tf(idxB)*((SecDataB.d(idxB)-SecDataB.tf(idxB))/2)^2 - 4 *c * SecDataB.bf(idxB)*SecDataB.tf(idxB)^3/12;
+        Z_RBS  =2 * (SecDataB.bf(idxB)   - 2 * c * SecDataB.bf(idxB))*SecDataB.tf(idxB)*(SecDataB.d(idxB)/2-SecDataB.tf(idxB)/2) + 2 * (SecDataB.d(idxB)/2-SecDataB.tf(idxB))*SecDataB.tw(idxB)*(SecDataB.d(idxB)/2-SecDataB.tf(idxB))/2;
+
+        My=1.1*Z_RBS*fy;
+
+        SpringID_L=900000+Floor*1000+Axis*100+02;
+        SpringID_R=900000+Floor*1000+Axis*100+04;
+
+        Node20 = 1000*Floor+100*Axis+20;
+        Node02 = 100 *Floor+10 *Axis+02;
+        Node40 = 1000*Floor+100*Axis+40;
+        Node04 = 100 *Floor+10 *Axis+04;
+
+        if ModelELOption==1
+
             if Axis~=1 && Axis~=NBay+1
                 fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_L,Node20,Node02,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
                 fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_R,Node04,Node40,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
@@ -87,8 +55,22 @@ fprintf(INP,'\n');
             elseif Axis==NBay+1
                 fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_L,Node20,Node02,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
             end
+
+        else
+
+            if Axis~=1 && Axis~=NBay+1
+                fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_L,Node20,Node02);
+                fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_R,Node04,Node40);
+            elseif Axis==1
+                fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_R,Node04,Node40);
+            elseif Axis==NBay+1
+                fprintf(INP,'Spring_Rigid %d %d %d; ',SpringID_L,Node20,Node02);
+            end
+            
         end
-        fprintf(INP,'\n');
+
     end
-% end
+    fprintf(INP,'\n');
+end
+
 fprintf(INP,'\n');

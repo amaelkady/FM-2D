@@ -10,9 +10,9 @@ fprintf(INP,'\n');
 
 fprintf(INP,'# Create Load Pattern\n');
 fprintf(INP,'pattern Plain 222 Linear {\n');
-for Floor=NStory+1:-1:2
-    nodeID=400000+Floor*1000+1*100+03;
-    fprintf(INP,'	load %d %7.5f 0.0 0.0\n',nodeID,ELF_Profile(Floor-1,1));
+for Fi=NStory+1:-1:2
+    nodeID=400000+Fi*1000+1*100+03;
+    fprintf(INP,'	load %d %7.5f 0.0 0.0\n',nodeID,ELF_Profile(Fi-1,1));
 end
 fprintf(INP,'}\n');
 fprintf(INP,'\n');

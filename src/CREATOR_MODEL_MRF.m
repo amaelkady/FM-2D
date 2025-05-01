@@ -44,7 +44,7 @@ write_PZspring(INP,NStory,NBay,PZ_Multiplier,EL_Multiplier,CompositeX,MF_COLUMNS
 
 [EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Units);
 
-write_ElasticRBS (INP, NStory, NBay, MF_BEAMS, MFconnection, c, Units);
+write_ElasticRBS (INP, NStory, NBay, MF_BEAMS, c, Units);
 
 write_BeamSpring_MRF (INP, NStory, NBay, WBay, ModelELOption, MF_COLUMNS, MF_BEAMS, MFconnection, a, b, c, fy, Units);
     

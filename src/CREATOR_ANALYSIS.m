@@ -1,4 +1,11 @@
 function CREATOR_ANALYSIS (AnalysisTypeID,TempPOrun)
+
+arguments
+    AnalysisTypeID   (1,1) {mustBePositive, mustBeInteger}
+    TempPOrun (1,1) {mustBeInteger}
+end
+
+
 clc;
 global ProjectName ProjectPath
 load(strcat(ProjectPath,ProjectName))
@@ -30,7 +37,7 @@ if EV~=1 && AnalysisTypeID~=1
 end
 
 if AnalysisTypeID==2
-    write_Analysis_Pushover(INP,NStory,DriftPO,Units);
+    write_Analysis_Pushover(INP,NStory,DriftPO,PZ_Multiplier,FrameType,Units);
 elseif AnalysisTypeID==3
     write_Analysis_Dynamic(INP,NStory,NBay,HStory,zeta,DampModeI,DampModeJ,TFreeVibration,dtstep,EL_ELEMENTS,PZ_Multiplier,CollapseSDR);
 elseif AnalysisTypeID==4

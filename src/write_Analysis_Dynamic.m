@@ -25,10 +25,10 @@ end
 fprintf(INP,' -rayleigh 0.0 0.0 $a1_mod 0.0;\n');
 
 fprintf(INP,'region 2 -nodeOnly  ');
-for Floor=2:NStory+1
+for Fi=2:NStory+1
     for Axis=1:NBay+3
-        if PZ_Multiplier==1; nodeIDmf=400000+1000*Floor+100*Axis+04; else; nodeIDmf=(10*Floor+Axis)*10; end
-        nodeIDegf=(10*Floor+Axis)*10;
+        if PZ_Multiplier==1; nodeIDmf=400000+1000*Fi+100*Axis+04; else; nodeIDmf=(10*Fi+Axis)*10; end
+        nodeIDegf=(10*Fi+Axis)*10;
         if Axis<NBay+2; 	fprintf(INP,'%d ',nodeIDmf); end
         if Axis>=NBay+2; 	fprintf(INP,'%d ',nodeIDegf); end
     end
@@ -44,15 +44,15 @@ fprintf(INP,'pattern UniformExcitation  200 1 -accel $AccelSeries\n');
 fprintf(INP,'\n');
 
 fprintf(INP,'set MF_FloorNodes [list  ');
-for Floor=2:NStory+1
-    nodeID=400000+Floor*1000+1*100+04;
-    if Floor==1;  fprintf(INP,'110 '); else fprintf(INP,'%d ', nodeID); end
+for Fi=2:NStory+1
+    nodeID=400000+Fi*1000+1*100+04;
+    if Fi==1;  fprintf(INP,'110 '); else fprintf(INP,'%d ', nodeID); end
 end
 fprintf(INP,'];\n');
 
 fprintf(INP,'set EGF_FloorNodes [list  ');
-for Floor=2:NStory+1
-    nodeID=(Floor*10+(NBay+2))*10;
+for Fi=2:NStory+1
+    nodeID=(Fi*10+(NBay+2))*10;
     fprintf(INP,'%d ',nodeID);
 end
 fprintf(INP,'];\n');

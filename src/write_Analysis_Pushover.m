@@ -1,7 +1,4 @@
-function write_Analysis_Pushover(INP,NStory,DriftPO,Units)
-
-global ProjectName ProjectPath
-load(strcat(ProjectPath,ProjectName),'PZ_Multiplier','FrameType')
+function write_Analysis_Pushover(INP,NStory,DriftPO,PZ_Multiplier,FrameType,Units)
 
 clc;
 
