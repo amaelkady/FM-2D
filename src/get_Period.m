@@ -5,6 +5,10 @@ clc;
 global MainDirectory ProjectName ProjectPath
 load(strcat(ProjectPath,ProjectName), 'FrameType' ,'DiscritizationOption','RFpath')
 
+cd(RFpath);
+mkdir('Results');
+cd (MainDirectory);
+
 %% Period Calculation
 
 if FrameType==1
