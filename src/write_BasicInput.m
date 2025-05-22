@@ -1,5 +1,5 @@
 
-function write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu0,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty)
+function write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu0,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty, resource_root)
             
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                              INPUT                                               #\n');
@@ -35,7 +35,7 @@ fprintf(INP,'\n');
 fprintf(INP,'# BASIC MATERIALS\n');
 fprintf(INP,'uniaxialMaterial Elastic  9  1.e-9; 		#Flexible Material \n');
 fprintf(INP,'uniaxialMaterial Elastic  99 1000000000.;  #Rigid Material \n');
-load('resources\database\Material_Database.mat')
+if resource_root==''; load(strjoin(resource_root+"Material_Database.mat")); else; load resources\database\Material_Database.mat; end
 if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
 if FrameType==4
     fprintf(INP,'uniaxialMaterial Steel02 666  $fyR $Er 0.01 18 0.925 0.15;  #Rebar Material \n')

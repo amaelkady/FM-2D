@@ -40,7 +40,7 @@ set b 0.01;
 
 uniaxialMaterial Steel02 $matTag $My $Krot $b 20 0.925 0.15 0.0005 0.01 0.0005 0.01;
 
-element zeroLength $SpringID $NodeI $NodeJ  -mat 99 99 $matTag  -dir 1 2 6 -doRayleigh 1;;
+element zeroLength $SpringID $NodeI $NodeJ  -mat 99 99 $matTag -dir 1 2 6 -doRayleigh 1;;
 
 }
 

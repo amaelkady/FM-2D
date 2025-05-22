@@ -27,6 +27,8 @@ if FrameType~=4
     if FrameType~=1 && FrameType~=4
         fprintf(INP,'source ConstructBrace.tcl;\n');
         fprintf(INP,'source Spring_Gusset.tcl;\n');
+        fprintf(INP,'source Spring_Gusset_FB.tcl;\n');
+        fprintf(INP,'source FiberGP.tcl;\n');
         fprintf(INP,'source FatigueMat.tcl;\n');    
     end
     if ColElementOption~=1 || FrameType~=1 

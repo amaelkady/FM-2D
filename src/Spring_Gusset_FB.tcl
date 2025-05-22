@@ -20,28 +20,36 @@
 # tp       	Gusset plate thickness
 # Lc	   	Brace-to-Gusset connection length
 # d_brace  	Brace Depth/Height/Diameter
-# matTag   	Material ID
 #
 # Written by: Dr. Ahmed Elkady, University of Southampton, UK
 #
 ##################################################################################################################
 
 
-proc Spring_Gusset_FB {SpringID   NodeI   NodeJ    E  fy    tp  Lc   d_brace  matTag} {
+proc Spring_Gusset_FB {SpringID   NodeI   NodeJ    E  fy    tp  Lc   d_brace} {
 
 set PI [expr 2*asin(1.0)];	# define constant pi
 
-set dp [expr $d_brace+2*$Lc*tan($PI*45)];  # estimate of GP depth at brace end assuming 45 cutting angle
+set Ww [expr $d_brace+2*$Lc*tan($PI*45)];  # estimate of GP depth (Whitmore width) at brace end assuming 45 cutting angle
 
 set b 0.003; # strain hardening ratio
 
-uniaxialMaterial Steel02 $matTag $fy $E $b 20 0.925 0.15 0.0005 0.01 0.0005 0.01;
+uniaxialMaterial Steel02 $SpringID $fy $E $b 20 0.925 0.15 0.0005 0.01 0.0005 0.01;
 
-set secTagGP [expr $matTag*100];
+set secTagGP [expr $SpringID*100];
 
-FiberGP $secTagGP $matTag $secTagGP $E $dp $tp   8 8;
+FiberGP $secTagGP $SpringID $secTagGP $E $Ww $tp   8 8;
 
-element forceBeamColumn   $SpringID $NodeI $NodeJ  3  $secTagGP  3;
+set nInt 8
+
+#element forceBeamColumn   $SpringID $NodeI $NodeJ  $nInt  $secTagGP  3;
+
+set A  [expr $Ww * $tp]
+set Iz [expr $tp * pow($Ww,3) / 12]
+element elasticBeamColumn $SpringID $NodeI $NodeJ $A $E $Iz 3
+
+#set integration "Lobatto"
+#element dispBeamColumn $SpringID $NodeI $NodeJ $nInt $secTagGP 3;# -integration integration;
 
 }
 

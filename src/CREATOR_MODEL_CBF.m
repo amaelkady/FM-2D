@@ -1,7 +1,8 @@
 function CREATOR_MODEL_CBF (AnalysisTypeID,TempPOrun)
-global MainDirectory ProjectName ProjectPath
-clc;
+global MainDirectory ProjectName ProjectPath resource_root
 load(strcat(ProjectPath,ProjectName))
+
+clc;
 
 if TempPOrun==1; PM_Option=2; end
 
@@ -30,7 +31,7 @@ write_SourceSubroutine (INP, FrameType,AnalysisTypeID,ColElementOption,GFX,PZ_Mu
 
 write_ResultsFolder (INP, AnalysisTypeID,TempPOrun,Uncertainty);
 
-write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu0,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty);
+write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu0,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty, resource_root);
 
 write_PreCalculatedGeometry (INP, NStory, NBay, HStory, WBay, WBuilding, MF_BEAMS, CGP_RigidOffset, MGP_RigidOffset, a, b, FrameType, Units);
 
@@ -41,9 +42,10 @@ write_PZelement(INP,NStory,NBay,PZ_Multiplier,MF_COLUMNS,MF_BEAMS,Units);
 write_PZspring(INP,NStory,NBay,PZ_Multiplier,EL_Multiplier,CompositeX,MF_COLUMNS,MF_BEAMS,Doubler,trib,ts,Units);
 
 write_BraceRigidLinks (INP, NStory, NBay, FrameType, BraceLayout,PZ_Multiplier);
+%write_BraceLinks_FB (INP, NStory, NBay, FrameType, BraceLayout,PZ_Multiplier, BRACES, CGP_tp, CGP_Lc, MGP_tp, MGP_Lc, Units);
 
 write_GPspring (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_L123, MGP_tp, MGP_Lc, CGP_L123, CGP_tp, CGP_Lc, Units);
-%write_FiberGP (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_tp, MGP_Lc, CGP_tp, CGP_Lc, Units);
+%write_GPspring_Rigid (INP, NStory, NBay, FrameType, BraceLayout, Units);
 
 write_Braces (INP, NStory, NBay, BRACES, Brace_L, FrameType, BraceLayout, nSegments, initialGI, nIntegration, Units);
 
