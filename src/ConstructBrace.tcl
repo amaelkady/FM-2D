@@ -71,19 +71,21 @@ for {set i 1} {$i <= [expr $numSeg-1]} {incr i 1} {
 # Define segments
 # set initial elementID
 set ElementID [expr $eleID+1];
-# Define first element
+
+# create first element
 element dispBeamColumn $ElementID $NodeI [expr $nodeID+1] $nInt $secID $Trans_tag -integration $integration;
-            
-# Define internal elements #
+
+# create internal elements
 for {set i 1} {$i <[expr $numSeg-1]} {incr i 1} {
+
 	incr ElementID 1;
 	set iNode [expr $i +$nodeID];
 	set jNode [expr $i +$nodeID+1];
-	# Create the Brace Elements
+
 	element dispBeamColumn $ElementID $iNode $jNode $nInt $secID $Trans_tag -integration $integration;
 }
 
-# Create the Brace Elements
+# create last Element
 element dispBeamColumn [expr $ElementID+1] [expr $nodeID+$numSeg-1] $NodeJ $nInt $secID $Trans_tag -integration $integration;
 
 }
