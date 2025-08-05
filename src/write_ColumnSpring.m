@@ -29,7 +29,7 @@ for Floor=NStory+1:-1:1
             Ls_Col =  L_Col*0.5;
             Lb_Col =  L_Col;
             
-            My_mod = 1.1 * SecDataC.Zx(idx) * fy;
+            My_mod = SecDataC.Zx(idx) * fy;
             Py   = SecDataC.Area(idx) * fy;
             Py_Col(Story,Axis)   = SecDataC.Area(idx) * fy;
             PgPy = Pred(Story,Axis)/Py;
@@ -77,8 +77,8 @@ for Floor=NStory+1:-1:1
             Py_Col(Story,Axis)   = SecDataC.Area(idx) * fy;
             PgPy = Pred(Story-1,Axis)/Py;
             
-            iNode = 400000+1000*Floor+100*Axis+01;
-            jNode = 100*Floor+10*Axis+01;
+            iNode = 100*Floor+10*Axis+01;
+            jNode = 400000+1000*Floor+100*Axis+01;
             SpringID=900000+Floor*1000+Axis*100+01;
             
             if ColElementOption==1
@@ -115,8 +115,8 @@ for Floor=NStory+1:-1:1
             Py_Col(Story,Axis)   = SecDataC.Area(idx) * fy;
             PgPy = Pred(Story,Axis)/Py;
             
-            iNode = 400000+1000*Floor+100*Axis+01;
-            jNode = 100*Floor+10*Axis+01;
+            iNode = 100*Floor+10*Axis+01;
+            jNode = 400000+1000*Floor+100*Axis+01;
             SpringID=900000+Floor*1000+Axis*100+01;
             
             if ColElementOption==1
@@ -149,8 +149,8 @@ for Floor=NStory+1:-1:1
             Py_Col(Story,Axis)   = SecDataC.Area(idx) * fy;
             PgPy = Pred(Story,Axis)/Py;
             
-            iNode = 400000+1000*Floor+100*Axis+01;
-            jNode = 100*Floor+10*Axis+01;
+            iNode = 100*Floor+10*Axis+01;
+            jNode = 400000+1000*Floor+100*Axis+01;
             SpringID=900000+Floor*1000+Axis*100+01;
             
             if ColElementOption==1

@@ -27,7 +27,7 @@ else
     write_OpenArguments(INP, NStory, FrameType, 0,   0,   0,    0,   0, 60, CompositeX, 0, MainDirectory, RFpath, 1, 0.1, 1, NStory, 0.02, 2, AnalysisTypeID, Version, Units);    
 end
 
-write_SourceSubroutine (INP, FrameType,AnalysisTypeID,ColElementOption,GFX,PZ_Multiplier);
+write_SourceSubroutine (INP, FrameType,AnalysisTypeID,ColElementOption,GFX, EGFconnection,PZ_Multiplier);
 
 write_ResultsFolder (INP, AnalysisTypeID,TempPOrun,Uncertainty);
 
@@ -49,7 +49,7 @@ write_GPspring (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_L123, MGP
 
 write_Braces (INP, NStory, NBay, BRACES, Brace_L, FrameType, BraceLayout, nSegments, initialGI, nIntegration, Units);
 
-[EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration,  Units);
+[EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Material, SteelMatID,  Units);
 
 write_BeamSpring_CBF (INP, NStory, NBay, WBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, MFconnectionOdd, MFconnectionEven, fy, Units);
 
@@ -61,10 +61,10 @@ write_FloorLinks (INP,NStory,NBay,WBay,PZ_Multiplier,FloorLink,Fs,Fs_Profile);
 
 write_EGFelements (INP,NStory,NBay,HStory,GFX,CompositeX,Orientation,nMF,nGC,nGB,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice,fy,Units);
 
-write_EGFsprings (INP,NStory,NBay,HStory,GFX,CompositeX,Orientation,nMF,nGC,nGB,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice,fy,Units);
+write_EGFsprings (INP,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, Units);
 
 write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support,MidSpanConstraint,BraceLayout);
 
-write_Recorders(INP, NStory, NBay, Recorders, Filename, FrameType, BraceLayout, Splice, FloorLink, AnalysisTypeID);
+write_Recorders(INP, NStory, NBay, Recorders, Filename, FrameType, BraceLayout, Splice, FloorLink, AnalysisTypeID, GFX, Orientation);
 
 write_Mass(INP,EL_ELEMENTS);

@@ -75,6 +75,8 @@ set K  [expr ($n+1.0) * 6 * $E * $Ix / $L];
 
 if {$ConnectionType == 0} {
 
+	set My [expr 1.17 * $My];
+
 	# Rotational capacities calculated using  Lignos and Krawinkler (2009) RBS equations
 	set theta_p   [expr 0.19 * pow(($htw),-0.314) * pow(($bftf),-0.100) *  pow(($Lb/$ry),-0.185) * pow(($Ls/$d),0.113) * pow(($c1 * $d/533),-0.760) * pow(($c2 * $Fy* $c4/355),-0.070)];
  	set theta_pc  [expr 9.52 * pow(($htw),-0.513) * pow(($bftf),-0.863) *  pow(($Lb/$ry),-0.108) 													* pow(($c2 * $Fy* $c4/355),-0.360)];
@@ -147,15 +149,17 @@ if {$ConnectionType == 0} {
 
 if {$ConnectionType == 1} {
 
+	set My [expr 1.06 * $My];
+
 	# Rotational capacities calculated using Lignos and Krawinkler (2009) other-than-RBS equations
 	if {$d > [expr $c3*21.0]} {
 		set theta_p   [expr 0.318 * pow(($htw),-0.550) * pow(($bftf),-0.345) *  pow(($Lb/$ry),-0.023) *  pow(($Ls/$d),0.090) *  pow(($c1 * $d/533),-0.330) * pow(($c2 * $Fy* $c4/355),-0.130)];
 		set theta_pc  [expr 7.500 * pow(($htw),-0.610) * pow(($bftf),-0.710) *  pow(($Lb/$ry),-0.110) 					     *  pow(($c1 * $d/533),-0.161) * pow(($c2 * $Fy* $c4/355),-0.320)];
-		set Lmda      [expr 536   * pow(($htw),-1.260) * pow(($bftf),-0.525) *  pow(($Lb/$ry),-0.130) 					     *  pow(($c2 * $Fy* $c4/355),-0.291)];
+		set Lmda      [expr 536   * pow(($htw),-1.260) * pow(($bftf),-0.525) *  pow(($Lb/$ry),-0.130) 					     							   * pow(($c2 * $Fy* $c4/355),-0.291)];
 	} else {
-		set theta_p   [expr 0.0865 * pow(($htw),-0.360) * pow(($bftf),-0.140) *  pow(($Ls/$d),0.340) *  pow(($c1 * $d/533),-0.721) * pow(($c2 * $Fy* $c4/355),-0.230)];
-		set theta_pc  [expr 5.6300 * pow(($htw),-0.565) * pow(($bftf),-0.800) 					   *  pow(($c1 * $d/533),-0.280) * pow(($c2 * $Fy* $c4/355),-0.430)];
-		set Lmda      [expr 495    * pow(($htw),-1.340) * pow(($bftf),-0.595) 					   *  pow(($c2 * $Fy* $c4/355),-0.360)];
+		set theta_p   [expr 0.0865 * pow(($htw),-0.360) * pow(($bftf),-0.140) 					 	  *  pow(($Ls/$d),0.340) *  pow(($c1 * $d/533),-0.721) * pow(($c2 * $Fy* $c4/355),-0.230)];
+		set theta_pc  [expr 5.6300 * pow(($htw),-0.565) * pow(($bftf),-0.800) 					   	 						 *  pow(($c1 * $d/533),-0.280) * pow(($c2 * $Fy* $c4/355),-0.430)];
+		set Lmda      [expr 495    * pow(($htw),-1.340) * pow(($bftf),-0.595) 					   								   						   * pow(($c2 * $Fy* $c4/355),-0.360)];
 
 	}
 	
@@ -226,18 +230,21 @@ if {$ConnectionType == 2} {
 	# Rotational capacities calculated using Lignos et al. (2019) column regression equations for monotonic
 	set theta_p   [expr 294 * pow(($htw),-1.700) * pow(($Lb/$ry),-0.700) * pow((1-$PgPye),1.600)];
 	set theta_pc  [expr 90  * pow(($htw),-0.800) * pow(($Lb/$ry),-0.800) * pow((1-$PgPye),2.500)];
+	
 	if {$theta_p  > 0.20} {set theta_p  0.2}
 	if {$theta_pc > 0.30} {set theta_pc 0.3}
+	
 	if {$PgPye <= 0.35} {
 		set Lmda  [expr 25500 * pow(($htw),-2.140) * pow(($Lb/$ry),-0.530) * pow((1-$PgPye),4.920)];
 	} else {
 		set Lmda  [expr 268000* pow(($htw),-2.300) * pow(($Lb/$ry),-1.300) * pow((1-$PgPye),1.190)];	
 	}
+	if {$Lmda  > 3.0} {set Lmda  3.0}
 	
 	if {$PgPye <= 0.2} {
-		set My  [expr (1.15/1.1)*$My*(1-$PgPye/2)];
+		set My  [expr 1.15*$My*(1-$PgPye/2)];
 	} else {
-		set My  [expr (1.15/1.1)*$My*(9/8)*(1-$PgPye)];
+		set My  [expr 1.15*$My*(9/8)*(1-$PgPye)];
 	}
 	
 	set McMy   [expr 12.5 * pow(($htw),-0.200) * pow(($Lb/$ry),-0.400) * pow((1-$PgPye),0.400)];
@@ -277,17 +284,6 @@ if {$ConnectionType == 2} {
 
 set My_P     [expr  $MyPMy * $My]; 
 set My_N     [expr  $MyNMy * $My];
-
-
-# # Bilin material model
-#set My_P     [expr  $MyPMy * $My]; 
-#set My_N     [expr -$MyNMy * $My];		
-#set as_mem_p [expr  ($McMyP-1.)*$My_P/($theta_p_P * 6.*$E * $Ix/$L)];
-#set as_mem_n [expr -($McMyN-1.)*$My_N/($theta_p_N * 6.*$E * $Ix/$L)];
-#set SH_mod_P [expr ($as_mem_p)/(1.0+$n*(1.0-$as_mem_p))];
-#set SH_mod_N [expr ($as_mem_n)/(1.0+$n*(1.0-$as_mem_n))];
-#uniaxialMaterial Bilin    $SpringID $K $SH_mod_P $SH_mod_N $My_P $My_N $L_S $L_C $L_A $L_K $c_S $c_C $c_A $c_K $theta_p_P $theta_p_N $theta_pc_P $theta_pc_N $Res_P $Res_N $theta_u $theta_u $D_P $D_N
-
 
 ##################################################################################################################
 #Random generation of backbone parameters based on assigned uncertainty 

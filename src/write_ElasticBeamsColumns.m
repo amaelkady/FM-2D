@@ -1,4 +1,4 @@
-function [EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Units)
+function [EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Material, SteelMatID, Units)
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                     ELASTIC COLUMNS AND BEAMS                                    #\n');
@@ -19,10 +19,12 @@ fprintf(INP,'set K11_1 [expr (1+2*$n)*$K44_1/(1+$n)];\n');
 fprintf(INP,'set K33_1 [expr 2*$K44_1];\n');
 fprintf(INP,'\n');
 
+
 if FrameType~=4
     count=1;
     fprintf(INP,'# COLUMNS\n');
     secID=100;
+    matID=1000;
     for Story=NStory:-1:1
         Fi=Story; Fj=Story+1;
         if Splice(Story,1)==0
@@ -47,6 +49,11 @@ if FrameType~=4
                     secID=secID+1;
                     fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
                     fprintf(INP,'element nonlinearBeamColumn %d  %6d %6d  %d %d $trans_selected; ',ElemID,nodeIDb,nodeIDt,5,secID);
+                elseif ColElementOption==4
+                    secID=secID+1; matID=matID+2;
+                    if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
+                    fprintf(INP,'FiberWF_HLB %5d %5d %.4f %.4f %.4f %.4f $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'element forceBeamColumn %d   %d  %d  $trans_selected   "NewtonCotes  %d 5" -iter 50 1e-5;\n', ElemID, nodeIDb, nodeIDt, secID);
                 end
 
                 EL_ELEMENTS(count,1)=ElemID;
@@ -77,6 +84,11 @@ if FrameType~=4
                     secID=secID+1;
                     fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx1),SecData.bf(idx1),SecData.tf(idx1),SecData.tw(idx1));
                     fprintf(INP,'element nonlinearBeamColumn %d  %6d %6d  %d %d $trans_selected; ',ElemID02,nodeIDsplice72,nodeIDb,5,secID);
+                elseif ColElementOption==4
+                    secID=secID+1; matID=matID+2;
+                    if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
+                    fprintf(INP,'FiberWF_HLB %5d %5d %.4f %.4f %.4f %.4f $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'element forceBeamColumn %d   %d  %d  $trans_selected   "NewtonCotes  %d 5" -iter 50 1e-5;\n', ElemID02, nodeIDsplice72, nodeIDb, secID);
                 end
 
                 EL_ELEMENTS(count,1)=ElemID02;
@@ -107,6 +119,11 @@ if FrameType~=4
                     secID=secID+1;
                     fprintf(INP,'FiberWF %6d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
                     fprintf(INP,'element nonlinearBeamColumn %7d  %7d %7d  %d %d $trans_selected; ',ElemID01,nodeIDt,nodeIDsplice71,5,secID);
+                elseif ColElementOption==4
+                    secID=secID+1; matID=matID+2;
+                    if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
+                    fprintf(INP,'FiberWF_HLB %5d %5d %.4f %.4f %.4f %.4f $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'element forceBeamColumn %d   %d  %d  $trans_selected   "NewtonCotes  %d 5" -iter 50 1e-5;\n', ElemID01, nodeIDt, nodeIDsplice71, secID);
                 end
 
                 EL_ELEMENTS(count,1)=ElemID01;

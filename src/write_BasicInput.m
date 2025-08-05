@@ -34,7 +34,7 @@ fprintf(INP,'\n');
 
 fprintf(INP,'# BASIC MATERIALS\n');
 fprintf(INP,'uniaxialMaterial Elastic  9  1.e-9; 		#Flexible Material \n');
-fprintf(INP,'uniaxialMaterial Elastic  99 1000000000.;  #Rigid Material \n');
+fprintf(INP,'uniaxialMaterial Elastic 99  1.e12;        #Rigid Material \n');
 if resource_root==''; load(strjoin(resource_root+"Material_Database.mat")); else; load resources\database\Material_Database.mat; end
 if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
 if FrameType==4

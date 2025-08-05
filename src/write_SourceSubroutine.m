@@ -1,4 +1,4 @@
-function write_SourceSubroutine (INP, FrameType,AnalysisTypeID,ColElementOption,GFX,PZ_Multiplier)
+function write_SourceSubroutine (INP, FrameType, AnalysisTypeID, ColElementOption, GFX, EGFconnection, PZ_Multiplier)
 
 
 fprintf(INP,'####################################################################################################\n');
@@ -12,6 +12,14 @@ fprintf(INP,'source Spring_PZ.tcl;\n');
 fprintf(INP,'source Spring_IMK.tcl;\n');
 fprintf(INP,'source Spring_Zero.tcl;\n');
 fprintf(INP,'source Spring_Rigid.tcl;\n');
+
+if GFX==1
+    if EGFconnection ==3
+        fprintf(INP,'source Spring_FEPC.tcl;\n');
+    elseif EGFconnection ==4
+        fprintf(INP,'source Spring_EEPC.tcl;\n');
+    end
+end
 
 if FrameType~=4 
     if GFX==1
@@ -36,6 +44,9 @@ if FrameType~=4
         fprintf(INP,'source FiberRHSS.tcl;\n');
         fprintf(INP,'source FiberCHSS.tcl;\n');
         fprintf(INP,'source FiberWF.tcl;\n');
+    end
+    if ColElementOption==4
+        fprintf(INP,'source FiberWF_HLB.tcl;\n');
     end
     if FrameType==3 
         fprintf(INP,'source ConstructFiberBeam.tcl;\n');
