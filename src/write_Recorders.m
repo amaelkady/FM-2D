@@ -1,4 +1,4 @@
-function write_Recorders(INP, NStory, NBay, Recorders, Filename, FrameType, BraceLayout, Splice, FloorLink, AnalysisTypeID)
+function write_Recorders(INP, NStory, NBay, Recorders, Filename, FrameType, BraceLayout, Splice, FloorLink, AnalysisTypeID, GFX, Orientation)
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                             RECORDERS                                           #\n');
@@ -21,13 +21,13 @@ end
 fprintf(INP,'\n');
 
 if AnalysisTypeID~=1
-    
+
     if Recorders.Time==1
         fprintf(INP,'# TIME\n');
         fprintf(INP,'recorder Node -file $MainFolder/$SubFolder/Time.out  -time -node 110 -dof 1 disp;\n');
         fprintf(INP,'\n');
     end
-        
+
     if Recorders.Support==1
         fprintf(INP,'# SUPPORT REACTIONS\n');
         for Axis=1:NBay+3
@@ -36,7 +36,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n\n');
     end
-    
+
     if Recorders.Disp==1
         fprintf(INP,'# FLOOR LATERAL DISPLACEMENT\n');
         for Floor=NStory+1:-1:2
@@ -48,7 +48,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.SDR==1
         fprintf(INP,'# STORY DRIFT RATIO\n');
         for Story=NStory:-1:1
@@ -69,7 +69,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.RFA==1
         fprintf(INP,'# FLOOR ACCELERATION\n');
         for Floor=NStory+1:-1:1
@@ -88,7 +88,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.RFV==1
         fprintf(INP,'# FLOOR VELOCITY\n');
         for Floor=NStory+1:-1:1
@@ -107,7 +107,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.FloorLink==1
         fprintf(INP,'# FLOOR LINK FORCE\n');
         for Floor=NStory+1:-1:2
@@ -115,7 +115,7 @@ if AnalysisTypeID~=1
             fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d_F.out -ele %7d force;\n',Filename.FloorLink,Floor,ElemID);
         end
         fprintf(INP,'\n');
-        
+
         fprintf(INP,'# FLOOR LINK DEFORMATION\n');
         for Floor=NStory+1:-1:2
             ElemID=1000+Floor;
@@ -123,7 +123,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.Column==1
         fprintf(INP,'# COLUMN ELASTIC ELEMENT FORCES\n');
         for Story=NStory:-1:1
@@ -140,7 +140,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.Beam==1
         fprintf(INP,'# BEAM ELASTIC ELEMENT FORCES\n');
         for Floor=NStory+1:-1:2
@@ -162,31 +162,31 @@ if AnalysisTypeID~=1
             end
         end
         fprintf(INP,'\n');
-        
+
     end
-    
+
+    if GFX==1; xx=2; else; xx=0; end
+
     if Recorders.ColSpring==1
         fprintf(INP,'# COLUMN SPRINGS FORCES\n');
         for Floor=NStory+1:-1:1
             if Floor~=NStory+1 && Floor~=1
-                for Axis=1:NBay+1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+03;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_F.out -ele %7d force; ',Filename.ColSpring, Floor,Axis,SpringID);
                 end
                 fprintf(INP,'\n');
-                for Axis=1:NBay+1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+01;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_F.out -ele %7d force; ', Filename.ColSpring,Floor,Axis,SpringID);
                 end
-            end
-            if Floor==NStory+1
-                for Axis=1:NBay+1
+            elseif Floor==NStory+1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+01;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_F.out -ele %7d force; ', Filename.ColSpring,Floor,Axis,SpringID);
                 end
-            end
-            if Floor==1
-                for Axis=1:NBay+1
+            elseif Floor==1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+03;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_F.out -ele %7d force; ', Filename.ColSpring,Floor,Axis,SpringID);
                 end
@@ -194,38 +194,36 @@ if AnalysisTypeID~=1
             fprintf(INP,'\n');
         end
         fprintf(INP,'\n');
-        
+
         fprintf(INP,'# COLUMN SPRINGS ROTATIONS\n');
         for Floor=NStory+1:-1:1
             if Floor~=NStory+1 && Floor~=1
-                for Axis=1:NBay+1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+03;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_D.out -ele %7d deformation; ', Filename.ColSpring, Floor,Axis,SpringID);
                 end
                 fprintf(INP,'\n');
-                for Axis=1:NBay+1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+01;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_D.out -ele %7d deformation; ', Filename.ColSpring, Floor,Axis,SpringID);
                 end
-            end
-            if Floor==NStory+1
-                for Axis=1:NBay+1
+            elseif Floor==NStory+1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+01;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_D.out -ele %7d deformation; ', Filename.ColSpring, Floor,Axis,SpringID);
                 end
-            end
-            if Floor==1
-                for Axis=1:NBay+1
+            elseif Floor==1
+                for Axis=1:NBay+1+xx
                     SpringID=900000+Floor*1000+Axis*100+03;
                     fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_D.out -ele %7d deformation; ', Filename.ColSpring, Floor,Axis,SpringID);
                 end
             end
-            
+
             fprintf(INP,'\n');
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.BeamSpring==1
         fprintf(INP,'# BEAM SPRINGS FORCES\n');
         for Floor=NStory+1:-1:2
@@ -266,9 +264,70 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
-    
+
+
     if Recorders.EGFconnection==1
+
+        if Orientation==2
+            fprintf(INP,'# EGF COLUMN SPRINGS FORCES\n');
+            for Floor=NStory+1:-1:1
+                if Floor~=NStory+1 && Floor~=1
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+03;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_F.out -ele %7d force; ',Filename.ColSpring, Floor,Axis,SpringID);
+                    end
+                    fprintf(INP,'\n');
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+01;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_F.out -ele %7d force; ', Filename.ColSpring,Floor,Axis,SpringID);
+                    end
+                end
+                if Floor==NStory+1
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+01;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_F.out -ele %7d force; ', Filename.ColSpring,Floor,Axis,SpringID);
+                    end
+                end
+                if Floor==1
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+03;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_F.out -ele %7d force; ', Filename.ColSpring,Floor,Axis,SpringID);
+                    end
+                end
+                fprintf(INP,'\n');
+            end
+
+
+            fprintf(INP,'\n');
+            fprintf(INP,'# EGF COLUMN SPRINGS ROTATIONS\n');
+            for Floor=NStory+1:-1:1
+                if Floor~=NStory+1 && Floor~=1
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+03;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_D.out -ele %7d deformation; ',Filename.ColSpring, Floor,Axis,SpringID);
+                    end
+                    fprintf(INP,'\n');
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+01;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_D.out -ele %7d deformation; ', Filename.ColSpring,Floor,Axis,SpringID);
+                    end
+                end
+                if Floor==NStory+1
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+01;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dB_D.out -ele %7d deformation; ', Filename.ColSpring,Floor,Axis,SpringID);
+                    end
+                end
+                if Floor==1
+                    for Axis=NBay+2:NBay+3
+                        SpringID=900000+Floor*1000+Axis*100+03;
+                        fprintf(INP,'recorder Element -file $MainFolder/$SubFolder/%s%d%dT_D.out -ele %7d deformation; ', Filename.ColSpring,Floor,Axis,SpringID);
+                    end
+                end
+                fprintf(INP,'\n');
+            end
+        end
+
         fprintf(INP,'# EGF CONNECTION SPRINGS FORCES\n');
         for Floor=NStory+1:-1:2
             for Axis=NBay+2:NBay+3
@@ -308,8 +367,8 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
-        
+
+
     if Recorders.PZ==1
         fprintf(INP,'# PZ SPRING MOMENT\n');
         for Floor=NStory+1:-1:2
@@ -320,7 +379,7 @@ if AnalysisTypeID~=1
             fprintf(INP,'\n');
         end
         fprintf(INP,'\n');
-        
+
         fprintf(INP,'# PZ SPRING ROTATION\n');
         for Floor=NStory+1:-1:2
             for Axis=1:NBay+1
@@ -331,7 +390,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.Brace==1
         fprintf(INP,'# BRACE ELEMENTS\n');
         for Story=1:NStory
@@ -356,7 +415,7 @@ if AnalysisTypeID~=1
             fprintf(INP,'\n');
         end
         fprintf(INP,'\n');
-        
+
         fprintf(INP,'# BRACE AXIAL DEFORMATION FROM GHOST BRACES\n');
         for Story=1:NStory
             for Bay=1:NBay
@@ -369,7 +428,7 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
     if Recorders.CGP==1 && BraceLayout==1
         fprintf(INP,'# BRACE CORNER RIGID LINKS FORCES\n');
         for Story=NStory:-1:1
@@ -386,8 +445,8 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
-    
+
+
     if Recorders.CGP==1 && BraceLayout==2
         fprintf(INP,'# BRACE CORNER RIGID LINKS FORCES\n');
         for Story=NStory:-1:1
@@ -399,5 +458,5 @@ if AnalysisTypeID~=1
         end
         fprintf(INP,'\n');
     end
-    
+
 end
