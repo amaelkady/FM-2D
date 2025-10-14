@@ -1,4 +1,4 @@
-function Import_ExcelData(FrameType, ExcelFilePath,ExcelFileName, NStory, NBay,FloorLink)
+function Import_ExcelData(FrameType, ExcelFilePath,ExcelFileName, NStory, NBay,FloorLink, GFX)
 global  MainDirectory ProjectPath ProjectName Units
 
 cd(ExcelFilePath)
