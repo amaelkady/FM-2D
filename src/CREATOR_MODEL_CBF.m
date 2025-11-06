@@ -61,9 +61,11 @@ write_FloorLinks (INP,NStory,NBay,WBay,PZ_Multiplier,FloorLink,Fs,Fs_Profile);
 
 write_EGFelements (INP,NStory,NBay,HStory,GFX,CompositeX,Orientation,nMF,nGC,nGB,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice,fy,Units);
 
+CONNECTIONS = 0;
+
 write_EGFsprings (INP,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, Units);
 
-write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support,MidSpanConstraint,BraceLayout);
+write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support, SupportGFS,MidSpanConstraint,BraceLayout);
 
 write_Recorders(INP, NStory, NBay, Recorders, Filename, FrameType, BraceLayout, Splice, FloorLink, AnalysisTypeID, GFX, Orientation);
 
