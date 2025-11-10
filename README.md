@@ -16,7 +16,7 @@ Frame Modeler 2D is an open-source MATLAB-based computational platform for model
 
 ## Important Notes
 
-- Make sure you run the FM2D.exe, which is located in this directory "C:\Program Files\University of Southampton\FM_2D\application", as admistrator.
+- Make sure you run the FM2D.exe, which is located in the default installation directory "C:\Program Files\University of Southampton\FM_2D\application", as admistrator. Note that FM2D needs to be able to create (open, read, and write) files within the installation directory.
 
 - If you encouter issues running OpenSees, try downloading the "lib" folder (available in FM-2D repo) and then place it in the following folder on your PC: C:\Program Files\University of Southampton\FM_2D.
 
