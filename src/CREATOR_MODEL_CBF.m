@@ -63,7 +63,7 @@ write_EGFelements (INP,NStory,NBay,HStory,GFX,CompositeX,Orientation,nMF,nGC,nGB
 
 CONNECTIONS = 0;
 
-write_EGFsprings (INP,NStory,NBay,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, Units);
+write_EGFsprings (INP,NStory,NBay,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, nMF, nGC, TribAreaIn, TribAreaEx, Units);
 
 write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support, SupportGFS,MidSpanConstraint,BraceLayout);
 
