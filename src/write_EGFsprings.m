@@ -1,11 +1,11 @@
-function write_EGFsprings (INP,NStory,NBay,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, nMF, nGC, TribAreaIn, TribAreaEx, Units)
+function write_EGFsprings (INP,NStory,NBay,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, nMF, nGC, TribAreaIn, TribAreaEx, HStory, TA_MF, cDL_W , RoofDL , cLL_W , RoofLL , cGL_W , RoofGL, fy, TypicalDL, TypicalLL, TypicalGL,nGB, Units)
 global ProjectPath ProjectName
 
 % Unload structure variables into fields
-save('temp.mat','-struct','MATERIALS')
-save('temp.mat','-struct','LOADS','-append')
-save('temp.mat','-struct','LAYOUT','-append')
-load('temp.mat')
+% save('temp.mat','-struct','MATERIALS')
+% save('temp.mat','-struct','LOADS','-append')
+% save('temp.mat','-struct','LAYOUT','-append')
+% load('temp.mat')
 
 for Story=NStory:-1:1
     Iy_MFcolumns(Story,1)=0;
