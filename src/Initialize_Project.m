@@ -8,7 +8,7 @@ xx=xx(1:end-4);
 xx= xx(~isspace(xx)); % remove spaces from project name to get opensees file name
 OpenSEESFileName = [xx,'.tcl'];
 
-Version             = 3.2601;
+Version             = 3.2602;
 BuildOption         = 2;
 ExecutionOption     = 1;
 Uncertainty         = 0;
