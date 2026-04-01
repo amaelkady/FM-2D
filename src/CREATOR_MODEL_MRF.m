@@ -2,8 +2,6 @@ function CREATOR_MODEL_MRF (AnalysisTypeID,TempPOrun)
 global MainDirectory ProjectName ProjectPath resource_root
 load(strcat(ProjectPath,ProjectName))
 
-clc;
-
 if TempPOrun==1; PM_Option=2; end
 if AnalysisTypeID==1; PM_Option=2; end
 

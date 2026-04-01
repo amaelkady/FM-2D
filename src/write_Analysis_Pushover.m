@@ -1,7 +1,5 @@
 function write_Analysis_Pushover(INP,NStory,DriftPO,PZ_Multiplier,FrameType,Units)
 
-clc;
-
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#											Pushover Analysis                     		    	   #\n');
 fprintf(INP,'###################################################################################################\n');
