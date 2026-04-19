@@ -84,10 +84,10 @@ if {$ConnectionType == 0} {
 
 	# FOR BARE STEEL BEAM
 	if {$CompositeFlag == 0} {
-		set MyPMy 1.0;
-		set MyNMy 1.0;
-		set McMyP 1.1;
-		set McMyN 1.1;
+		set MyPMy 1.00;
+		set MyNMy 1.00;
+		set McMyP 1.09;
+		set McMyN 1.09;
 		
 		# Corrected rotations to account for elastic deformations
 		set theta_y  [expr $My/(6 * $E * $Ix / $L)];
@@ -165,10 +165,10 @@ if {$ConnectionType == 1} {
 	
 	# FOR BARE STEEL BEAM
 	if {$CompositeFlag == 0} {		
-		set MyPMy    1.0;
-		set MyNMy    1.0;
-		set McMyP    1.1;
-		set McMyN    1.1;
+		set MyPMy    1.00;
+		set MyNMy    1.00;
+		set McMyP    1.11;
+		set McMyN    1.11;
 
 		# Corrected rotations to account for elastic deformations
 		set theta_y  [expr $My/(6 * $E * $Ix / $L)];
