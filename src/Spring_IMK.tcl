@@ -75,7 +75,7 @@ set K  [expr ($n+1.0) * 6 * $E * $Ix / $L];
 
 if {$ConnectionType == 0} {
 
-	set My [expr 1.17 * $My];
+	set My [expr 1.06 * $My];
 
 	# Rotational capacities calculated using  Lignos and Krawinkler (2009) RBS equations
 	set theta_p   [expr 0.19 * pow(($htw),-0.314) * pow(($bftf),-0.100) *  pow(($Lb/$ry),-0.185) * pow(($Ls/$d),0.113) * pow(($c1 * $d/533),-0.760) * pow(($c2 * $Fy* $c4/355),-0.070)];
@@ -149,7 +149,7 @@ if {$ConnectionType == 0} {
 
 if {$ConnectionType == 1} {
 
-	set My [expr 1.06 * $My];
+	set My [expr 1.17 * $My];
 
 	# Rotational capacities calculated using Lignos and Krawinkler (2009) other-than-RBS equations
 	if {$d > [expr $c3*21.0]} {
