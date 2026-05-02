@@ -10,6 +10,8 @@ fprintf(INP,'source DisplayModel3D.tcl;\n');
 fprintf(INP,'source DisplayPlane.tcl;\n');
 fprintf(INP,'source Spring_PZ.tcl;\n');
 fprintf(INP,'source Spring_IMK.tcl;\n');
+fprintf(INP,'source Spring_Connection_FullyRigid.tcl;\n');
+fprintf(INP,'source Spring_Column_WideFlange.tcl;\n');
 fprintf(INP,'source Spring_Zero.tcl;\n');
 fprintf(INP,'source Spring_Rigid.tcl;\n');
 
@@ -47,6 +49,9 @@ if FrameType~=4
     end
     if ColElementOption==4
         fprintf(INP,'source FiberWF_HLB.tcl;\n');
+    end
+    if ColElementOption==4
+        fprintf(INP,'source FiberWF_HLB_Nonlocal.tcl;\n');
     end
     if FrameType==3 
         fprintf(INP,'source ConstructFiberBeam.tcl;\n');
