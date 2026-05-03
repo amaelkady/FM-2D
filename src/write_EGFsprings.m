@@ -58,7 +58,7 @@ for Floor=NStory+1:-1:1
                 Pg_EGF   = (cDL_W * RoofDL + cLL_W * RoofLL + cGL_W * RoofGL) * Area_EGF + (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * Area_EGF * (NStory+1 - Floor -1);
                 PgPy_GC  = Pg_EGF/(A_GC*fy);
                 My_GC =	1.1 * fy * (Z_GC + Zy_MFcolumns(Story,1));
-                fprintf(INP,'Spring_IMK  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite 2 %d; ', SpringID,nodeID1,nodeID2,I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
+                fprintf(INP,'Spring_Column_WideFlange  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,nodeID1,nodeID2,I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
             else
                 fprintf(INP,'Spring_Zero %7d %7d %7d; ', SpringID, nodeID1, nodeID2);
             end
@@ -74,7 +74,7 @@ for Floor=NStory+1:-1:1
             if GFX==1
                 Pg_EGF   = (cDL_W * RoofDL + cLL_W * RoofLL + cGL_W * RoofGL) * Area_EGF + (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * Area_EGF * (NStory+1 - Floor);
                 PgPy_GC  = Pg_EGF/(A_GC*fy);
-                fprintf(INP,'Spring_IMK  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite 2 %d; ', SpringID,nodeID1,nodeID2,I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
+                fprintf(INP,'Spring_Column_WideFlange  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,nodeID1,nodeID2,I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
             else
                 fprintf(INP,'Spring_Zero %7d %7d %7d; ', SpringID, nodeID1, nodeID2);
             end
@@ -92,7 +92,7 @@ for Floor=NStory+1:-1:1
                 Pg_EGF   = (cDL_W * RoofDL + cLL_W * RoofLL + cGL_W * RoofGL) * Area_EGF;
                 PgPy_GC  = Pg_EGF/(A_GC*fy);
                 My_GC =	1.1 * fy * (Z_GC + Zy_MFcolumns(Story,1));
-                fprintf(INP,'Spring_IMK  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite 2 %d; ', SpringID,nodeID1,nodeID2, I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
+                fprintf(INP,'Spring_Column_WideFlange  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,nodeID1,nodeID2, I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
             else
                 fprintf(INP,'Spring_Zero %7d %7d %7d; ', SpringID, nodeID1,nodeID2);
             end
@@ -110,7 +110,7 @@ for Floor=NStory+1:-1:1
                 Pg_EGF   = (cDL_W * RoofDL + cLL_W * RoofLL + cGL_W * RoofGL) * Area_EGF + (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * Area_EGF * (NStory-1);
                 PgPy_GC  = Pg_EGF/(A_GC*fy);
                 My_GC =	1.1 * fy * (Z_GC + Zy_MFcolumns(Story,1));
-                fprintf(INP,'Spring_IMK  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite 2 %d; ', SpringID,nodeID1,nodeID2, I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
+                fprintf(INP,'Spring_Column_WideFlange  %7d %7d %7d $E $fy [expr (%.4f + %.4f)] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,nodeID1,nodeID2, I_GC, Iy_MFcolumns(Story,1),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx), H_GC,L_GC,Lb_GC,My_GC, PgPy_GC, Units);
             else
                 fprintf(INP,'Spring_Zero %7d %7d %7d; ', SpringID, nodeID1,nodeID2);
             end

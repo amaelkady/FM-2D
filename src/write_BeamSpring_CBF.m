@@ -81,18 +81,18 @@ if FrameType==2
                     if Axis~=1 && Axis~=NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     elseif Axis==1
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     elseif Axis==NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     end
                 end
             end
@@ -117,12 +117,12 @@ if FrameType==2
                 jNode = 200000+1000*Floor+100*Bay+2;
                 iNode = 200000+1000*Floor+100*Bay+12;
                 SpringID=900000+Floor*1000+Bay*100+22;
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                 
                 iNode = 200000+1000*Floor+100*Bay+5;
                 jNode = 200000+1000*Floor+100*Bay+15;
                 SpringID=900000+Floor*1000+Bay*100+55;
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
             end
             fprintf(INP,'\n');
         end
@@ -201,18 +201,18 @@ if FrameType==2
                     if Axis~=1 && Axis~=NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     elseif Axis==1
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     elseif Axis==NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     end
 
                 end
@@ -304,20 +304,20 @@ if FrameType==3
                     if BraceLayout==1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     end
                     iNode = 400000+1000*Floor+100*Axis+04;
                     jNode = 100*Floor+10*Axis+04;
-                    fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                    fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                 elseif Axis==1
                     iNode = 400000+1000*Floor+100*Axis+04;
                     jNode = 100*Floor+10*Axis+04;
-                    fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                    fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID04,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                 elseif BraceLayout==1
                     if Axis==NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                        fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f]  %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID02,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
                     end
                 end
 
@@ -344,13 +344,13 @@ if FrameType==3
             jNode = 200000+1000*Floor+100*Bay+2;
             iNode = 200000+1000*Floor+100*Bay+12;
             SpringID=900000+Floor*1000+Bay*100+22;
-            fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+            fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
             
             if BraceLayout==1
                 iNode = 200000+1000*Floor+100*Bay+5;
                 jNode = 200000+1000*Floor+100*Bay+15;
                 SpringID=900000+Floor*1000+Bay*100+55;
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f 0 $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.4f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $Composite %d %d; ',SpringID,iNode,jNode,SecDataB.Ix(idx), SecDataB.d(idx), SecDataB.h_tw(idx), SecDataB.bf_tf(idx), SecDataB.ry(idx), H_BEAM, L_BEAM, Lb_BEAM, My, ConnectionType, Units);
             end
         end
         fprintf(INP,'\n');

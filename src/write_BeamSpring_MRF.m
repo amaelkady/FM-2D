@@ -6,7 +6,7 @@ fprintf(INP,'###################################################################
 fprintf(INP,'\n');
 
 fprintf(INP,'# Command Syntax \n');
-fprintf(INP,'# Spring_IMK SpringID iNode jNode E fy Ix d htw bftf ry L Ls Lb My PgPye CompositeFLAG MFconnection Units; \n');
+fprintf(INP,'# Spring_Connection_FullyRigid SpringID iNode jNode E fy Ix d htw bftf ry L Ls Lb My CompositeFLAG MFconnection Units; \n');
 fprintf(INP,'\n');
 
 for Floor=NStory+1:-1:2
@@ -53,12 +53,12 @@ for Floor=NStory+1:-1:2
         if ModelELOption==1
 
             if Axis~=1 && Axis~=NBay+1
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_L,Node02,Node20,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_R,Node40,Node04,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $Composite %d %d; ',SpringID_L,Node02,Node20,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $Composite %d %d; ',SpringID_R,Node40,Node04,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
             elseif Axis==1
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_R,Node40,Node04,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $Composite %d %d; ',SpringID_R,Node40,Node04,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
             elseif Axis==NBay+1
-                fprintf(INP,'Spring_IMK %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f 0.0 $Composite %d %d; ',SpringID_L,Node02,Node20,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
+                fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $Composite %d %d; ',SpringID_L,Node02,Node20,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
             end
 
         else
