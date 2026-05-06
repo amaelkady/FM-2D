@@ -1,4 +1,4 @@
-function write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support,MidSpanConstraint,BraceLayout)
+function write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support, SupportGFS, MidSpanConstraint,BraceLayout)
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                       BOUNDARY CONDITIONS                                       #\n');
@@ -20,7 +20,12 @@ fprintf(INP,'\n');
 fprintf(INP,'# EGF SUPPORTS\n');
 for Axis=NBay+2:NBay+3
     nodeID=(10*1+Axis)*10;
-    fprintf(INP,'fix %d 1 1 0; ', nodeID);
+    if SupportGFS==1
+        fprintf(INP,'fix %d 1 1 1; ', nodeID);
+    else
+        fprintf(INP,'fix %d 1 1 0; ', nodeID);
+
+    end
 end
 fprintf(INP,'\n\n');
 
@@ -36,7 +41,7 @@ if PZ_Multiplier==1
             fprintf(INP,'\n');
         end
         fprintf(INP,'\n');
-        
+
         if FrameType==2
             fprintf(INP,'# BEAM MID-SPAN HORIZONTAL MOVEMENT CONSTRAINT\n');
             for Floor=NStory+1:-1:2
@@ -51,7 +56,7 @@ if PZ_Multiplier==1
             end
             fprintf(INP,'\n');
         end
-        
+
         fprintf(INP,'# EGF FLOOR MOVEMENT\n');
         for Floor=NStory+1:-1:2
             nodeID0 = (10*Floor+(NBay+2))*10;
@@ -61,9 +66,9 @@ if PZ_Multiplier==1
         fprintf(INP,'\n');
     end
     fprintf(INP,'\n');
-    
+
 else
-    
+
     if RigidFloor==1
         fprintf(INP,'# MF FLOOR MOVEMENT\n');
         for Floor=NStory+1:-1:2
@@ -76,7 +81,7 @@ else
             fprintf(INP,'\n');
         end
         fprintf(INP,'\n');
-        
+
         if FrameType~=1
             fprintf(INP,'# BEAM MID-SPAN SAGGING CONSTRAINT\n');
             for Floor=NStory+1:-1:2
@@ -91,7 +96,7 @@ else
             end
             fprintf(INP,'\n');
         end
-        
+
         fprintf(INP,'# EGF FLOOR MOVEMENT\n');
         for Floor=NStory+1:-1:2
             nodeID0 = (10*Floor+(NBay+2))*10;

@@ -28,6 +28,7 @@ Frame Modeler 2D is an open-source MATLAB-based computational platform for model
 ## Citation
 Elkady, A. (2022). "FM-2D: Open-Source Platform for the Numerical Modeling and Seismic Analysis of Buildings." SoftwareX, 17(1), DOI: [10.1016/j.softx.2021.100927](https://www.sciencedirect.com/science/article/pii/S2352711021001679).
 
+##
 <p align="center">
   <img width="800" src="misc\FM2Dvisualization-gif.gif" alt="FM-2D Local Visualization">
   <img width="800" src="misc\FM2D_PH_progression-gif.gif" alt="FM-2D PH Progression">
