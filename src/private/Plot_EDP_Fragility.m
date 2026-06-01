@@ -1,7 +1,7 @@
-function Plot_EDP_Fragility(GMi, GMj, EDPtype)
+function plot_EDP_Fragility(GMi, GMj, EDPtype)
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName),'CollapseSDR','nRealizations','GM_Start','RFpath');
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'GM_Start','CollapseSDR','RFpath','nRealizations');
 
 if strcmp(EDPtype,'SDR')==1; filename='Summary Maximum SDR.txt'; xlabelstr='\itSDR\rm_{max} [% rad]'; ylabelstr='P(\itsdr\rm \leq \itSDR\rm_{max})'; unit='% rad'; factor=100; end
 if strcmp(EDPtype,'RDR')==1; filename='Summary Maximum RDR.txt'; xlabelstr='\itRDR\rm_{max} [% rad]'; ylabelstr='P(\itrdr\rm \leq \itRDR\rm_{max})'; unit='% rad'; factor=100; end
@@ -13,9 +13,7 @@ else
     IM_Vector = 0.0:0.01:5;
 end
 
-cd (strcat(RFpath,'\Results'));
-EDP_data=importdata(filename)*factor;
-cd (MainDirectory);
+EDP_data=importdata(strcat(RFpath,'\Results\',filename))*factor;
 
 EDP_max = max(EDP_data,[],2);
 EDP_max = EDP_max((GMi-GM_Start)*nRealizations+1:(GMj-GMi+1)*nRealizations,1);
@@ -37,9 +35,9 @@ ylabel (ylabelstr);
 grid on; hold on; box on;
 
 % Plot the Mean Lognormal SDRmax Fragility Curve
-Median   = median ((EDP_max)); 
+Median   = median  ((EDP_max)); 
 MeanEDP  = mean (log(EDP_max)); 
-SigmaEDP = std(log(EDP_max)); 
+SigmaEDP = std  (log(EDP_max)); 
 EDPrange = (0.0:max(EDP_max)*1.2/30:max(EDP_max)*1.2);
 CDFProbability = logncdf(EDPrange,MeanEDP,SigmaEDP);
 plot(EDPrange,CDFProbability,'-r','linewidth',2);

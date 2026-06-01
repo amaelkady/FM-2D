@@ -1,11 +1,14 @@
-function [Py_Col]=write_ColumnSpring (INP, NStory, NBay, HStory, ColElementOption, PM_Option, MF_COLUMNS, MF_BEAMS, Splice, fy, Units)
+function [Py_Col]=write_ColumnSpring (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay', 'HStory', 'ColElementOption', 'PM_Option', 'MF_COLUMNS', 'MF_BEAMS', 'Splice', 'fy', 'Units');
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                           MF COLUMN SPRINGS                                     #\n');
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'\n');
 
-[Pred]=Get_Col_Axial_Force(PM_Option);
+[Pred]=get_Col_Axial_Force(PM_Option);
 
 for Fi=NStory+1:-1:1
     Si=min(NStory,Fi);
@@ -15,16 +18,16 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis}; if Splice(Fi-1,1)==1; Section = MF_COLUMNS{Fi,Axis}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
             SectionC=Section;
-            [SecDataC]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idx=find(contains(SecDataC.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi,Bay};
-            [SecDataB1]=Load_SecData (Section, Units);
-            idxB1=min(find(contains(SecDataB1.Name,Section)));
+            [SecDataB1]=load_SecData (Section, Units);
+            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB2]=Load_SecData (Section, Units);
-            idxB2=min(find(contains(SecDataB2.Name,Section)));
+            [SecDataB2]=load_SecData (Section, Units);
+            idxB2=find(contains(SecDataB2.Name,Section),1,'first');
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB2.d(idxB2);
             Ls_Col =  L_Col*0.5;
@@ -40,9 +43,9 @@ for Fi=NStory+1:-1:1
             SpringID=900000+Fi*1000+Axis*100+03;
 
             if ColElementOption==1
-                if isempty(strfind(SectionC, 'W'))==0
+                if ~contains(SectionC, 'W')==0
                     fprintf(INP,'Spring_Column_WideFlange %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,iNode,jNode,SecDataC.Ix(idx),SecDataC.d(idx), SecDataC.h_tw(idx), SecDataC.bf_tf(idx),SecDataC.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy,Units);
-                elseif isempty(strfind(SectionC, 'HSS'))==0
+                elseif ~contains(SectionC, 'HSS')==0
                     fprintf(INP,'Spring_Column_HSS %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f; ', SpringID,iNode,jNode,SecDataC.Ix(idx), SecDataC.h_t(idx),L_Col,My_mod,PgPy);
                 end
             else
@@ -57,22 +60,22 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis}; if Splice(Fi-1,1)==1; Section = MF_COLUMNS{Fi,Axis}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
             SectionC=Section;
-            [SecDataC]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idx=find(contains(SecDataC.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB1]=Load_SecData (Section, Units);
-            idxB1=min(find(contains(SecDataB1.Name,Section)));
+            [SecDataB1]=load_SecData (Section, Units);
+            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idxB2=min(find(contains(SecDataB2.Name,Section)));
+            [SecData]=load_SecData (Section, Units);
+            idxB2=find(contains(SecDataB2.Name,Section),1,'first');
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB2.d(idxB2);
             if Fi==2
                 Section=MF_BEAMS{Fi-1,Bay};
-                [SecData]=Load_SecData (Section, Units);
-                idxB1=min(find(contains(SecDataB1.Name,Section)));
+                [SecData]=load_SecData (Section, Units);
+                idxB1=find(contains(SecDataB1.Name,Section),1,'first');
                 L_Col  =  HStory(Si-1) - 0.5*SecDataB1.d(idxB1);
             end
             Ls_Col  = L_Col*0.5;
@@ -88,9 +91,9 @@ for Fi=NStory+1:-1:1
             SpringID=900000+Fi*1000+Axis*100+01;
 
             if ColElementOption==1
-                if isempty(strfind(SectionC, 'W'))==0
+                if ~contains(SectionC, 'W')==0
                     fprintf(INP,'Spring_Column_WideFlange %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,iNode,jNode,SecData.Ix(idx),SecData.d(idx), SecData.h_tw(idx), SecData.bf_tf(idx),SecData.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy,Units);
-                elseif isempty(strfind(SectionC, 'HSS'))==0
+                elseif ~contains(SectionC, 'HSS')==0
                     fprintf(INP,'Spring_Column_HSS %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f; ', SpringID,iNode,jNode,SecDataC.Ix(idx), SecDataC.h_t(idx),L_Col,My_mod,PgPy);
                 end
             else
@@ -106,16 +109,16 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis};
             SectionC=Section;
-            [SecDataC]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idx=find(contains(SecDataC.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB1]=Load_SecData (Section, Units);
-            idxB1=min(find(contains(SecDataB1.Name,Section)));
+            [SecDataB1]=load_SecData (Section, Units);
+            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi-2,Bay};
-            [SecDataB2]=Load_SecData (Section, Units);
-            idxB2=min(find(contains(SecDataB2.Name,Section)));
+            [SecDataB2]=load_SecData (Section, Units);
+            idxB2=find(contains(SecDataB2.Name,Section),1,'first');
 
             L_Col  = HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB2.d(idxB2);
             Ls_Col = L_Col*0.5;
@@ -131,9 +134,9 @@ for Fi=NStory+1:-1:1
             SpringID=900000+Fi*1000+Axis*100+01;
 
             if ColElementOption==1
-                if isempty(strfind(SectionC, 'W'))==0
+                if ~contains(SectionC, 'W')==0
                     fprintf(INP,'Spring_Column_WideFlange %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,iNode,jNode,SecDataC.Ix(idx),SecDataC.d(idx), SecDataC.h_tw(idx), SecDataC.bf_tf(idx),SecDataC.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy, Units);
-                elseif isempty(strfind(SectionC, 'HSS'))==0
+                elseif ~contains(SectionC, 'HSS')==0
                     fprintf(INP,'Spring_Column_HSS %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f; ', SpringID,iNode,jNode,SecDataC.Ix(idx), SecDataC.h_t(idx),L_Col,My_mod,PgPy);
                 end
             else
@@ -149,12 +152,12 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis};
             SectionC=Section;
-            [SecDataC]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idx=find(contains(SecDataC.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB1]=Load_SecData (Section, Units);
-            idxB1=min(find(contains(SecDataB1.Name,Section)));
+            [SecDataB1]=load_SecData (Section, Units);
+            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB1.d(idxB1);
             Ls_Col  = L_Col*0.5;
@@ -170,9 +173,9 @@ for Fi=NStory+1:-1:1
             SpringID=900000+Fi*1000+Axis*100+01;
 
             if ColElementOption==1
-                if isempty(strfind(SectionC, 'W'))==0
+                if ~contains(SectionC, 'W')==0
                     fprintf(INP,'Spring_Column_WideFlange %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,iNode,jNode,SecDataC.Ix(idx),SecDataC.d(idx), SecDataC.h_tw(idx), SecDataC.bf_tf(idx),SecDataC.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy, Units);
-                elseif isempty(strfind(SectionC, 'HSS'))==0
+                elseif ~contains(SectionC, 'HSS')==0
                     fprintf(INP,'Spring_Column_HSS %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f; ', SpringID,iNode,jNode,SecDataC.Ix(idx), SecDataC.h_t(idx),L_Col,My_mod,PgPy);
                 end
             else
@@ -188,12 +191,12 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis};
             SectionC=Section;
-            [SecDataC]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idx=find(contains(SecDataC.Name,Section),1,'first');
 
             Section=MF_BEAMS{Fi,Bay};
-            [SecDataB1]=Load_SecData (Section, Units);
-            idxB1=min(find(contains(SecDataB1.Name,Section)));
+            [SecDataB1]=load_SecData (Section, Units);
+            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1);
             Ls_Col =  L_Col*0.5;
@@ -209,9 +212,9 @@ for Fi=NStory+1:-1:1
             SpringID=900000+Fi*1000+Axis*100+03;
 
             if ColElementOption==1
-                if isempty(strfind(SectionC, 'W'))==0
+                if ~contains(SectionC, 'W')==0
                     fprintf(INP,'Spring_Column_WideFlange %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d; ', SpringID,iNode,jNode,SecDataC.Ix(idx),SecDataC.d(idx), SecDataC.h_tw(idx), SecDataC.bf_tf(idx),SecDataC.ry(idx),L_Col,Ls_Col,Lb_Col,My_mod,PgPy, Units);
-                elseif isempty(strfind(SectionC, 'HSS'))==0
+                elseif ~contains(SectionC, 'HSS')==0
                     fprintf(INP,'Spring_Column_HSS %7d %7d %7d $E $fy %.4f %.4f %.4f %.4f %.4f; ', SpringID,iNode,jNode,SecDataC.Ix(idx), SecDataC.h_t(idx),L_Col,My_mod,PgPy);
                 end
             else

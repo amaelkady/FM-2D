@@ -11,7 +11,7 @@
 % g     = gravity acceleration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [Amax] =  Get_SA_SDoF(T1, dt, zeta, acc, g)
+function [Amax] =  get_SA_SDoF(T1, dt, zeta, acc, g)
 
 mass = 1.0;
 

@@ -11,14 +11,14 @@
 %##########################################################################################################
 %##########################################################################################################
 
-function Run_OpenSEES (app)
+function run_OpenSees (app)
 
 clc; fclose('all');
 
-global MainDirectory ProjectName ProjectPath
-load(strcat(ProjectPath,ProjectName));
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'));
 
-OpenSEESFileNameX=[' ',OpenSEESFileName];
+OpenSEESFileNameX=[' ',PROJECT.OpenSEESFileName];
 
 cd (MainDirectory);
 
@@ -124,13 +124,13 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 ALL_ANALYSED_SAs(AnalysisCount)=SAcurrent;                                                          % Saves all the analyzed SA values during IDA (helps avoid repeatition of analysis during the collapse point trace)
                 ALL_ANALYSED_SAs=sort(ALL_ANALYSED_SAs);
                 
-                Show_Status_Dynamic(GM_No, GM, SAstep, SAcurrent, SFcurrent, DATA.SDRincrmax, DATA.PFAincrmax, DATA.SA_last_NC, DATA.SDR_last_NC, DATA.PFA_last_NC , RunTime, Collapse_Flag, SA_metric, IDA)
+                show_Status_Dynamic(GM_No, GM, SAstep, SAcurrent, SFcurrent, DATA.SDRincrmax, DATA.PFAincrmax, DATA.SA_last_NC, DATA.SDR_last_NC, DATA.PFA_last_NC , RunTime, Collapse_Flag, SA_metric, IDA)
                 
                 %% RUN OPENSEES MODEL
-                [RunTime]=Run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
+                [RunTime]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
                 
                 %% READ OPENSEES OUTPUT FILES
-                [DATA] = Read_Analysis_Data (MainDirectory,RFpath,GM_No,GM,NStory,Filename,g,SFcurrent,DATA,Recorders, subfoldername);
+                [DATA] = read_Analysis_Data (MainDirectory,RFpath,GM_No,GM,NStory,FILENAME,g,SFcurrent,DATA,RECORDERS, subfoldername);
                 
                 %% CHECK IF NUMERICAL INSTABILITY OCCURED
                 if DATA.SDRincrmax > 0.5 || DATA.PFAincrmax > 20; NumInstability_Flag = 1; else; NumInstability_Flag = 0; end
@@ -158,8 +158,8 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 else                                                                        						
                     
                     if ShowScope==1
-                        if    IDA==1; [FigI] = Show_Scope_IDA      (AnalysisCount,SAcurrent,NumInstability_Flag,DATA.SDRincrmax,DATA.PFAincrmax,DATA.PFA_last_NC,CollapseSDR,FigI);
-                        else;         [FigD] = Show_Scope_Dynamic  (NumInstability_Flag,Collapse,DATA.SDRincrmax,DATA.PFAincrmax,nGM_total,count,FigD,Ri); 
+                        if    IDA==1; [FigI] = show_Scope_IDA      (AnalysisCount,SAcurrent,NumInstability_Flag,DATA.SDRincrmax,DATA.PFAincrmax,DATA.PFA_last_NC,CollapseSDR,FigI);
+                        else;         [FigD] = show_Scope_Dynamic  (NumInstability_Flag,Collapse,DATA.SDRincrmax,DATA.PFAincrmax,nGM_total,count,FigD,Ri); 
                         end
                     end
 
@@ -168,7 +168,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                     
                     %% When there is no numerical instability
                     if NumInstability_Flag == 0
-                        [IncrDATA] = Save_Increment_Data (NStory,IncrNo, SAcurrent,DATA,IncrDATA,Recorders);
+                        [IncrDATA] = save_Increment_Data (NStory,IncrNo, SAcurrent,DATA,IncrDATA,RECORDERS);
                         if IncrNo<=2; IDASlope_Ratio=1; IDASlope_0=SAcurrent/DATA.SDRincrmax; else; IDASlope_Ratio=abs((SAcurrent-DATA.SA_last_NC)/(DATA.SDRincrmax-DATA.SDR_last_NC))/IDASlope_0; end % added 08/2019
                         DATA.IDASlope_last_NC=abs((SAcurrent-DATA.SA_last_NC)/(DATA.SDRincrmax-DATA.SDR_last_NC));                                                          % added 08/2019
                         
@@ -229,7 +229,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
             end
             
             %% Save IDA data summary
-            if IDA==1; Save_Results_IDA(MainDirectory,RFpath,GM_No,GM,NStory,IncrNo,IncrDATA,Delete_Flag,Recorders); end
+            if IDA==1; save_Results_IDA(MainDirectory,RFpath,GM_No,GM,NStory,IncrNo,IncrDATA,RECORDERS.Delete_Flag,RECORDERS); end
             
             %% Close the scope figure at end of each GM
             if ShowScope==1 && IDA==1;   close (FigI); end
@@ -239,7 +239,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
     %% Save dynamic data summary
     if Dynamic_TargetSF==1 || Dynamic_TargetSA==1
         app.ProgressText.Text='Saving Summary Data'; drawnow;
-        Save_Results_Dynamic;
+        save_Results_Dynamic;
     end
     
 
@@ -260,12 +260,12 @@ elseif PO == 1 || ELF==1
     if ELF==1; app.ProgressText.Text='Running ELF Analysis...';      drawnow; end
     
     % RUN OPENSEES MODEL
-    [~]=Run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
+    [~]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
     
 elseif TTH==1
 
     app.ProgressText.Text='Saving Summary Data'; drawnow;
-    Save_Results_TTH;
+    save_Results_TTH;
 
 end
 

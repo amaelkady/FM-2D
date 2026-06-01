@@ -1,5 +1,7 @@
-function write_SourceSubroutine (INP, FrameType, AnalysisTypeID, ColElementOption, GFX, EGFconnection, PZ_Multiplier)
+function write_SourceSubroutine (INP, AnalysisTypeID)
 
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'FrameType', 'ColElementOption','BeamElementOption', 'GFX', 'EGFconnection', 'PZ_Multiplier','MFconnection');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                       SOURCING SUBROUTINES                                       #\n');
@@ -23,6 +25,10 @@ if GFX==1
     end
 end
 
+if MFconnection ==3
+    fprintf(INP,'source Spring_SR_EEPC.tcl;\n');
+end
+
 if FrameType~=4 
     if GFX==1
         fprintf(INP,'source Spring_Pinching.tcl;\n');
@@ -41,16 +47,21 @@ if FrameType~=4
         fprintf(INP,'source FiberGP.tcl;\n');
         fprintf(INP,'source FatigueMat.tcl;\n');    
     end
-    if ColElementOption~=1 || FrameType~=1 
+    if ColElementOption~=1 || BeamElementOption~=1 || FrameType~=1 
+        if ColElementOption~=1    
         fprintf(INP,'source ConstructFiberColumn.tcl;\n');
+        end
+        if BeamElementOption~=1    
+        fprintf(INP,'source ConstructFiberBeam.tcl;\n');
+        end
         fprintf(INP,'source FiberRHSS.tcl;\n');
         fprintf(INP,'source FiberCHSS.tcl;\n');
         fprintf(INP,'source FiberWF.tcl;\n');
     end
-    if ColElementOption==4
+    if ColElementOption==4 || BeamElementOption==4
         fprintf(INP,'source FiberWF_HLB.tcl;\n');
     end
-    if ColElementOption==4
+    if ColElementOption==5 || BeamElementOption==5
         fprintf(INP,'source FiberWF_HLB_Nonlocal.tcl;\n');
     end
     if FrameType==3 

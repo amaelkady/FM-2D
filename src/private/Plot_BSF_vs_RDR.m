@@ -1,4 +1,4 @@
-function [X, Y, POC]=Plot_BSF_vs_RDR(GM_No, Ri, plotstatus)
+function [X, Y, POC]=plot_BSF_vs_RDR(GM_No, Ri, plotstatus)
 
 arguments
     GM_No      (1,1) {mustBePositive, mustBeInteger}
@@ -6,8 +6,8 @@ arguments
     plotstatus (1,1) {mustBeInteger} = 1 
 end
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName),'FrameType','Ws','HBuilding','RFpath','Recorders','Filename','NStory','NBay','PO','EQ','ELF','CDPO','TTH','GM','Uncertainty','Parallel')
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','Uncertainty','Parallel','PO','ELF','EQ','CDPO','TTH','GM','RFpath','RECORDERS','FILENAME','NBay','Ws','NStory','HBuilding');
 
     if PO==1;                     SubRFname = 'Pushover';                        
 elseif ELF==1;                    SubRFname = 'ELF';                             
@@ -20,24 +20,24 @@ elseif TTH==1;                    SubRFname = 'Tsunami';                        
 cd (strcat(RFpath,'\Results\',SubRFname));
 
 % Read Floor Displacement Data
-if Recorders.Disp==1
+if RECORDERS.Disp==1
     Floor=NStory+1;
-    evalc(['x=importdata(','''',Filename.Disp,num2str(Floor),'_MF.out','''',')']);
+    evalc(['x=importdata(','''',FILENAME.Disp,num2str(Floor),'_MF.out','''',')']);
     Disp_MF(:,Floor)=x(10:end,1);
 end
 
 % Read Base Shear Force Data
-if Recorders.Support==1 % Compute BSF based on support reaction
+if RECORDERS.Support==1 % Compute BSF based on support reaction
     BSF=0;
     for Axis=1:NBay+3	
-        evalc(['x=importdata(','''',Filename.Support,num2str(Axis),'.out','''',')']);
+        evalc(['x=importdata(','''',FILENAME.Support,num2str(Axis),'.out','''',')']);
         Column_Shear(:,Axis)=x(10:end,1);
     end
-elseif Recorders.Column==1 % Compute BSF based on column (and CGP) forces
+elseif RECORDERS.Column==1 % Compute BSF based on column (and CGP) forces
     BSF=0;
     for Axis=1:NBay+3
-        evalc(['x=importdata(','''',Filename.Column,'1',num2str(Axis),'.out','''',')']);
-        if FrameType~=1 && Axis<=NBay+1; evalc(['x2=importdata(','''',Filename.CGP,'1',num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
+        evalc(['x=importdata(','''',FILENAME.Column,'1',num2str(Axis),'.out','''',')']);
+        if FrameType~=1 && Axis<=NBay+1; evalc(['x2=importdata(','''',FILENAME.CGP,'1',num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
         Column_Shear(:,Axis)=x(10:end,1)+x2(10:end,1);
     end
     

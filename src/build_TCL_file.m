@@ -1,11 +1,10 @@
 function build_TCL_file(app)
 
-global  ProjectPath ProjectName
-
-load(strcat(ProjectPath,ProjectName),'OpenSEESFileName','FrameType','EV','PO','EQ','ELF','CDPO','TTH','PM_Option','DiscritizationOption');
+global  MainDirectory ProjectPath
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','EV','PM_Option','PO','EQ','ELF','CDPO','TTH','DiscritizationOption','OpenSEESFileName');
 
 BuildOption=2;
-save(strcat(ProjectPath,ProjectName),'BuildOption','-append')
+save(strcat(MainDirectory,'\temp_unpacked'),'BuildOption','-append');
 
 if     EV==1;   AnalysisTypeID=1; 
 elseif PO==1;   AnalysisTypeID=2; 

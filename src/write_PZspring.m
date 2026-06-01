@@ -1,4 +1,7 @@
-function write_PZspring(INP,NStory,NBay,PZ_Multiplier,EL_Multiplier,CompositeX,MF_COLUMNS,MF_BEAMS,Doubler,trib,ts,Units)
+function write_PZspring(INP)
+
+global  MainDirectory 
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay', 'PZ_Multiplier','EL_Multiplier','CompositeX','MF_COLUMNS','MF_BEAMS','Doubler','trib','ts','Ry_column','Units');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                          PANEL ZONE SPRINGS                                      #\n');
@@ -8,8 +11,9 @@ fprintf(INP,'\n');
 if PZ_Multiplier==1
     
     fprintf(INP,'# COMMAND SYNTAX \n');
-    fprintf(INP,'# Spring_PZ    Element_ID Node_i Node_j E mu fy tw_Col tdp d_Col d_Beam tf_Col bf_Col Ic trib ts Response_ID transfTag\n');
-    
+    fprintf(INP,'# Spring_PZ    Element_ID Node_i Node_j E mu fy tw_Col tdp d_Col d_Beam tf_Col bf_Col Ic trib ts Response_ID transfTag; \n');
+    fprintf(INP,'\n');
+
     for Floor=NStory+1:-1:2
 
         Story=min(NStory,Floor);
@@ -19,12 +23,12 @@ if PZ_Multiplier==1
             Bay=max(1,Axis-1);
             
             Section=MF_COLUMNS{Story,Axis};
-            [SecData]=Load_SecData (Section,Units);
-            idxC=min(find(contains(SecData.Name,Section)));
+            [SecData]=load_SecData (Section,Units);
+            idxC=find(contains(SecData.Name,Section),1,'first');
             
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecData]=Load_SecData (Section,Units);
-            idxB=min(find(contains(SecData.Name,Section)));
+            [SecData]=load_SecData (Section,Units);
+            idxB=find(contains(SecData.Name,Section),1,'first');
 
             node1=400000+Floor*1000+Axis*100+09;
             node2=400000+Floor*1000+Axis*100+10;
@@ -40,7 +44,7 @@ if PZ_Multiplier==1
                 end
             end
             
-            fprintf(INP,'Spring_PZ    %d %d %d $E $mu [expr $fy * %5.1f] %5.2f  %5.2f %5.2f %5.2f %5.2f %5.2f %5.2f %5.3f %5.3f %d 1; ',SpringID,node1,node2,EL_Multiplier,SecData.tw(idxC),Doubler(Floor-1,Axis),SecData.d(idxC),SecData.d(idxB),SecData.tf(idxC),SecData.bf(idxC),SecData.Ix(idxC),trib,ts,Response_ID);
+            fprintf(INP,'Spring_PZ    %d %d %d $E $mu [expr $fy * %.2f * %5.1f] %5.2f  %5.2f %5.2f %5.2f %5.2f %5.2f %5.2f %5.3f %5.3f %d 1; ',SpringID,node1,node2,Ry_column,EL_Multiplier,SecData.tw(idxC),Doubler(Floor-1,Axis),SecData.d(idxC),SecData.d(idxB),SecData.tf(idxC),SecData.bf(idxC),SecData.Ix(idxC),trib,ts,Response_ID);
         
         end
         fprintf(INP,'\n');

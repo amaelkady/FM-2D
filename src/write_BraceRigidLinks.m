@@ -1,4 +1,7 @@
-function write_BraceRigidLinks (INP, NStory, NBay, FrameType, BraceLayout,PZ_Multiplier)
+function write_BraceRigidLinks (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory', 'NBay', 'FrameType', 'BraceLayout','PZ_Multiplier');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                          RIGID BRACE LINKS                                       #\n');
@@ -28,8 +31,8 @@ if FrameType==2
                 ElemID77=700000+Floor*1000+Bay*100+77;
 
                 fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_selected;\n',ElemID22, nodeID1,nodeID2);
-                fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n', ElemID33, nodeID1,nodeID3);
-                fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n', ElemID44, nodeID1,nodeID4);
+                fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n',   ElemID33, nodeID1,nodeID3);
+                fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n',   ElemID44, nodeID1,nodeID4);
                 fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_selected;\n',ElemID55, nodeID1,nodeID5);
                 if Floor<NStory+1 && BraceLayout==1
                     nodeID6=200000+1000*Floor+100*Bay+6;
@@ -64,9 +67,9 @@ if FrameType==3
             ElemID55=700000+Floor*1000+Bay*100+55;
 
             fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_selected;\n',ElemID22, nodeID8,nodeID2);
-            fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n', ElemID33, nodeID8,nodeID3);
+            fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n',   ElemID33, nodeID8,nodeID3);
             if BraceLayout==1
-                fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n', ElemID44, nodeID9,nodeID4);
+                fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_Corot;\n',   ElemID44, nodeID9,nodeID4);
                 fprintf(INP,'element elasticBeamColumn %d %d %d $A_Stiff $E $I_Stiff  $trans_selected;\n',ElemID55, nodeID9,nodeID5);
             end
 

@@ -1,9 +1,9 @@
-function [IncrDATA]= Save_Increment_Data(NStory,IncrNo, SAcurrent,DATA,IncrDATA,Recorders)
+function [IncrDATA]= save_Increment_Data(NStory,IncrNo, SAcurrent,DATA,IncrDATA,RECORDERS)
 
 % Save SA level in Storage Vector "SA"
 IncrDATA.SA (IncrNo) = SAcurrent;
 
-if Recorders.SDR==1
+if RECORDERS.SDR==1
     for i=1:NStory
         % Save SDR for Story i in Storage Vector "SDRi"
         evalc(strcat('IncrDATA.SDR',num2str(i),'(IncrNo) = max(abs (DATA.SDR', num2str(i), '(:,1)))'));
@@ -13,14 +13,14 @@ if Recorders.SDR==1
     end
 end
 
-if Recorders.RFA==1
+if RECORDERS.RFA==1
     % Save Maximum Absolute Acceleration for Floor i in Storage Vector "PFAi"
     for i=1:NStory+1
         evalc(strcat('IncrDATA.PFA',num2str(i),'(IncrNo) = max(abs (DATA.PFA' , num2str(i), '))'));
     end
 end
 
-if Recorders.SDR==1
+if RECORDERS.SDR==1
     % Save Maximum SDR for All Stories in Storage Vector "SDR_Max"
     IncrDATA.SDR_Max (IncrNo)=0.0;
     for i=1:NStory

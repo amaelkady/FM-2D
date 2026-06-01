@@ -1,6 +1,7 @@
-function write_Mass(INP, EL_ELEMENTS)
-global ProjectName ProjectPath
-load(strcat(ProjectPath,ProjectName))
+function write_Mass(INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'));
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                              NODAL MASS                                         #\n');
@@ -59,5 +60,5 @@ fprintf(INP,'\n');
 fprintf(INP,'constraints Plain;\n');
 fprintf(INP,'\n');
 
-save(strcat(ProjectPath,ProjectName),'EL_ELEMENTS','MassTot','MassMatrix','-append');
+save(strcat(MainDirectory,'\temp_unpacked'),'MassMatrix','MassTot','-append');
 

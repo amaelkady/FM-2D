@@ -1,32 +1,40 @@
-function write_PZelement(INP,NStory,NBay,PZ_Multiplier,MF_COLUMNS,MF_BEAMS,Units)
+function write_PZelement(INP)
 
+global  MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','PZ_Multiplier','MF_COLUMNS','MF_BEAMS','Units');
+
+if PZ_Multiplier==1
 fprintf(INP,'###################################################################################################\n');
-fprintf(INP,'#                                  PANEL ZONE NODES & ELEMENTS                                    #\n');
+fprintf(INP,'#                          PARALLELOGRAM PANEL ZONE NODES & ELEMENTS                              #\n');
 fprintf(INP,'###################################################################################################\n');
+elseif PZ_Multiplier==0
+fprintf(INP,'###################################################################################################\n');
+fprintf(INP,'#                               CROSS PANEL ZONE NODES & ELEMENTS                                 #\n');
+fprintf(INP,'###################################################################################################\n');
+end
 fprintf(INP,'\n');
 
-if PZ_Multiplier==1; fprintf(INP,'# PANEL ZONE NODES AND ELASTIC ELEMENTS\n');       end
-if PZ_Multiplier==2; fprintf(INP,'# CROSS PANEL ZONE NODES AND ELASTIC ELEMENTS\n'); end
 fprintf(INP,'# Command Syntax; \n');
 if PZ_Multiplier==1
-    fprintf(INP,'# ConstructPanel_Rectangle Axis Floor X_Axis Y_Floor E A_Panel I_Panel d_Col d_Beam transfTag \n');
+    fprintf(INP,'# ConstructPanel_Rectangle Axis Floor X_Axis Y_Floor E A_Panel I_Panel d_Col d_Beam transfTag;\n');
 else
-    fprintf(INP,'# ConstructPanel_Cross Axis Floor X_Axis Y_Floor E A_Panel I_Panel d_Col d_Beam transfTag ShapeID\n');
+    fprintf(INP,'# ConstructPanel_Cross Axis Floor X_Axis Y_Floor E A_Panel I_Panel d_Col d_Beam transfTag ShapeID;\n');
 end
+fprintf(INP,'\n');
 
 for Floor=NStory+1:-1:2
     for Axis=1:NBay+1
         Bay=max(1, Axis-1);
         
         Section=MF_COLUMNS{Floor-1,Axis};
-        [SecData]=Load_SecData (Section,Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section,Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         
         columndepth=SecData.d(idx);
         
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=Load_SecData (Section,Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section,Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         
         beamdepth=SecData.d(idx);
         

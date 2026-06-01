@@ -5,19 +5,20 @@ fprintf(INP,'#                                           MF COLUMN SPRINGS      
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'\n');
 
-[Pred]=Get_Col_Axial_Force(PM_Option);
+[Pred]=get_Col_Axial_Force(PM_Option);
+
 for Floor=NStory+1:-1:1
     Story=min(NStory,Floor);
     for Axis=1:NBay+1
         Bay=max(1,Axis-1);
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         
         %             Section=MF_BEAMS{Floor,Bay};
-        %             [SecDataBi]=Load_SecData_RC (Section);
+        %             [SecDataBi]=load_SecData_RC (Section);
         %
         %             Section=MF_BEAMS{Floor-1,Bay};
-        %             [SecDataBj]=Load_SecData_RC (Section);
+        %             [SecDataBj]=load_SecData_RC (Section);
         %
         %             L_Col  =  HStory(Story) - 0.5*SecDataBi.H - 0.5*SecDataBj.H;
         %             Ls_Col =  L_Col*0.5;

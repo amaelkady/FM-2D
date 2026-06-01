@@ -1,5 +1,5 @@
 function Execution_Commands(app, FrameType, ExecutionOption, OpenSEESFileName, RFpath, EV, PO, EQ, ELF, CDPO, TTH, PM_Option, BraceLayout)
-global MainDirectory ProjectName ProjectPath
+global MainDirectory ProjectPath
 
 cd(RFpath);
 mkdir('Results');
@@ -19,8 +19,9 @@ cd (MainDirectory);
 if ExecutionOption==1
     
     BuildOption=2;
-    save(strcat(ProjectPath,ProjectName),'BuildOption','-append')
-    load(strcat(ProjectPath,ProjectName),'DiscritizationOption')
+    save(strcat(MainDirectory,'\temp_unpacked'),'BuildOption','-append');
+    load(strcat(MainDirectory,'\temp_unpacked'),'DiscritizationOption')
+    DiscritizationOption;
     
     delete POmodepattern.out;
     
@@ -101,10 +102,10 @@ if ExecutionOption==1
         app.ProgressText.Text='Running Eigenvalue Analysis...'; drawnow;
         %evalc(strcat(['! OpenSEES.exe ', OpenSEESFileName]));
         eval(strcat('! OpenSees.exe TempModel.tcl'));
-        Process_EigenAnalysis;
+        process_EigenAnalysis;
     else
         app.Image.Visible      = 'on';
-        Run_OpenSEES (app);
+        run_OpenSees (app);
     end
     
     if PM_Option==1
@@ -129,7 +130,7 @@ else
     copyfile(OpenSEESFileName,MainDirectory,'f');
     cd(MainDirectory)
 
-    Run_OpenSEES (app);
+    run_OpenSees (app);
 end
 
 write2file_ProjectSummary(RFpath);  

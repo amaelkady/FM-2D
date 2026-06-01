@@ -1,5 +1,11 @@
-function write_OpenArguments(INP, NStory, FrameType, EQ, PO, ELF, CDPO, TTH, MaxRunTime, CompositeX, Animation, MainDirectory, RFpath, ModePO, DriftPO, DampModeI, DampModeJ, zeta, BuildOption, AnalysisTypeID, Version, Units)
-global ProjectName ProjectPath
+function write_OpenArguments(INP, BuildOption, AnalysisTypeID)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'MainDirectory','NStory',  'FrameType', 'EQ', 'PO', 'ELF', 'CDPO', 'TTH',  'MaxRunTime', 'CompositeX', 'Animation', 'RFpath',  'ModePO', 'DriftPO', 'DampModeI', 'DampModeJ', 'zeta', 'Version', 'Units');
+
+if BuildOption==1
+    EQ=0; PO=0; ELF=0; CDPO=0; TTH=0; MaxRunTime=60; Animation=0; ModePO=1; DriftPO=0.1; DampModeI=1; DampModeJ=NStory; zeta=0.02;
+end
 
 % HEADER LINES
 fprintf(INP,'####################################################################################################\n');
@@ -77,7 +83,7 @@ if BuildOption==2
         fprintf(INP,'########################################################################\n');
         fprintf(INP,'\n');
 
-        load(strcat(ProjectPath,ProjectName),'TTHpoints','TTHdt');
+        load(strcat(MainDirectory,'\temp_unpacked'),'TTHpoints', 'TTHdt');
 
         fprintf(INP,'set  TTHpoints %d; \n',TTHpoints);
         fprintf(INP,'set  TTHdt     %f; \n',TTHdt);

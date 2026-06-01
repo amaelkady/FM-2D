@@ -1,4 +1,7 @@
-function write_Analysis_Eigen(INP,FrameType,NStory,AnalysisTypeID,ModePO)
+function write_Analysis_Eigen(INP, AnalysisTypeID)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','NStory','ModePO');
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                        EIGEN VALUE ANALYSIS                                     #\n');

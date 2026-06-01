@@ -12,11 +12,11 @@ for Floor=NStory+1:-1:2
     for Axis=1:NBay+1
         Bay=max(1, Axis-1);
         Section=MF_COLUMNS{Floor-1,Axis};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         columndepth=SecData.H;
         
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         beamdepth=SecData.H;
         
         ShapeID=0;

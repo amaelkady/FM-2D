@@ -1,4 +1,11 @@
-function write_EGFsprings_FiberFrame (INP,NStory,NBay,GFX)
+function write_EGFsprings_FiberFrame (INP)
+
+global ProjectPath ProjectName
+load(strcat(ProjectPath,ProjectName));
+
+v2struct(MODEL);
+v2struct(LAYOUT);
+
 
 fprintf(INP,'# GRAVITY BEAMS SPRINGS\n');
 for Floor=NStory+1:-1:2

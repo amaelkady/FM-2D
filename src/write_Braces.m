@@ -1,4 +1,7 @@
-function write_Braces (INP, NStory, NBay, BRACES, Brace_L, FrameType, BraceLayout, nSegments, initialGI, nIntegration, Units)
+function write_Braces (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'));
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                 BRACE MEMBERS WITH FATIGUE MATERIAL                              #\n');
@@ -11,14 +14,14 @@ fprintf(INP,'# FatigueMat $MatID $BraceSecType $fy $E $L_brace $ry_brace $ht_bra
 matID=100;
 for Story=1:NStory
     Section=BRACES{Story,1};
-    [SecData]=Load_SecData (Section, Units);
-    idx=min(find(contains(SecData.Name,Section)));
+    [SecData]=load_SecData (Section, Units);
+    idx=find(contains(SecData.Name,Section),1,'first');
     if SecData.Type(idx) == 3
-        fprintf(INP,'FatigueMat %d %d $fyB $E %.4f %.4f 0.0 %.4f %.4f;',matID,SecData.Type(idx),Brace_L(Story,1),SecData.ry(idx),SecData.h_t(idx),SecData.b_t(idx));
+        fprintf(INP,'FatigueMat %d %d [expr $fyB * %.2f] $E %.4f %.4f 0.0 %.4f %.4f;',matID,SecData.Type(idx),Ry_brace,Brace_L(Story,1),SecData.ry(idx),SecData.h_t(idx),SecData.b_t(idx));
         matFatigue(Story) = matID+1;
         matID = matID + 2;
     else
-        fprintf(INP,'FatigueMat %d %d $fyB $E %.4f %.4f %.4f  0.0 0.0;',matID,SecData.Type(idx),Brace_L(Story,1),SecData.ry(idx),SecData.h_t(idx));
+        fprintf(INP,'FatigueMat %d %d [expr $fyB * %.2f] $E %.4f %.4f %.4f  0.0 0.0;',matID,SecData.Type(idx),Ry_brace,Brace_L(Story,1),SecData.ry(idx),SecData.h_t(idx));
         matFatigue(Story) = matID+1;
         matID = matID + 2;
     end
@@ -32,8 +35,8 @@ fprintf(INP,'# FiberRHSS $BraceSecType $FatigueMatID $h_brace $t_brace $nFiber $
 secID = 1;
 for Story=1:NStory
     Section=BRACES{Story,1};
-    [SecData]=Load_SecData (Section,Units);
-    idx=min(find(contains(SecData.Name,Section)));
+    [SecData]=load_SecData (Section,Units);
+    idx=find(contains(SecData.Name,Section),1,'first');
     if SecData.Type(idx) == 1
         fprintf(INP,'FiberRHSS %5d %5d %.4f %.4f 10 4 10 4; ',secID,matFatigue(Story),SecData.h(idx),SecData.t(idx));
         secID = secID + 1;

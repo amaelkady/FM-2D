@@ -1,5 +1,7 @@
-function write_EGFelements (INP,NStory,NBay,HStory,GFX,CompositeX,Orientation,nMF,nGC,nGB,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice,fy,Units)
+function write_EGFelements(INP)
 
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','HStory','GFX','CompositeX', 'Orientation','nMF','nGC','nGB','MF_COLUMNS', 'MF_BEAMS', 'GF_COLUMNS', 'GF_BEAMS', 'Splice', 'fy','Units');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                          EGF COLUMNS AND BEAMS                                   #\n');
@@ -15,10 +17,10 @@ for Story=NStory:-1:1
     Zy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=Load_SecData (Section, Units);
-        idx=min(find(contains(SecData.Name,Section)));
-        Iy_MFcolumns(Story,1)=Iy_MFcolumns(Story,1)+SecData.Iy(idx);
-        Zy_MFcolumns(Story,1)=Zy_MFcolumns(Story,1)+SecData.Zy(idx);
+        [SecData]=load_SecData (Section, Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
+        Iy_MFcolumns(Story,1)=0; %Iy_MFcolumns(Story,1)+SecData.Iy(idx);
+        Zy_MFcolumns(Story,1)=0; %Zy_MFcolumns(Story,1)+SecData.Zy(idx);
     end
 end
 
@@ -30,8 +32,8 @@ for Story=NStory:-1:1
         A_GC=100000.; I_GC=100000000.; Z_GC=100000000.;
     else
         Section=GF_COLUMNS{Story,1};
-        [SecData]=Load_SecData (Section, Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section, Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         A_GC = nGC *  SecData.Area(idx)/nMF/2;
         if Orientation==1
             I_GC = nGC *  SecData.Iy(idx)/nMF/2;
@@ -55,8 +57,8 @@ for Story=NStory:-1:1
             A_GC=100000.; I_GC=100000000.; Z_GC=100000000.;
         else
             Section=GF_COLUMNS{min(Story+1,NStory),1};
-            [SecData]=Load_SecData (Section, Units);
-            idx1=min(find(contains(SecData.Name,Section)));
+            [SecData]=load_SecData (Section, Units);
+            idx1=find(contains(SecData.Name,Section),1,'first');
             A_GC = nGC *  SecData.Area(idx1)/nMF/2;
             if Orientation==1
                 I_GC = nGC *  SecData.Iy(idx1)/nMF/2;
@@ -94,8 +96,8 @@ for Floor=NStory+1:-1:2
         A_GB=100000.; I_GB=100000000.; Z_GB=100000000.;
     else
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=Load_SecData (Section, Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section, Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         A_GB = nGB *  SecData.Area(idx)/nMF;
         I_GB = nGB *  SecData.Ix(idx)/nMF;
     end

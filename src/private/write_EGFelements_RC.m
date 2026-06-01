@@ -10,7 +10,7 @@ for Story=NStory:-1:1
     Iy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
 
         Iy_MFcolumns(Story,1)=Iy_MFcolumns(Story,1)+coeff_cracked*SecData.H*SecData.B^3/12;
     end
@@ -24,7 +24,7 @@ for Story=NStory:-1:1
         A_GC=100000.; I_GC=100000000.; Z_GC=100000000.;
     else
         Section=GF_COLUMNS{Story,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         if Orientation==1
             A_GC = nGC *  SecData.B*SecData.H/nMF/2;
             I_GC = nGC *  coeff_cracked*SecData.H*SecData.B^3/12/nMF/2;  
@@ -54,7 +54,7 @@ for Floor=NStory+1:-1:2
         A_GB=100000.; I_GB=100000000.; Z_GB=100000000.;
     else
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         A_GB = nGB *  SecData.B*SecData.H/nMF;
         I_GB = nGB *  coeff_cracked*SecData.B*SecData.H^3/12/nMF;     
     end

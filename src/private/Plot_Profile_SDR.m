@@ -1,11 +1,12 @@
-function Plot_Profile_SDR(GMi, GMj)
+function plot_Profile_SDR(GMi, GMj)
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName))
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'CollapseSDR','GM_Start','nRealizations','RFpath','Elevation','HalfElevation','YTickLabel','FloorLink');
+
 
 noGM = GMj-GMi+1;
 
-%% Read Summary Data
+%% Go inside the results folder and read the summary results
 cd (strcat(RFpath,'\Results'));
 SDR_MF=importdata('Summary Maximum SDR.txt')*100;
 cd (MainDirectory)

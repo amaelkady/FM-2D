@@ -1,7 +1,7 @@
-function Plot_EDP_vs_Realization(GMi, GMj, EDPtype)
+function plot_EDP_vs_Realization(GMi, GMj, EDPtype)
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName),'nRealizations','RFpath')
+global MainDirectory
+load (strcat(MainDirectory,'\temp_unpacked'),'nRealizations','RFpath')
 
 nGM=GMj-GMi+1;
 
@@ -23,7 +23,7 @@ set(gca,'Ylim',[0 1.2*max(EDP_vector_all)]);
 set(gca,'Xlim',[0.5 nRealizations*nGM+0.5]);
 drawnow;
 
-MeanEDP    = mean(EDP_vector_all); 
+MeanEDP    = mean   (EDP_vector_all); 
 SigmalnEDP = std(log(EDP_vector_all)); 
 plot([0.5 nRealizations*nGM+0.5],[MeanEDP MeanEDP],'--b','linewidth',1)
 TitleX=sprintf('%s %5.3f %s %s %5.3f', '\it\mu\rm=', MeanEDP,unit, 'and \it \sigma\rm =', SigmalnEDP);

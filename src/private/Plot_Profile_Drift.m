@@ -1,6 +1,7 @@
-function Plot_Profile_Drift()
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName),'RFpath','Recorders','NStory','Filename','PO','ELF','TTH','Elevation','HBuilding','DriftPO','YTickLabel')
+function plot_Profile_Drift()
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','PO','DriftPO','RECORDERS','FILENAME','HBuilding','RFpath','Elevation','YTickLabel');
 
 
 if     PO==1;   SubRFname='Pushover';   
@@ -11,9 +12,9 @@ elseif TTH==1;  SubRFname='Tsunami';    end
 cd (strcat(RFpath,'\Results\',SubRFname));
 
 %% Read Floor Displacement Data
-if Recorders.Disp==1
+if RECORDERS.Disp==1
     for Floor=2:NStory+1
-        evalc(['x=importdata(','''',Filename.Disp,num2str(Floor),'_MF.out','''',')']);
+        evalc(['x=importdata(','''',FILENAME.Disp,num2str(Floor),'_MF.out','''',')']);
         Disp_MF(:,Floor)=x(:,1);
     end
 end

@@ -2,8 +2,8 @@ function [T1_computed] = get_Period()
 
 clc;
 
-global MainDirectory ProjectName ProjectPath
-load(strcat(ProjectPath,ProjectName), 'FrameType' ,'DiscritizationOption','RFpath')
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','DiscritizationOption','RFpath');
 
 cd(RFpath);
 mkdir('Results');

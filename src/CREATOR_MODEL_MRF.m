@@ -1,8 +1,9 @@
 function CREATOR_MODEL_MRF (AnalysisTypeID,TempPOrun)
-global MainDirectory ProjectName ProjectPath resource_root
-load(strcat(ProjectPath,ProjectName))
 
-if TempPOrun==1; PM_Option=2; end
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'OpenSEESFileName','BuildOption','STATUS');
+
+if TempPOrun==1;      PM_Option=2; end
 if AnalysisTypeID==1; PM_Option=2; end
 
 % Open File to Write Code
@@ -20,46 +21,44 @@ else
     INP = fopen(OpenSEESFileName,'w+');
 end
 
-if Analysisstatus==1
-    write_OpenArguments(INP, NStory, FrameType, EQ, PO, ELF, CDPO, TTH, MaxRunTime, CompositeX, Animation, MainDirectory, RFpath, ModePO, DriftPO, DampModeI, DampModeJ, zeta, BuildOption, AnalysisTypeID, Version, Units);
+if STATUS.Analysis==1
+    write_OpenArguments(INP, BuildOption, AnalysisTypeID);
 else
-    write_OpenArguments(INP, NStory, FrameType,  0,  0,  0,     0,   0,  60, CompositeX, 0, MainDirectory, RFpath, 1, 0.1, 1, NStory, 0.02, 2, AnalysisTypeID, Version, Units);    
+    write_OpenArguments(INP,           2, AnalysisTypeID);
 end
 
-write_SourceSubroutine (INP, FrameType,AnalysisTypeID,ColElementOption,GFX, EGFconnection,PZ_Multiplier);
+write_SourceSubroutine (INP, AnalysisTypeID);
 
-write_ResultsFolder (INP, AnalysisTypeID,TempPOrun,Uncertainty);
+write_ResultsFolder (INP, AnalysisTypeID, TempPOrun);%, ANALYSIS);
 
-write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu0,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty, resource_root);
+write_BasicInput (INP);
 
-write_PreCalculatedGeometry (INP, NStory, NBay, HStory, WBay, WBuilding, MF_BEAMS, CGP_RigidOffset, MGP_RigidOffset, a, b, FrameType, Units);
+write_PreCalculatedGeometry(INP);
 
-write_Nodes (INP, NStory, NBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, EBF_W, Splice, HStory, Units);
+write_Nodes(INP);
 
-write_PZelement(INP,NStory,NBay,PZ_Multiplier,MF_COLUMNS,MF_BEAMS,Units);
+write_PZelement(INP);
 
-write_PZspring(INP,NStory,NBay,PZ_Multiplier,EL_Multiplier,CompositeX,MF_COLUMNS,MF_BEAMS,Doubler,trib,ts,Units);
+write_PZspring(INP);
 
-[EL_ELEMENTS] = write_ElasticBeamsColumns (INP, NStory, NBay, FrameType, BraceLayout, ColElementOption, MF_COLUMNS, MF_BEAMS, MF_SL, Splice, initialGI, nIntegration, Material, SteelMatID, Units);
+write_ElasticBeamsColumns(INP);
 
-write_ElasticRBS (INP, NStory, NBay, MF_BEAMS, c, Units);
+write_ElasticRBS (INP);
 
-write_BeamSpring_MRF (INP, NStory, NBay, WBay, ModelELOption, MF_COLUMNS, MF_BEAMS, MFconnection, a, b, c, k_beambracing, fy, Units);
+write_BeamSpring_MRF (INP);
     
-[Py_Col]=write_ColumnSpring (INP, NStory, NBay, HStory, ColElementOption, PM_Option, MF_COLUMNS, MF_BEAMS, Splice, fy, Units);
+write_ColumnSpring (INP);
 
-write_SpliceSpring (INP, NStory, NBay, Splice, SpliceConnection);
+write_SpliceSpring (INP);
 
-write_FloorLinks (INP,NStory,NBay,WBay,PZ_Multiplier,FloorLink,Fs,Fs_Profile);
+write_FloorLinks (INP);
 
-write_EGFelements (INP,NStory,NBay,HStory,GFX,CompositeX,Orientation,nMF,nGC,nGB,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice,fy,Units);
+write_EGFelements(INP);
 
-CONNECTIONS = 0;
+write_EGFsprings (INP);
 
-write_EGFsprings (INP,NStory,NBay,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, nMF, nGC, TribAreaIn, TribAreaEx,HStory, TA_MF, cDL_W , RoofDL , cLL_W , RoofLL , cGL_W , RoofGL, fy, TypicalDL, TypicalLL, TypicalGL,nGB, Units);
+write_BCs (INP);
 
-write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support, SupportGFS,MidSpanConstraint,BraceLayout);
+write_Recorders(INP, AnalysisTypeID);
 
-write_Recorders(INP, NStory, NBay, Recorders, Filename, FrameType, BraceLayout, Splice, FloorLink, AnalysisTypeID, GFX, Orientation);
-
-write_Mass(INP, EL_ELEMENTS);
+write_Mass(INP);

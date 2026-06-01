@@ -1,7 +1,9 @@
 function write_Analysis_Gravity_BeamUniform(INP)
-global ProjectName ProjectPath
-clc;
-load(strcat(ProjectPath,ProjectName))
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','WBay','PZ_Multiplier','LOAD','NStory','NBay','HStory','TAex2','TAex1','TAin1','TAin2','TA_MF','TribAreaEx','TribAreaIn','Perimeter','nMF','MassTot','Units');
+
+v2struct(LOAD);
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                      STATIC GRAVITY ANALYSIS                                    #\n');
@@ -141,4 +143,4 @@ else
 end
 
 fprintf(INP,'\n');
-save(strcat(ProjectPath,ProjectName),'Ws','-append');
+save(strcat(MainDirectory,'\temp_unpacked'),'Ws','-append');

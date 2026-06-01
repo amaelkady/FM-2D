@@ -1,4 +1,7 @@
-function write_BCs (INP,FrameType,NStory,NBay,PZ_Multiplier,RigidFloor,Support, SupportGFS, MidSpanConstraint,BraceLayout)
+function write_BCs (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','NStory','NBay','PZ_Multiplier','RigidFloor','Support', 'SupportGFS', 'MidSpanConstraint','BraceLayout');
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                       BOUNDARY CONDITIONS                                       #\n');

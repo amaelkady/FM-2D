@@ -1,4 +1,4 @@
-function [Sa] = Get_IM (T1, acc, GMdt, g, zeta, SA_metric, coeff_T_lower, coeff_T_upper)
+function [Sa] = get_IM (T1, acc, GMdt, g, zeta, SA_metric, coeff_T_lower, coeff_T_upper)
 
 arguments
     T1             (1,1) double {mustBePositive}
@@ -13,7 +13,7 @@ end
 
 
 if SA_metric==1
-    Sa = Get_SA_SDoF(T1, GMdt, zeta, acc, g)/g;
+    Sa = get_SA_SDoF(T1, GMdt, zeta, acc, g)/g;
 else
     Sa_PRODUCT=1;
     nsample=0;
@@ -21,7 +21,7 @@ else
         nsample=nsample+1;
     end
     for Ti=coeff_T_lower*T1:0.01:coeff_T_upper*T1
-        Sa_Ti = Get_SA_SDoF( Ti, GMdt, zeta, acc, g)/g;
+        Sa_Ti = get_SA_SDoF( Ti, GMdt, zeta, acc, g)/g;
         Sa_PRODUCT=Sa_PRODUCT*Sa_Ti^(1/nsample);
     end
     Sa=(Sa_PRODUCT);

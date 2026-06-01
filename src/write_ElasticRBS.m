@@ -1,17 +1,27 @@
-function write_ElasticRBS (INP, NStory, NBay, MF_BEAMS, c, Units)
+function write_ElasticRBS (INP)
 
+global  MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay', 'MF_BEAMS','MFconnection', 'c', 'Units');
+
+if MFconnection==1
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                      ELASTIC RBS ELEMENTS                                        #\n');
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'\n');
+else
+fprintf(INP,'####################################################################################################\n');
+fprintf(INP,'#                                     ELASTIC OFFSET ELEMENTS                                      #\n');
+fprintf(INP,'####################################################################################################\n');
+fprintf(INP,'\n');
+end
 
 for Floor=NStory+1:-1:2
     for Axis=1:NBay+1
         Bay=max(1, Axis-1);
 
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=Load_SecData (Section,Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section,Units);
+        idx= find(contains(SecData.Name,Section),1,'first');
         
         A_RBS  =SecData.Area(idx) - 4 * c * SecData.bf(idx)*SecData.tf(idx);
         I_RBS  =SecData.Ix(idx) - 4 * c * SecData.bf(idx)*SecData.tf(idx)*((SecData.d(idx)-SecData.tf(idx))/2)^2 - 4 *c * SecData.bf(idx)*SecData.tf(idx)^3/12;

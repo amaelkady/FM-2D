@@ -1,12 +1,12 @@
-function Plot_Profile_PFA(GMi, GMj)
+function plot_Profile_PFA(GMi, GMj)
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName))
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'GM_Start','nRealizations','RFpath','Elevation','YTickLabel','FloorLink','Units');
 
 
 noGM = GMj-GMi+1;
 
-%% Read Summary Data
+%% Go inside the results folder and read the summary results
 cd (strcat(RFpath,'\Results'));
 PFA_MF=importdata('Summary Maximum PFA.txt');
 cd (MainDirectory)

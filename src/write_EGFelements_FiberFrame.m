@@ -1,5 +1,7 @@
-function write_EGFelements_FiberFrame (INP,NStory,NBay,GFX,Orientation,nMF,nGC,nGB,MF_COLUMNS,GF_COLUMNS,GF_BEAMS)
+function write_EGFelements_FiberFrame (INP)
 
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay','GFX', 'Orientation','nMF','nGC', 'nGB', 'MF_COLUMNS', 'GF_COLUMNS', 'GF_BEAMS');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                          EGF COLUMNS AND BEAMS                                   #\n');
@@ -10,7 +12,7 @@ for Story=NStory:-1:1
     Iy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         Iy_MFcolumns(Story,1)=Iy_MFcolumns(Story,1)+0.5*SecData.H*SecData.B^3/12;
     end
 end
@@ -23,7 +25,7 @@ for Story=NStory:-1:1
         A_GC=100000.; I_GC=100000000.;
     else
         Section=GF_COLUMNS{Story,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         A_GC = nGC *  SecData.H*SecData.B/nMF/2;
         if Orientation==1
             I_GC = nGC *  0.5*SecData.H*SecData.B^3/12/nMF/2;
@@ -52,7 +54,7 @@ for Floor=NStory+1:-1:2
         A_GB=100000.; I_GB=100000000.;
     else
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         A_GB = nGB *  SecData.B*SecData.H/nMF;
         I_GB = nGB *  0.5*SecData.B*SecData.H^3/12/nMF;
     end

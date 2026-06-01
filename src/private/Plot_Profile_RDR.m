@@ -1,14 +1,12 @@
-function Plot_Profile_RDR(GMi, GMj)
+function plot_Profile_RDR(GMi, GMj)
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName))
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'CollapseSDR','GM_Start','nRealizations','RFpath','Elevation','HalfElevation','YTickLabel','FloorLink');
 
 noGM = GMj-GMi+1;
 
-% Go inside the results folder and read the summary results
-cd (strcat(RFpath,'\Results'));
-RDR_MF=importdata('Summary Maximum RDR.txt')*100;
-cd (MainDirectory);
+%% Go inside the results folder and read the summary results
+RDR_MF=importdata(strcat(RFpath,'\Results\Summary Maximum RDR.txt'))*100;
 
 %% Plot
 figure('position',[100 100 350 400],'color','white');

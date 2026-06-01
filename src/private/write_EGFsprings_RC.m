@@ -5,7 +5,7 @@ for Story=NStory:-1:1
     Zy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
 
         Iy_MFcolumns(Story,1)=Iy_MFcolumns(Story,1)+coeff_cracked*SecData.H*SecData.B^3/12;
     end
@@ -16,7 +16,7 @@ for Floor=NStory+1:-1:1
     Story=min(NStory,Floor);
     if GFX==1
         Section=GF_COLUMNS{Story,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
 
         if Orientation==1
             A_GC = nGC *  SecData.B*SecData.H/nMF/2;
@@ -98,7 +98,7 @@ for Floor=NStory+1:-1:2
     SpringID_L=900000+Floor*1000+(NBay+3)*100+02;
     if GFX==1
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
 
         Z_GB = nGB *  SecData.Zx(idx)/nMF;
         My_GB =	1.1 * fy * Z_GB;

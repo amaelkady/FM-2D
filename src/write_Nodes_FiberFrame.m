@@ -1,4 +1,7 @@
-function write_Nodes_FiberFrame (INP, NStory, NBay, HStory)
+function write_Nodes_FiberFrame (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                                  NODES                                           #\n');

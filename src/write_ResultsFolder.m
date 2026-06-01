@@ -1,4 +1,7 @@
-function write_ResultsFolder (INP, AnalysisTypeID,TempPOrun,Uncertainty)
+function write_ResultsFolder (INP, AnalysisTypeID,TempPOrun)
+
+global MainDirectory 
+load(strcat(MainDirectory,'\temp_unpacked'),'Uncertainty');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                          Create Results Folders                                  #\n');

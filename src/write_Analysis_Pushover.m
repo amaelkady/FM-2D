@@ -1,4 +1,7 @@
-function write_Analysis_Pushover(INP,NStory,DriftPO,PZ_Multiplier,FrameType,Units)
+function write_Analysis_Pushover(INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','PZ_Multiplier','NStory','DriftPO','Units');
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#											Pushover Analysis                     		    	   #\n');

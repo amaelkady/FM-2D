@@ -47,13 +47,13 @@ else
             Bay=max(1,Axis-1);
             Axisi=Bay; Axisj=Bay+1;
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecData]=Load_SecData_RC (Section); 
+            [SecData]=load_SecData_RC (Section); 
             
             %Section=MF_COLUMNS{Story,Axisi};
-            %[SecDataCi]=Load_SecData_RC (Section); 
+            %[SecDataCi]=load_SecData_RC (Section); 
             
             %Section=MF_COLUMNS{Story,Axisj};
-            %[SecDataCj]=Load_SecData_RC (Section); 
+            %[SecDataCj]=load_SecData_RC (Section); 
             
             %L_BEAM  =  WBay(Bay) - 0.5*SecDataCi.H - 0.5*SecDataCj.H;
             %Ls_BEAM = (WBay(Bay) - 0.5*SecDataCi.H - 0.5*SecDataCj.H)*0.5;

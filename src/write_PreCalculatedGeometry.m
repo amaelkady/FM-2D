@@ -1,4 +1,7 @@
-function write_PreCalculatedGeometry (INP, NStory, NBay, HStory, WBay, WBuilding, MF_BEAMS, CGP_RigidOffset, MGP_RigidOffset, a, b, FrameType, Units)
+function write_PreCalculatedGeometry(INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay', 'HStory', 'WBay', 'WBuilding',  'MF_BEAMS', 'CGP_RigidOffset', 'MGP_RigidOffset', 'a',  'b', 'FrameType', 'Units');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                          PRE-CALCULATIONS                                        #\n');
@@ -10,8 +13,9 @@ if FrameType==1
     fprintf(INP,'# REDUCED BEAM SECTION CONNECTION DISTANCE FROM COLUMN\n');
     for Floor=NStory+1:-1:2
         Section=MF_BEAMS{Floor-1,1};
-        [SecData]=Load_SecData (Section,Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section,Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
+
         fprintf(INP,'set L_RBS%d  [expr %6.3f * %5.2f + %6.3f * %5.2f/2.];\n',Floor,a,SecData.bf(idx),b,SecData.d(idx));
     end
     fprintf(INP,'\n');

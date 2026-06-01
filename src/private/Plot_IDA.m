@@ -1,7 +1,9 @@
-function Plot_IDA (GMi, GMj, EDPtype)
+function plot_IDA (GMi, GMj, EDPtype)
 global MainDirectory ProjectName ProjectPath
 
-load (strcat(ProjectPath,ProjectName),'CollapseSDR','GM','SA_metric','RFpath','zetaSA')
+load (strcat(ProjectPath,ProjectName),'PROJECT','ANALYSIS')
+v2struct(PROJECT)
+v2struct(ANALYSIS)
 
 if strcmp(EDPtype,'SDR')==1; filename='IDA SDR.txt'; xlabelstr='\itSDR\rm_{max} [% rad]'; end
 if strcmp(EDPtype,'RDR')==1; filename='IDA RDR.txt'; xlabelstr='\itRDR\rm_{max} [% rad]'; end
@@ -29,8 +31,6 @@ for GM_No=GMi:GMj
     EDPdata=max(x(:,2:end),[],2);
     IMmax(GM_No)=x(end,1);
     MAXedp(GM_No)=max(EDPdata);
-    
-
     
     if strcmp(EDPtype,'SDR')==1 || strcmp(EDPtype,'RDR')==1
         for i=1:length(EDP_Vector)

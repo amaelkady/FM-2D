@@ -1,4 +1,7 @@
-function write_FloorLinks (INP,NStory,NBay,WBay,PZ_Multiplier,FloorLink,Fs,Fs_Profile)
+function write_FloorLinks (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','WBay','PZ_Multiplier','FloorLink','Fs','Fs_Profile');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                              FLOOR LINKS                                         #\n');

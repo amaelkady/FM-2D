@@ -1,4 +1,7 @@
-function write_Analysis_Dynamic(INP,NStory,NBay,HStory,zeta,DampModeI,DampModeJ,TFreeVibration,dtstep,EL_ELEMENTS,PZ_Multiplier,CollapseSDR)
+function write_Analysis_Dynamic(INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'EL_ELEMENTS','NStory','NBay','dtstep','TFreeVibration','PZ_Multiplier','CollapseSDR','DampModeI','DampModeJ','zeta','Units');
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                   DYNAMIC EARTHQUAKE ANALYSIS                                   #\n');

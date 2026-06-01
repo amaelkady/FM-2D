@@ -1,10 +1,12 @@
-function [Period, MaxAA, SAavg]=Get_SAavg(app)
+function [Period, MaxAA, SAavg]=get_SAavg(app)
 cla(app.axes1)
 app.axes1.FontName = 'Times';
 app.axes1.FontSize = 17;
 
 global ProjectPath ProjectName
-load(strcat(ProjectPath,ProjectName),'GM','TFreeVibration')
+load(strcat(ProjectPath,ProjectName),'ANALYSIS')
+GM=ANALYSIS.GM;
+TFreeVibration=ANALYSIS.TFreeVibration;
 
 g=1;
 

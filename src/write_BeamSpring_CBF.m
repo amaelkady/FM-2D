@@ -1,4 +1,7 @@
-function write_BeamSpring_CBF (INP, NStory, NBay, WBay, FrameType, BraceLayout, MF_COLUMNS, MF_BEAMS, MGP_W, MFconnectionOdd, MFconnectionEven, fy, Units)
+function write_BeamSpring_CBF (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay', 'WBay', 'FrameType','BraceLayout','MF_COLUMNS','MF_BEAMS','MGP_W','MFconnectionOdd','MFconnectionEven','fy','Units');
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                           MF BEAM SPRINGS                                       #\n');
@@ -22,12 +25,12 @@ if FrameType==2
                 Axisi=Bay; Axisj=Bay+1;
                 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecDataB]=Load_SecData (Section, Units);
-                idx=min(find(contains(SecDataB.Name,Section)));
-                
+                [SecDataB]=load_SecData (Section, Units);
+                idx= find(contains(SecDataB.Name,Section),1,'first');
+
                 Section=MF_COLUMNS{Story,Axisi};
-                [SecDataC]=Load_SecData (Section, Units);
-                idxCi=min(find(contains(SecDataC.Name,Section)));
+                [SecDataC]=load_SecData (Section, Units);
+                idxCi= find(contains(SecDataC.Name,Section),1,'first');
                 
                 H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
                 L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;
@@ -77,7 +80,7 @@ if FrameType==2
 
                 elseif MFconnectionEven==3
 
-                    ConnectionType=0;
+                    ConnectionType=2; % Fully Restrained Connection (OTHER-THAN-RBS)
                     if Axis~=1 && Axis~=NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
@@ -98,17 +101,17 @@ if FrameType==2
             end
             
             for Bay=1:NBay
-                ConnectionType=0;
+                ConnectionType=2;
                 Axisi=Bay; Axisj=Bay+1;
                 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecDataB]=Load_SecData (Section, Units);
-                idx=min(find(contains(SecDataB.Name,Section)));
-                
+                [SecDataB]=load_SecData (Section, Units);
+                idx= find(contains(SecDataB.Name,Section),1,'first');
+
                 Section=MF_COLUMNS{Story,Axisi};
-                [SecDataC]=Load_SecData (Section, Units);
-                idxCi=min(find(contains(SecDataC.Name,Section)));
-                
+                [SecDataC]=load_SecData (Section, Units);
+                idxCi= find(contains(SecDataC.Name,Section),1,'first');
+
                 H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
                 L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;
                 Lb_BEAM = H_BEAM*0.5;
@@ -138,16 +141,16 @@ if FrameType==2
                 Axisi=Bay; Axisj=Bay+1;
                 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecDataB]=Load_SecData (Section, Units);
-                idx=min(find(contains(SecDataB.Name,Section)));
+                [SecDataB]=load_SecData (Section, Units);
+                idx= find(contains(SecDataB.Name,Section),1,'first');
                 
                 Section=MF_COLUMNS{Story,Axisi};
-                [SecDataCi]=Load_SecData (Section, Units);
-                idxCi=min(find(contains(SecDataCi.Name,Section)));
+                [SecDataCi]=load_SecData (Section, Units);
+                idxCi= find(contains(SecDataCi.Name,Section),1,'first');
                 
                 Section=MF_COLUMNS{Story,Axisj};
-                [SecDataCj]=Load_SecData (Section, Units);
-                idxCj=min(find(contains(SecDataCj.Name,Section)));
+                [SecDataCj]=load_SecData (Section, Units);
+                idxCj= find(contains(SecDataCj.Name,Section),1,'first');
                 
                 H_BEAM =  WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj);
                 L_BEAM = (WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj))*0.5;
@@ -197,7 +200,7 @@ if FrameType==2
 
                 elseif MFconnectionOdd==3
                     
-                    ConnectionType=0; % Fully Restrained Connection (OTHER-THAN-RBS)
+                    ConnectionType=2; % Fully Restrained Connection (OTHER-THAN-RBS)
                     if Axis~=1 && Axis~=NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
@@ -237,12 +240,12 @@ if FrameType==3
             Axisi=Bay; Axisj=Bay+1;
             
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecDataB]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataB.Name,Section)));
+            [SecDataB]=load_SecData (Section, Units);
+            idx= find(contains(SecDataB.Name,Section),1,'first');
             
             Section=MF_COLUMNS{Story,Axisi};
-            [SecDataC]=Load_SecData (Section, Units);
-            idxCi=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idxCi= find(contains(SecDataC.Name,Section),1,'first');
             
             H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
             L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;
@@ -299,7 +302,7 @@ if FrameType==3
 
             elseif MFconnectionEven==3
 
-                ConnectionType=0;
+                ConnectionType=2;
                 if Axis~=1 && Axis~=NBay+1
                     if BraceLayout==1
                         iNode = 100*Floor+10*Axis+02;
@@ -325,16 +328,16 @@ if FrameType==3
         end
         
         for Bay=1:NBay
-            ConnectionType=0;
+            ConnectionType=2;
             Axisi=Bay; Axisj=Bay+1;
             
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecDataB]=Load_SecData (Section, Units);
-            idx=min(find(contains(SecDataB.Name,Section)));
+            [SecDataB]=load_SecData (Section, Units);
+            idx= find(contains(SecDataB.Name,Section),1,'first');
             
             Section=MF_COLUMNS{Story,Axisi};
-            [SecDataC]=Load_SecData (Section, Units);
-            idxCi=min(find(contains(SecDataC.Name,Section)));
+            [SecDataC]=load_SecData (Section, Units);
+            idxCi= find(contains(SecDataC.Name,Section),1,'first');
             
             H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
             L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;

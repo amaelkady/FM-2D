@@ -1,4 +1,7 @@
-function write_GPspring (INP, NStory, NBay, FrameType, BraceLayout, BRACES, MGP_L123, MGP_tp, MGP_Lc, CGP_L123, CGP_tp, CGP_Lc, Units)
+function write_GPspring (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','FrameType','NBay','BraceLayout','BRACES','Units', 'MGP_L123', 'MGP_tp', 'MGP_Lc', 'CGP_L123', 'CGP_tp', 'CGP_Lc');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                 			GUSSET PLATE SPRINGS   		                            #\n');
@@ -18,13 +21,13 @@ if FrameType==2
             for Bay=1:NBay
                 
                 Section=BRACES{Storyi,Bay};
-                [SecData]=Load_SecData (Section, Units);
-                idxi=min(find(contains(SecData.Name,Section)));
-                
+                [SecData]=load_SecData (Section, Units);
+                idxi=find(contains(SecData.Name,Section),1,'first');
+
                 Section=BRACES{Storyj,Bay};
-                [SecData]=Load_SecData (Section, Units);
-                idxj=min(find(contains(SecData.Name,Section)));
-                
+                [SecData]=load_SecData (Section, Units);
+                idxj=find(contains(SecData.Name,Section),1,'first');
+
                 nodeID3 =200000+1000*Floor+100*Bay+3;
                 nodeID13=200000+1000*Floor+100*Bay+13;
                 nodeID4 =200000+1000*Floor+100*Bay+4;
@@ -66,13 +69,13 @@ if FrameType==2
                 Bay=max(1,Axis-1);
                 
                 Section=BRACES{Storyi,Bay};
-                [SecData]=Load_SecData (Section, Units);
-                idxi=min(find(contains(SecData.Name,Section)));
-                
+                [SecData]=load_SecData (Section, Units);
+                idxi=find(contains(SecData.Name,Section),1,'first');
+
                 Section=BRACES{Storyj,Bay};
-                [SecData]=Load_SecData (Section, Units);
-                idxj=min(find(contains(SecData.Name,Section)));
-                
+                [SecData]=load_SecData (Section, Units);
+                idxj=find(contains(SecData.Name,Section),1,'first');
+
                 SpringID11=900000+Floor*1000+Axis*100+11;
                 SpringID99=900000+Floor*1000+Axis*100+99;
                 
@@ -116,13 +119,13 @@ if FrameType==3
         for Bay=1:NBay
             
             Section=BRACES{Storyi,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idxi=min(find(contains(SecData.Name,Section)));
+            [SecData]=load_SecData (Section, Units);
+            idxi=find(contains(SecData.Name,Section),1,'first');
             
             Section=BRACES{Storyj,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idxj=min(find(contains(SecData.Name,Section)));
-            
+            [SecData]=load_SecData (Section, Units);
+            idxj=find(contains(SecData.Name,Section),1,'first');
+
             nodeID3 =200000+1000*Floor+100*Bay+3;
             nodeID13=200000+1000*Floor+100*Bay+13;
             nodeID4 =200000+1000*Floor+100*Bay+4;
@@ -153,13 +156,13 @@ if FrameType==3
             Bay=max(1,Axis-1);
             
             Section=BRACES{Storyi,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idxi=min(find(contains(SecData.Name,Section)));
+            [SecData]=load_SecData (Section, Units);
+            idxi=find(contains(SecData.Name,Section),1,'first');
             
             Section=BRACES{Storyj,Bay};
-            [SecData]=Load_SecData (Section, Units);
-            idxj=min(find(contains(SecData.Name,Section)));
-            
+            [SecData]=load_SecData (Section, Units);
+            idxj=find(contains(SecData.Name,Section),1,'first');
+
             SpringID11=900000+Floor*1000+Axis*100+11;
             
             iNode=100000+1000*Floor+100*Axis+40;

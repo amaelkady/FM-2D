@@ -1,4 +1,7 @@
-function [EL_ELEMENTS] = write_BeamsColumns_FiberFrame (INP, NStory, NBay, ColElementOption, MF_COLUMNS, MF_BEAMS, nIntegration, coeff_cracked)
+function write_BeamsColumns_FiberFrame (INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay', 'ColElementOption', 'MF_COLUMNS', 'MF_BEAMS', 'nIntegration', 'coeff_cracked');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                     ELASTIC COLUMNS AND BEAMS                                    #\n');
@@ -13,7 +16,7 @@ for Story=NStory:-1:1
     Fi=Story; Fj=Story+1;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         
         nodeIDb=100*Fi+10*Axis;
         nodeIDt=100*Fj+10*Axis;
@@ -48,7 +51,7 @@ for Floor=NStory+1:-1:2
     for Bay=1:NBay
         Axisi=Bay; Axisj=Bay+1;
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=Load_SecData_RC (Section);
+        [SecData]=load_SecData_RC (Section);
         
         nodeIDl=100*Floor+10*Axisi;
         nodeIDr=100*Floor+10*Axisj;
@@ -64,3 +67,5 @@ for Floor=NStory+1:-1:2
     fprintf(INP,'\n');
 end
 fprintf(INP,'\n');
+
+save (strcat(MainDirectory,'\temp_unpacked'),'EL_ELEMENTS','-append');

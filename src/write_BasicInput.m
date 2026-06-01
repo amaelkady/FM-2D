@@ -1,6 +1,8 @@
+function write_BasicInput (INP)
 
-function write_BasicInput (INP, FrameType,NStory,NBay,CompositeX,Comp_I,Comp_I_GC,Units,E,mu0,fy,fyBrace,fyGP,Er,fyR,muR,Ec,fc,muC,EL_Multiplier,SteelMatID,TransformationX,nSegments,initialGI,nIntegration,Sigma, Uncertainty, resource_root)
-            
+global MainDirectory 
+load(strcat(MainDirectory,'\temp_unpacked'), 'FrameType','NStory','NBay','CompositeX', 'Comp_I','Comp_I_GC','Units','E','mu0','fy','fyBrace','fyGP','Er','fyR','muR','Ec','fc','muC','EL_Multiplier','SteelMatID','TransformationX','nSegments','initialGI','nIntegration','SIGMA', 'Uncertainty', 'resource_root','Ry_column','Ry_beam','ColElementOption','BeamElementOption');
+
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                              INPUT                                               #\n');
 fprintf(INP,'####################################################################################################\n');
@@ -41,13 +43,32 @@ if FrameType==4
     fprintf(INP,'uniaxialMaterial Steel02 666  $fyR $Er 0.01 18 0.925 0.15;  #Rebar Material \n')
     fprintf(INP,'Define_Material_RC       888  $Ec $fc "confined";           #Confined concrete Material \n')
     fprintf(INP,'Define_Material_RC       889  $Ec $fc "unconfined";          #Unconfined concrete Material \n')
+elseif FrameType==1
+    if (ColElementOption==2 || ColElementOption==3) || (BeamElementOption==2 || BeamElementOption==3)
+        fprintf(INP,'# Command syntax: uniaxial Material UVCuniaxial $matTag $E $fy $QInf $b $DInf $a $N $C1 $gamma1 $C2 $gamma2 \n');
+        if (ColElementOption==2 || ColElementOption==3)
+            if SteelMatID==1
+                fprintf(INP,'uniaxialMaterial UVCuniaxial  666 $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material',Ry_column, Material.Qinf(1,1)*transUnit, Material.b(1,1), Material.Dinf(1,1)*transUnit, Material.a(1,1), 2, Material.C1(1,1)*transUnit, Material.gamma1(1,1), Material.C2(1,1)*transUnit, Material.gamma2(1,1));
+            else
+                fprintf(INP,'uniaxialMaterial UVCuniaxial  666 $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material',Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), 2, Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1));
+            end
+            fprintf(INP,'\n');
+        end
+        if (BeamElementOption==2 || BeamElementOption==3)
+            if SteelMatID==1
+                fprintf(INP,'uniaxialMaterial UVCuniaxial  667 $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material',Ry_beam, Material.Qinf(1,1)*transUnit, Material.b(1,1), Material.Dinf(1,1)*transUnit, Material.a(1,1), 2, Material.C1(1,1)*transUnit, Material.gamma1(1,1), Material.C2(1,1)*transUnit, Material.gamma2(1,1));
+            else
+                fprintf(INP,'uniaxialMaterial UVCuniaxial  667 $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material',Ry_beam, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), 2, Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1));
+            end
+        end
+    end
 else
-    %fprintf(INP,'# Command syntax: uniaxial Material UVCuniaxial $matTag $E $fy $QInf $b $DInf $a $N $C1 $gamma1 $C2 $gamma2 \n');
+    fprintf(INP,'# Command syntax: uniaxial Material UVCuniaxial $matTag $E $fy $QInf $b $DInf $a $N $C1 $gamma1 $C2 $gamma2 \n');
     if SteelMatID==1
-        fprintf(INP,'uniaxialMaterial UVCuniaxial  666 %.4f %.4f %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', E, fy, Material.Qinf(1,1)*transUnit, Material.b(1,1), 0.00, 1.0, 2, Material.C1(1,1)*transUnit, Material.gamma1(1,1), Material.C2(1,1)*transUnit, Material.gamma2(1,1));
+        fprintf(INP,'uniaxialMaterial UVCuniaxial  666 $E [expr $fy*1.1] %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', Material.Qinf(1,1)*transUnit, Material.b(1,1), Material.Dinf(1,1)*transUnit, Material.a(1,1), 2,Material.C1(1,1)*transUnit, Material.gamma1(1,1), Material.C2(1,1)*transUnit, Material.gamma2(1,1));
     else
-        fprintf(INP,'uniaxialMaterial UVCuniaxial  666 %.4f %.4f %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', Material.E(SteelMatID+1,1)*transUnit, Material.fy(SteelMatID+1,1)*transUnit, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), 0.00, 1.0, 2, Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1));    
-    end    
+        fprintf(INP,'uniaxialMaterial UVCuniaxial  666 $E [expr $fy*1.1] %.4f %.4f %.4f %.4f %d %.4f %.4f %.4f %.4f; #Voce-Chaboche Material', Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), 2, Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1));    
+    end  
 end
 fprintf(INP,'\n\n');
 
@@ -96,35 +117,35 @@ fprintf(INP,'# LOGARITHMIC STANDARD DEVIATIONS (FOR UNCERTAINTY CONSIDERATION)\n
 fprintf(INP,'global Sigma_IMKcol Sigma_IMKbeam Sigma_Pinching4 Sigma_PZ; \n');
 fprintf(INP,'set Sigma_IMKcol [list  ');
 for i=1:9
-    if Sigma.IMKcol(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',Sigma.IMKcol(i)); end
+    if SIGMA.IMKcol(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',SIGMA.IMKcol(i)); end
 end
 fprintf(INP,'];\n');
 
 fprintf(INP,'set Sigma_IMKbeam   [list  ');
 for i=1:9
-    if Sigma.IMKbeam(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',Sigma.IMKbeam(i)); end
+    if SIGMA.IMKbeam(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',SIGMA.IMKbeam(i)); end
 end
 fprintf(INP,'];\n');
 
 fprintf(INP,'set Sigma_Pinching4 [list  ');
 for i=1:8
-    if Sigma.Pinching4(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',Sigma.Pinching4(i)); end
+    if SIGMA.Pinching4(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',SIGMA.Pinching4(i)); end
 end
 fprintf(INP,'];\n');
 
 fprintf(INP,'set Sigma_PZ        [list  ');
 for i=1:4
-    if Sigma.PZ(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',Sigma.PZ(i)); end
+    if SIGMA.PZ(i)==1.e-9 || Uncertainty==0; fprintf(INP,'1.e-9 '); else; fprintf(INP,'%.3f ',SIGMA.PZ(i)); end
 end
 fprintf(INP,'];\n');
 
-if Sigma.fy==1.e-9 || Uncertainty==0;   fprintf(INP,'set Sigma_fy     1.e-9;\n'); else; fprintf(INP,'set Sigma_fy     %.3f;\n ',Sigma.fy);   end
+if SIGMA.fy==1.e-9 || Uncertainty==0;   fprintf(INP,'set Sigma_fy     1.e-9;\n'); else; fprintf(INP,'set Sigma_fy     %.3f;\n ',SIGMA.fy);   end
 if FrameType~=1
-if Sigma.fyB==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_fyB    1.e-9;\n'); else; fprintf(INP,'set Sigma_fyB    %.3f;\n ',Sigma.fyB);  end
-if Sigma.fyG==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_fyG    1.e-9;\n'); else; fprintf(INP,'set Sigma_fyG    %.3f;\n ',Sigma.fyG);  end
-if Sigma.GI ==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_GI     1.e-9;\n'); else; fprintf(INP,'set Sigma_GI     %.3f;\n ',Sigma.GI);   end
+if SIGMA.fyB==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_fyB    1.e-9;\n'); else; fprintf(INP,'set Sigma_fyB    %.3f;\n ',SIGMA.fyB);  end
+if SIGMA.fyG==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_fyG    1.e-9;\n'); else; fprintf(INP,'set Sigma_fyG    %.3f;\n ',SIGMA.fyG);  end
+if SIGMA.GI ==1.e-9 || Uncertainty==0;  fprintf(INP,'set Sigma_GI     1.e-9;\n'); else; fprintf(INP,'set Sigma_GI     %.3f;\n ',SIGMA.GI);   end
 end
-if Sigma.zeta==1.e-9 || Uncertainty==0; fprintf(INP,'set Sigma_zeta   1.e-9;\n'); else; fprintf(INP,'set Sigma_zeta   %.3f;\n ',Sigma.zeta); end
+if SIGMA.zeta==1.e-9 || Uncertainty==0; fprintf(INP,'set Sigma_zeta   1.e-9;\n'); else; fprintf(INP,'set Sigma_zeta   %.3f;\n ',SIGMA.zeta); end
 fprintf(INP,'global Sigma_fy Sigma_fyB Sigma_fyG Sigma_GI; global xRandom;\n');
 fprintf(INP,'set SigmaX $Sigma_fy;  Generate_lognrmrand $fy 	$SigmaX; 	set fy      $xRandom;\n');
 if FrameType~=1 && FrameType~=4

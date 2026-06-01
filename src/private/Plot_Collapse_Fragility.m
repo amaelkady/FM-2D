@@ -1,7 +1,10 @@
-function Plot_Collapse_Fragility (GMi, GMj)
+function plot_Collapse_Fragility (GMi, GMj)
 global MainDirectory ProjectName ProjectPath
 
-load (strcat(ProjectPath,ProjectName),'CollapseSDR','GM','SA_metric','RFpath','zetaSA','Parallel')
+load (strcat(ProjectPath,ProjectName),'PROJECT','ANALYSIS')
+v2struct(PROJECT)
+v2struct(ANALYSIS)
+
 
 for GM_No=GMi:GMj
     if Parallel==0; SubRFname = GM.name{GM_No}; else; SubRFname = [GM.name{GM_No},'_1']; end                  

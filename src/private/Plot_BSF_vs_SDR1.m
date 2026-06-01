@@ -1,4 +1,4 @@
-function [X,Y, POC]=Plot_BSF_vs_SDR1(GM_No, Ri, plotstatus)
+function [X,Y, POC]=plot_BSF_vs_SDR1(GM_No, Ri, plotstatus)
 
 arguments
     GM_No      (1,1) {mustBePositive, mustBeInteger}
@@ -6,9 +6,8 @@ arguments
     plotstatus (1,1) {mustBeInteger} = 1 
 end
 
-global MainDirectory ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName),'FrameType','Ws','RFpath','Recorders','Filename','NBay','PO','EQ','ELF','CDPO','TTH','GM','FrameType','Uncertainty','Parallel')
-
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','Uncertainty','Parallel','PO','ELF','EQ','CDPO','TTH','GM','RFpath','RECORDERS','FILENAME','NBay','Ws');
 
     if PO==1;                     SubRFname = 'Pushover';                        
 elseif ELF==1;                    SubRFname = 'ELF';                             
@@ -21,23 +20,23 @@ elseif TTH==1;                    SubRFname = 'Tsunami';                        
 cd (strcat(RFpath,'\Results\',SubRFname));
 
 % Read SDR Data
-if Recorders.SDR==1
-    evalc(strcat('x=importdata(','''',Filename.SDR,'1_MF.out','''',')'));
+if RECORDERS.SDR==1
+    evalc(strcat('x=importdata(','''',FILENAME.SDR,'1_MF.out','''',')'));
     SDR_MF(:,1)=x(10:end,1);
 end
 
 % Read Base Shear Force Data
-if Recorders.Support==1 % Compute BSF based on support reaction
+if RECORDERS.Support==1 % Compute BSF based on support reaction
     BSF=0;
     for Axis=1:NBay+3	
-        evalc(['x=importdata(','''',Filename.Support,num2str(Axis),'.out','''',')']);
+        evalc(['x=importdata(','''',FILENAME.Support,num2str(Axis),'.out','''',')']);
         Column_Shear(:,Axis)=x(10:end,1);
     end
-elseif Recorders.Column==1 % Compute BSF based on column (and CGP) forces
+elseif RECORDERS.Column==1 % Compute BSF based on column (and CGP) forces
     BSF=0;
     for Axis=1:NBay+3	
-        evalc(['x=importdata(','''',Filename.Column,'1',num2str(Axis),'.out','''',')']);
-        if FrameType~=1 && Axis<=NBay+1; evalc(['x2=importdata(','''',Filename.CGP,'1',num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
+        evalc(['x=importdata(','''',FILENAME.Column,'1',num2str(Axis),'.out','''',')']);
+        if FrameType~=1 && Axis<=NBay+1; evalc(['x2=importdata(','''',FILENAME.CGP,'1',num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
         Column_Shear(:,Axis)=x(10:end,1)+x2(10:end,1);
     end
 end
@@ -89,6 +88,8 @@ if plotstatus==1
     set(gca,'FontName','Times','FontSize',14);
     xlabel ('\itSDR\rm_1 [% rad]');
     ylabel ('\itBSF\rm /\itW_s');
+
+    try
     if PO==1 || ELF==1
         str{1}=['K_{e} = ', num2str(round(POC.Ke))];
         str{2}=['V_{y} = ', num2str(round(POC.Vy))];
@@ -98,6 +99,8 @@ if plotstatus==1
     elseif EQ==1
         plot ([-max(abs(X))*1.5 max(abs(X))*1.5],[0 0], '-k','linewidth',0.5);
         plot ([0 0],[-max(abs(Y))*1.5 max(abs(Y))*1.5], '-k','linewidth',0.5);
+    end
+    catch
     end
     drawnow
 

@@ -1,4 +1,4 @@
-function Import_ExcelData_RCMRF(ExcelFilePath,ExcelFileName, NStory, NBay,FloorLink)
+function import_ExcelData_RCMRF(ExcelFilePath,ExcelFileName, NStory, NBay,FloorLink)
 global MainDirectory ProjectPath ProjectName
 
 cd(ExcelFilePath)

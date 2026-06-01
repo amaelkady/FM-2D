@@ -1,7 +1,9 @@
 function write_Analysis_Gravity(INP)
 
-global ProjectName ProjectPath
-load(strcat(ProjectPath,ProjectName))
+global MainDirectory
+load(strcat(MainDirectory,'\\temp_unpacked'),'LOAD','FrameType','PZ_Multiplier','NStory','NBay','HStory','TAex1','TAin1','TA_MF','TribAreaEx','TribAreaIn','Perimeter','nMF','Units','MassTot');
+
+v2struct(LOAD);
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                      STATIC GRAVITY ANALYSIS                                    #\n');
@@ -124,4 +126,5 @@ else
 end
 
 fprintf(INP,'\n');
-save(strcat(ProjectPath,ProjectName),'Ws','Pnode','-append');
+
+save(strcat(MainDirectory,'\temp_unpacked'),'Ws','Pnode','-append');

@@ -34,8 +34,8 @@
 #  My        			Effective Yield Moment
 #  CompositeFlag		FLAG for Composite Action Consideration: 0 --> Ignore   Composite Effect   
 # 															 	 1 --> Consider Composite Effect
-#  ConnectionType		Type of Connection: 0 --> Reduced     Beam Section Connection in fully-rigid beam-to-column joints  
-# 											1 --> Non-Reduced Beam Section Connection in fully-rigid beam-to-column joints     
+#  ConnectionType		Type of Connection: 1 --> Reduced     Beam Section Connection in fully-rigid beam-to-column joints  
+# 											2 --> Non-Reduced Beam Section Connection in fully-rigid beam-to-column joints     
 #  Units				Unsed Units: 1 --> millimeters and MPa     
 #								 	 2 --> inches and ksi
 #
@@ -68,7 +68,7 @@ set K  [expr ($n+1.0) * 6 * $E * $Ix / $L];
 #######################################################################################################
 
 
-if {$ConnectionType == 0} {
+if {$ConnectionType == 1} {
 
 	set My [expr 1.06 * $My];
 
@@ -135,14 +135,13 @@ if {$ConnectionType == 0} {
 
 	}
 	
-}
 
 #######################################################################################################
 #######################################################################################################
 #######################################################################################################
 #######################################################################################################
 
-if {$ConnectionType == 1} {
+} elseif {$ConnectionType == 2} {
 
 	set My [expr 1.17 * $My];
 
@@ -244,8 +243,7 @@ if {$CompositeFlag == 0} {
 	set SigmaX [lindex $Sigma_IMKbeam 7]; Generate_lognrmrand $Lmda $SigmaX; 		set Lmda 		$xRandom;
 	#set SigmaX [lindex $Sigma_IMKbeam 8]; Generate_lognrmrand $c $SigmaX; 			set c 			$xRandom;
 
-} 
-if {$CompositeFlag == 1} {
+} else {
 	set SigmaX [lindex $Sigma_IMKbeam 0]; Generate_lognrmrand $K 		  $SigmaX; 	set K 			$xRandom;
 	set SigmaX [lindex $Sigma_IMKbeam 1]; Generate_lognrmrand $My_P 	  $SigmaX; 	set My_P 		$xRandom;
 	set SigmaX [lindex $Sigma_IMKbeam 1]; Generate_lognrmrand $My_N 	  $SigmaX; 	set My_N 		$xRandom;
@@ -265,12 +263,9 @@ if {$CompositeFlag == 1} {
 ##################################################################################################################
 ##################################################################################################################
 
-
-
 # Cyclic deterioration parameters
-set L_S $Lmda; set L_C 			 $Lmda;  set L_A $Lmda; set L_K 		  $Lmda;
-
-set c_S $c;    set c_C $c; 				 set c_A $c; 	set c_K $c;
+set L_S $Lmda; set L_C 	$Lmda;  set L_A $Lmda;  set L_K 	 $Lmda;
+set c_S $c;    set c_C $c; 		set c_A $c;     set c_K $c;
 
 # IMKBilin material model (This is the updated version of the Bilin model)
 uniaxialMaterial IMKBilin $SpringID $K $theta_p_P $theta_pc_P $theta_u $My_P $McMyP $MresMy_P $theta_p_N $theta_pc_N $theta_u $My_N $McMyN $MresMy_N $L_S $L_C $L_K $c_S $c_C $c_K $D_P $D_N;

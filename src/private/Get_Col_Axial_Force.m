@@ -1,6 +1,9 @@
-function [Pred]=Get_Col_Axial_Force(PM_Option)
-global  ProjectName ProjectPath
-load (strcat(ProjectPath,ProjectName),'Filename','RFpath','NStory','NBay','TypicalDL','TypicalLL','TypicalGL','RoofDL','RoofLL','RoofGL','Cladding','HStory','TAex1','TAin1','TribAreaIn','TribAreaEx','cDL_W','cLL_W','cCL_W','cGL_W','Pscale')
+function [Pred]=get_Col_Axial_Force(PM_Option)
+
+global  MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'), 'RFpath', 'NStory', 'NBay', 'LOAD','FILENAME','HStory','TAex1', 'TAin1', 'TribAreaEx', 'TribAreaIn','Pscale');
+
+v2struct(LOAD);
 
 % For PM_Option=1
 %   the columns Mp capacity will be reduced baced on an axial load
@@ -17,7 +20,7 @@ if PM_Option==1
     cd(strcat(RFpath,'\Results\TempPushover'));
     for Story=1:NStory
         for Axis=1:NBay+1
-            evalc(['xFile=','''',Filename.Column,num2str(Story),num2str(Axis),'''']);
+            evalc(['xFile=','''',FILENAME.Column,num2str(Story),num2str(Axis),'''']);
             evalc([xFile,'=importdata(','''',xFile,'.out','''',')']);
             evalc(['Col_P',num2str(Story),num2str(Axis),'=',xFile,'(:,5)']);
             evalc(['Pg(Story,Axis)=abs(Col_P',num2str(Story),num2str(Axis),'(11,1))']); % gravity load measured at step 11 (last step of the gravity analysis)
@@ -26,7 +29,8 @@ if PM_Option==1
             Pred(Story,Axis)=Pg(Story,Axis)+Pot(Story,Axis)*0.5;
         end
     end
-    save (strcat(ProjectPath,ProjectName),'Pg','Ppo_max','Pot','Pred','-append');
+
+    save(strcat(MainDirectory,'\temp_unpacked'), 'Pg', 'Pot', 'Ppo_max', 'Pred', '-append');
 else
     % Get columns gravity load
     Pfloor=zeros(NStory,NBay+1);
@@ -49,13 +53,5 @@ else
     
     Pred=Pg*Pscale;
     
-    save (strcat(ProjectPath,ProjectName),'Pg','Pred','-append');
-
+    save(strcat(MainDirectory,'\temp_unpacked'), 'Pg', 'Pred', '-append');
 end
-
-
-
-
-
-
-

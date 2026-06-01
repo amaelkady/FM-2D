@@ -1,4 +1,7 @@
-function write_Animation(INP,AnimSF,AnimX,AnimY)
+function write_Animation(INP)
+
+global MainDirectory
+load(strcat(MainDirectory,'\temp_unpacked'),'AnimSF','AnimX','AnimY');
 
 fprintf(INP,'if {$ShowAnimation == 1} {\n');
 fprintf(INP,'	DisplayModel3D DeformedShape %.2f 100 100  %d %d;\n',AnimSF,AnimX,AnimY);

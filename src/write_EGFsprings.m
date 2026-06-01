@@ -1,20 +1,16 @@
-function write_EGFsprings (INP,NStory,NBay,GFX,EGFconnection, CONNECTIONS,CompositeX,Orientation,MF_COLUMNS,MF_BEAMS,GF_COLUMNS,GF_BEAMS,Splice, LAYOUT, MATERIALS, LOADS, nMF, nGC, TribAreaIn, TribAreaEx, HStory, TA_MF, cDL_W , RoofDL , cLL_W , RoofLL , cGL_W , RoofGL, fy, TypicalDL, TypicalLL, TypicalGL,nGB, Units)
+function write_EGFsprings (INP)
 
-global ProjectPath ProjectName
+global MainDirectory ProjectName ProjectPath 
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','GFX','EGFconnection', 'CONNECTIONS','CompositeX', 'Orientation','MF_COLUMNS','MF_BEAMS','GF_COLUMNS','GF_BEAMS','Splice', 'LAYOUT', 'MATERIALS', 'LOADS', 'nMF', 'nGC', 'TribAreaIn', 'TribAreaEx', 'HStory', 'TA_MF', 'cDL_W' , 'RoofDL' , 'cLL_W' , 'RoofLL' , 'cGL_W' , 'RoofGL', 'fy', 'TypicalDL', 'TypicalLL', 'TypicalGL','nGB', 'Units');
 
-% Unload structure variables into fields
-% save('temp.mat','-struct','MATERIALS')
-% save('temp.mat','-struct','LOADS','-append')
-% save('temp.mat','-struct','LAYOUT','-append')
-% load('temp.mat')
-
+%%
 for Story=NStory:-1:1
     Iy_MFcolumns(Story,1)=0;
     Zy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis}; if Splice(Story,1)==1; Section = MF_COLUMNS{Story+1,Axis}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
-        [SecData]=Load_SecData (Section, Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section, Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         Iy_MFcolumns(Story,1)=0; %Iy_MFcolumns(Story,1)+SecData.Iy(idx);
         Zy_MFcolumns(Story,1)=0; %Zy_MFcolumns(Story,1)+SecData.Zy(idx);
     end
@@ -29,8 +25,8 @@ for Floor=NStory+1:-1:1
 
     if GFX==1
         Section=GF_COLUMNS{Story,1}; if Splice(Story,1)==1; Section = GF_COLUMNS{Floor,1}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
-        [SecData]=Load_SecData (Section, Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section, Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         if Orientation==1
             I_GC = nGC *  SecData.Iy(idx)/nMF/2;
             Z_GC = nGC *  SecData.Zy(idx)/nMF/2;
@@ -122,9 +118,7 @@ for Floor=NStory+1:-1:1
 end
 fprintf(INP,'\n');
 
-save(strcat(ProjectPath,ProjectName),'PgPye_GC','-append')
-
-
+save(strcat(MainDirectory,'\temp_unpacked'),'PgPye_GC','-append')
 
 
 %%
@@ -153,12 +147,12 @@ for Floor=NStory+1:-1:2
         end
 
         Section=GF_COLUMNS{Story,1}; if Splice(Story,1)==1; Section = GF_COLUMNS{Floor,1}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
-        [SecData]=Load_SecData (Section, Units);
-        idxC=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section, Units);
+        idxC=find(contains(SecData.Name,Section),1,'first');
 
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=Load_SecData (Section, Units);
-        idx=min(find(contains(SecData.Name,Section)));
+        [SecData]=load_SecData (Section, Units);
+        idx=find(contains(SecData.Name,Section),1,'first');
         Z_GB =  SecData.Zx(idx)/nMF;
         My_GB =	1.1 * fy * Z_GB;
 

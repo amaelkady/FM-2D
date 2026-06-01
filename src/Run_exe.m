@@ -1,4 +1,4 @@
-function [RunTime]=Run_exe(OpenSEESFileName,ShowOpenseesStatus)
+function [RunTime]=run_exe(OpenSEESFileName,ShowOpenseesStatus)
 
 if ShowOpenseesStatus==1  
 	eval(strcat('! OpenSees.exe ', OpenSEESFileName));
