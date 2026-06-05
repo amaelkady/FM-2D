@@ -1,17 +1,14 @@
-# SDRlimitTester ########################################################################
+# Check_SDRlimit ########################################################################
 #
-# Procedure that checks if the Pre-Specified Collapse Drift Limit is reached and Generate 
-# a Flag
+# Procedure that reads the story drifts, checks if the pre-specified collapse drift limit 
+# is reached, set a flag if it does, and writes the collapse state to a txt file
 #
-# Developed by Dimitrios G. Lignos, Ph.D
-# Modified  by Ahmed Elkady, Ph.D
 #
-# First Created: 04/20/2010
-# Last Modified: 05/05/2020
+# Written by: Ahmed Elkady
 #
 # #######################################################################################
 
-proc SDRlimitTester {numStories SDRlimit MFFloorNodes EGFFloorNodes HStory TraceGFDrift} {
+proc Check_SDRlimit {numStories SDRlimit MFFloorNodes EGFFloorNodes HStory TraceGFDrift} {
 
  global CollapseFlag
  set CollapseFlag "NO"

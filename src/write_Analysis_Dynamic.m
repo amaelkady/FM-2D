@@ -67,7 +67,7 @@ fprintf(INP,'set totTime [expr $GMdt*$NumSteps];                            # To
 fprintf(INP,'set dtAnalysis [expr %f*$GMdt];                             	# dt of Analysis\n',dtstep);
 fprintf(INP,'\n');
 
-fprintf(INP,'DynamicAnalysisCollapseSolverX  $GMdt	$dtAnalysis	$totTime $NStory	%5.2f   $MF_FloorNodes	$EGF_FloorNodes	$HStory 1 $StartTime $MaxRunTime;\n',CollapseSDR);
+fprintf(INP,'SolverDynamic  $GMdt	$dtAnalysis	$totTime $NStory	%5.2f   $MF_FloorNodes	$EGF_FloorNodes	$HStory 1 $StartTime $MaxRunTime;\n',CollapseSDR);
 fprintf(INP,'\n');
 
 fprintf(INP,'###################################################################################################\n');

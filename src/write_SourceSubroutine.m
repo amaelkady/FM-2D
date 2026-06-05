@@ -19,14 +19,14 @@ fprintf(INP,'source Spring_Rigid.tcl;\n');
 
 if GFX==1
     if EGFconnection ==3
-        fprintf(INP,'source Spring_FEPC.tcl;\n');
+        fprintf(INP,'source Spring_Connection_FEPC.tcl;\n');
     elseif EGFconnection ==4
-        fprintf(INP,'source Spring_EEPC.tcl;\n');
+        fprintf(INP,'source Spring_Connection_SR_EEPC.tcl;\n');
     end
 end
 
 if MFconnection ==3
-    fprintf(INP,'source Spring_SR_EEPC.tcl;\n');
+    fprintf(INP,'source Spring_Connection_SR_EEPCs.tcl;\n');
 end
 
 if FrameType~=4 
@@ -75,6 +75,6 @@ else
     fprintf(INP,'source ConstructPanel_RC.tcl;\n');
     fprintf(INP,'source Define_Material_RC.tcl;\n');
 end
-if AnalysisTypeID==3 ||  AnalysisTypeID==6;    fprintf(INP,'source DynamicAnalysisCollapseSolverX.tcl;\n'); end
+if AnalysisTypeID==3 ||  AnalysisTypeID==6;    fprintf(INP,'source SolverDynamic.tcl;\n'); end
 fprintf(INP,'source Generate_lognrmrand.tcl;\n');
 fprintf(INP,'\n');
