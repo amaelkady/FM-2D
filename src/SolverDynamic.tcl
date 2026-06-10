@@ -42,6 +42,7 @@ set TmaxAnalysis        $GMtime;
 set dt_analysis         $dt_step;
 set currentTime         0;
 set remainTime          $GMtime;
+set loopincr            1;
  
 # Initial solver parameters
 #----------------------------
@@ -73,7 +74,7 @@ set currentTime     [getTime];
 #---------------------------------In Case of No Convergence-------------------------------
 #-----------------------------------------------------------------------------------------
 
-while {$currentTime < [expr 0.99999 * $TmaxAnalysis] || $ok !=0 } {
+while {$currentTime < [expr 0.99999 * $TmaxAnalysis] || $ok !=0  || $loopincr < 10} {
 
     if {$ok != 0} {
 
@@ -224,6 +225,8 @@ while {$currentTime < [expr 0.99999 * $TmaxAnalysis] || $ok !=0 } {
 	if  {$CollapseFlag == "YES"} {set ok 0; break;}
     
     set currentTime     [getTime];
+    
+    set loopincr [expr $loopincr+1];
 
 }
 
