@@ -42,7 +42,6 @@ set TmaxAnalysis        $GMtime;
 set dt_analysis         $dt_step;
 set currentTime         0;
 set remainTime          $GMtime;
-set loopincr            1;
  
 # Initial solver parameters
 #----------------------------
@@ -226,9 +225,8 @@ while {$ok !=0} {
     
     set currentTime     [getTime];
     
-    set loopincr [expr $loopincr+1];
+    if  {abs($TmaxAnalysis-$currentTime) < $dt_analysis/2}  {set ok 0; break;}
 
-    if  {$loopincr >100} {set ok 0; break;}
 }
 
 Check_SDRlimit $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
