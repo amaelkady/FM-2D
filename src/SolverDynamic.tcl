@@ -74,7 +74,7 @@ set currentTime     [getTime];
 #---------------------------------In Case of No Convergence-------------------------------
 #-----------------------------------------------------------------------------------------
 
-while {$currentTime < [expr 0.99999 * $TmaxAnalysis] || $ok !=0  || $loopincr < 10} {
+while {$ok !=0} {
 
     if {$ok != 0} {
 
@@ -228,6 +228,7 @@ while {$currentTime < [expr 0.99999 * $TmaxAnalysis] || $ok !=0  || $loopincr < 
     
     set loopincr [expr $loopincr+1];
 
+    if  {$loopincr >100} {set ok 0; break;}
 }
 
 Check_SDRlimit $numStories $DriftLimit $MFFloorNodes $EGFFloorNodes $HStory $TraceGFDrift
