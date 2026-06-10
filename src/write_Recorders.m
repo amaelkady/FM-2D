@@ -1,7 +1,7 @@
 function write_Recorders(INP, AnalysisTypeID)
 
 global MainDirectory 
-load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay', 'RECORDERS', 'FILENAME', 'FrameType', 'BraceLayout', 'Splice', 'FloorLink', 'AnalysisTypeID', 'GFX', 'Orientation');
+load(strcat(MainDirectory,'\temp_unpacked'), 'NStory', 'NBay', 'RECORDERS', 'FILENAME', 'FrameType', 'BraceLayout', 'Splice', 'FloorLink', 'GFX', 'Orientation');
 
 
 fprintf(INP,'###################################################################################################\n');

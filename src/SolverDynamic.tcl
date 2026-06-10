@@ -5,7 +5,7 @@
 # and equilibrium criteria -if needed- to try and reach convergence
 #
 # INPUT:
-#--------
+# --------
 # dt            : Ground Motion step
 # dt_step       : Analysis time step
 # GMtime        : Ground Motion Total Time
@@ -15,17 +15,15 @@
 # EGFFloorNodes : Node IDs for the equivenlant gravity frame
 # HStory        : The story heights
 # TraceGFDrift  : Flag for tracing the EGF drift (in case of flexible links))
-# StartClockTime: Start clock time
-# MaxRunTime    : Maximum clock runtime to stop the analysis
 # 
 # Subroutines called:
 #   Check_SDRlimit: Checks if collapse is reached based on story drifts
 #
-# Written by Ahmed Elkady
+# Written by: Prof. Ahmed Elkady, University of Southampton, UK
 #
 # #######################################################################################
 
-proc SolverDynamic {dt dt_step GMtime numStories DriftLimit MFFloorNodes EGFFloorNodes HStory TraceGFDrift StartClockTime MaxRunTime} {
+proc SolverDynamic {dt dt_step GMtime numStories DriftLimit MFFloorNodes EGFFloorNodes HStory TraceGFDrift} {
 
 global CollapseFlag;                        # global variable to monitor collapse
 source Check_SDRlimit.tcl;
@@ -40,7 +38,6 @@ wipeAnalysis
 #-------------------------------
 set CollapseFlag        "NO"
 set CurrentClockTime    [clock seconds];
-set RunTime             [expr $CurrentClockTime - $StartClockTime];
 set TmaxAnalysis        $GMtime;
 set dt_analysis         $dt_step;
 set currentTime         0;

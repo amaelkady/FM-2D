@@ -27,7 +27,7 @@ STATUS.Run          = 0;
 STATUS.Sigma        = 0;
 
 BuildOption         = 1;
-ANALYSIS.ExecutionOption     = 1;
+ExecutionOption     = 1;
 
 ANALYSIS.g                   = g;
 ANALYSIS.Uncertainty         = 0;
@@ -52,18 +52,14 @@ ANALYSIS.DampModeI           = 1;
 ANALYSIS.DampModeJ           = 1;
 ANALYSIS.zeta                = 0.02;
 ANALYSIS.zetaSA              = 0.05;
-
 ANALYSIS.GM                  = 0;
-
 ANALYSIS.TFreeVibration      = 0;
 ANALYSIS.dtstep              = 0;
 ANALYSIS.CollapseSDR         = 0.2;
-
 ANALYSIS.dinundation         = 0;
 ANALYSIS.Drag_Coeff          = 1.2;
 ANALYSIS.ro_water            = 1.2;   
 ANALYSIS.CDPOpattern         = 1;
-
 ANALYSIS.Parallel            = 0;
 ANALYSIS.nCores              = 1;
 
@@ -99,7 +95,6 @@ MATERIAL.muC                 = 0;
 MATERIAL.muR                 = 0;
     
 MODEL.DiscritizationOption = 1;
-
 
 RECORDERS.Time          = 0;
 RECORDERS.Disp          = 0;

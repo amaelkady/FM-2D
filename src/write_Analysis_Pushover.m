@@ -48,8 +48,8 @@ fprintf(INP,'\n');
 fprintf(INP,'set Nsteps [expr int($Dmax/$Dincr)];\n');
 fprintf(INP,'set ok 0;\n');
 fprintf(INP,'set controlDisp 0.0;\n');
-fprintf(INP,'source LibAnalysisStaticParameters.tcl;\n');
-fprintf(INP,'source SolutionAlgorithm.tcl;\n');
+fprintf(INP,'source SolverStatic.tcl;\n');
+fprintf(INP,'SolverStatic $CtrlNode $CtrlDOF $Dincr $Dmax  $HBuilding;\n');
 
 fprintf(INP,'}\n');
 fprintf(INP,'\n');
