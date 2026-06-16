@@ -174,29 +174,46 @@ while {$d_roof < $d_max || $ok !=0 } {
 						
 								if  {$d_roof >= $d_max} {set ok 0; break;}  
 							
-								if {$d_roof < $d_max} {
-
-									puts "***Analysis did not converge at $RDR% drift***"
-									puts "   --> Running analysis with 1/50 of d_incr, EnergyIncr, relaxed criteria, and KrylovNewton - initial ..."
-									
-									test        EnergyIncr 1.0e-1 100
-									algorithm   KrylovNewton -initial
-						
-									set NumSteps    [expr round(($d_max-$d_roof)/($d_incr/50.0))]; if {$NumSteps > 10000} {set NumSteps 10000;}
-									set ok          [analyze $NumSteps [expr $d_incr/50.0]];
-								
-									set d_roof    	[nodeDisp $CtrlNode 1];
-									set RDR         [expr round(($d_roof*100/$HBuilding)*10.)/10.];
-							
-									if  {$d_roof >= $d_max} {set ok 0; break;}   
-
-									if {$d_roof < $d_max} {
-										puts "..................................................................................."
-										puts "***    All convergence attempts exhausted: Stopping analysis at $RDR% drift     ***"
-										puts "..................................................................................."
-										break;
-									}
-								}
+							    if {$d_roof < $d_max} {
+								    
+								    puts "***Analysis did not converge at $RDR% drift***"
+								    puts "   --> Running analysis with 1/100 of d_incr, NormDispIncr, and KrylovNewton ..."
+    
+								    test  		NormDispIncr 1.0e-1 100
+								    algorithm   KrylovNewton
+    
+								    set NumSteps    [expr round(($d_max-$d_roof)/($d_incr/100.0))]; 
+								    set ok          [analyze $NumSteps [expr $d_incr/100.0]];
+					    
+								    set d_roof    	[nodeDisp $CtrlNode 1];
+								    set RDR         [expr round(($d_roof*100/$HBuilding)*10.)/10.];
+						    
+								    if  {$d_roof >= $d_max} {set ok 0; break;}  
+    
+								    if {$d_roof < $d_max} {
+    
+									    puts "***Analysis did not converge at $RDR% drift***"
+									    puts "   --> Running analysis with 1/50 of d_incr, NormDispIncr, relaxed criteria, and KrylovNewton - initial ..."
+									    
+									    test        NormDispIncr 1.0e-1 100
+									    algorithm   KrylovNewton -initial
+						    
+									    set NumSteps    [expr round(($d_max-$d_roof)/($d_incr/50.0))]; if {$NumSteps > 10000} {set NumSteps 10000;}
+									    set ok          [analyze $NumSteps [expr $d_incr/50.0]];
+								    
+									    set d_roof    	[nodeDisp $CtrlNode 1];
+									    set RDR         [expr round(($d_roof*100/$HBuilding)*10.)/10.];
+							    
+									    if  {$d_roof >= $d_max} {set ok 0; break;}   
+    
+									    if {$d_roof < $d_max} {
+										    puts "..................................................................................."
+										    puts "***    All convergence attempts exhausted: Stopping analysis at $RDR% drift     ***"
+										    puts "..................................................................................."
+										    break;
+									    }
+								    }
+                                }
 							}
 
 						}  
