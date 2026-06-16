@@ -31,12 +31,12 @@ for Story=NStory:-1:1
         elseif ColElementOption==2
             secID=secID+1;
             matID=matID+1;
-            fprintf(INP,'FiberRC_Rectangular %5d %.4f %.4f %.4f %.4f %2d %.4f %2d %.4f  %2d %.4f; ',secID,SecData.H,SecData.B,SecData.coverH,SecData.coverB,SecData.nBarTop,SecData.areaBarTop,SecData.nBarBot,SecData.areaBarBot,SecData.nBarInt,SecData.areaBarInt); 
-            fprintf(INP,'ConstructFiberColumn %d  %6d %6d %5d %d %.4f %d $trans_selected %d;\n',ElemID,nodeIDb,nodeIDt,secID, 5, nIntegration,0);
+            fprintf(INP,'Fiber_RC_Rectangular %5d %.4f %.4f %.4f %.4f %2d %.4f %2d %.4f  %2d %.4f; ',secID,SecData.H,SecData.B,SecData.coverH,SecData.coverB,SecData.nBarTop,SecData.areaBarTop,SecData.nBarBot,SecData.areaBarBot,SecData.nBarInt,SecData.areaBarInt); 
+            fprintf(INP,'Construct_FiberColumn %d  %6d %6d %5d %d %.4f %d $trans_selected %d;\n',ElemID,nodeIDb,nodeIDt,secID, 5, nIntegration,0);
         elseif ColElementOption==3
             secID=secID+1;
             matID=matID+1;
-            fprintf(INP,'FiberRC_Rectangular %5d %.4f %.4f %.4f %.4f %2d %.4f %2d %.4f  %2d %.4f; ',secID,SecData.H,SecData.B,SecData.coverH,SecData.coverB,SecData.nBarTop,SecData.areaBarTop,SecData.nBarBot,SecData.areaBarBot,SecData.nBarInt,SecData.areaBarInt); 
+            fprintf(INP,'Fiber_RC_Rectangular %5d %.4f %.4f %.4f %.4f %2d %.4f %2d %.4f  %2d %.4f; ',secID,SecData.H,SecData.B,SecData.coverH,SecData.coverB,SecData.nBarTop,SecData.areaBarTop,SecData.nBarBot,SecData.areaBarBot,SecData.nBarInt,SecData.areaBarInt); 
             fprintf(INP,'element nonlinearBeamColumn %d  %6d %6d  %d %d $trans_selected;\n',ElemID,nodeIDb,nodeIDt,nIntegration,secID);
         end
         EL_ELEMENTS(count,1)=ElemID;
@@ -59,7 +59,7 @@ for Floor=NStory+1:-1:2
         
         secID=secID+1;
         matID=matID+1;
-        fprintf(INP,'FiberRC_Rectangular %5d %.4f %.4f %.4f %.4f %2d %.4f %2d %.4f  %2d %.4f; ',secID,SecData.H,SecData.B,SecData.coverH,SecData.coverB,SecData.nBarTop,SecData.areaBarTop,SecData.nBarBot,SecData.areaBarBot,SecData.nBarInt,SecData.areaBarInt); 
+        fprintf(INP,'Fiber_RC_Rectangular %5d %.4f %.4f %.4f %.4f %2d %.4f %2d %.4f  %2d %.4f; ',secID,SecData.H,SecData.B,SecData.coverH,SecData.coverB,SecData.nBarTop,SecData.areaBarTop,SecData.nBarBot,SecData.areaBarBot,SecData.nBarInt,SecData.areaBarInt); 
         fprintf(INP,'element nonlinearBeamColumn %d  %6d %6d  %d %d $trans_selected;\n',ElemID,nodeIDl,nodeIDr,nIntegration,secID);
         EL_ELEMENTS(count,1)=ElemID;
         count=count+1;

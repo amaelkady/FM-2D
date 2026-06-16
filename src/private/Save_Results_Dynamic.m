@@ -44,16 +44,16 @@ for GM_No=GM_Start:GM_Last
         %% Read Floor Relative Acceleration data
         if RECORDERS.RFA==1
             for Floor=1:NStory+1
-                evalc(['MF_RFA' ,num2str(Floor),'=importdata(','''',FILENAME.RFA ,num2str(Floor),'_MF.out','''',')/g']);
-                if FloorLink==2; evalc(['EGF_RFA' ,num2str(Floor),'=importdata(','''',FILENAME.RFA ,num2str(Floor),'_EGF.out','''',')/g']); end
+                evalc(['MF_RFA{Floor}=importdata(','''',FILENAME.RFA ,num2str(Floor),'_MF.out','''',')/g']);
+                if FloorLink==2; evalc(['EGF_RFA{Floor}=importdata(','''',FILENAME.RFA ,num2str(Floor),'_EGF.out','''',')/g']); end
             end
         end
         
         %% Read Floor Relative Velocity data
         if RECORDERS.RFV==1
             for Floor=1:NStory+1
-                evalc(['MF_RFV' ,num2str(Floor),'=importdata(','''',FILENAME.RFV ,num2str(Floor),'_MF.out','''',')']);
-                if FloorLink==2; evalc(['EGF_RFV' ,num2str(Floor),'=importdata(','''',FILENAME.RFV ,num2str(Floor),'_EGF.out','''',')']); end
+                evalc(['MF_RFV{Floor}=importdata(','''',FILENAME.RFV ,num2str(Floor),'_MF.out','''',')']);
+                if FloorLink==2; evalc(['EGF_RFV{Floor}=importdata(','''',FILENAME.RFV ,num2str(Floor),'_EGF.out','''',')']); end
             end
         end
         
@@ -65,10 +65,10 @@ for GM_No=GM_Start:GM_Last
         
         if RECORDERS.RFA==1
             for Floor=1:NStory+1
-                evalc(['x=MF_RFA',num2str(Floor), '(12:end,1)+ SF * GMacc_Inter(:,1)']);
+                x=MF_RFA{Floor}(12:end,1)+ SF * GMacc_Inter(:,1);
                 PFA_All(count,Floor)=max(abs(x));
                 if FloorLink==2
-                    evalc(['x=EGF_RFA',num2str(Floor), '(12:end,1)+ SF * GMacc_Inter(:,1)']);
+                    x=EGF_RFA{Floor}(12:end,1)+ SF * GMacc_Inter(:,1);
                     PFA_All_EGF(count,Floor)=max(abs(x));
                 end
             end
@@ -76,10 +76,10 @@ for GM_No=GM_Start:GM_Last
         
         if RECORDERS.RFV==1
             for Floor=1:NStory+1
-                evalc(['x=MF_RFV',num2str(Floor), '(12:end,1)+ SF * GMvel_Inter(:,1)']);
+                x=MF_RFV{Floor}(12:end,1)+ SF * GMvel_Inter(:,1);
                 PFV_All(count,Floor)=max(abs(x));
                 if FloorLink==2
-                    evalc(['x=EGF_RFV',num2str(Floor), '(12:end,1)+ SF * GMvel_Inter(:,1)']);
+                    x=EGF_RFV{Floor}(12:end,1)+ SF * GMvel_Inter(:,1);
                     PFV_All_EGF(count,Floor)=max(abs(x));
                 end
             end

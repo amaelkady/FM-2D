@@ -39,7 +39,7 @@ if ConnectionID==1 % extended endplate
         SecData.StiffenerC  = SecData.Data(1,7);
         SecData.dt          = 0;
     else
-        errordlg('Number of input MF EEPC data are incorrect. Check Excel file!','Error');
+        errordlg('Number of input EEPC data are incorrect. Check Excel file!','Error');
         return;
     end
     if count==10
@@ -49,7 +49,10 @@ if ConnectionID==1 % extended endplate
         SecData.tdp         = SecData.Data(1,10);
     end
 
-elseif ConnectionID==2 % flush endplate
+
+elseif ConnectionID==2 % header endplate
+
+elseif ConnectionID==3 % flush endplate
 
     if count==6  || count==10
         SecData.tep         = SecData.Data(1,1);
@@ -60,7 +63,7 @@ elseif ConnectionID==2 % flush endplate
         SecData.StiffenerC  = SecData.Data(1,6);
         SecData.pt          = 0;
     else
-        errordlg('Number of input EGF Connection data are incorrect. Check Excel file!','Error');
+        errordlg('Number of input GF Connection data are incorrect. Check Excel file!','Error');
         return;
     end
     if count==10
@@ -70,7 +73,7 @@ elseif ConnectionID==2 % flush endplate
         SecData.tdp         = SecData.Data(1,10);
     end
 
-elseif ConnectionID==3 % extended endplate single-sided
+elseif ConnectionID==4 % extended endplate single-sided
 
     if count==7  || count==11
         SecData.tep         = SecData.Data(1,1);
@@ -81,7 +84,7 @@ elseif ConnectionID==3 % extended endplate single-sided
         SecData.nrows       = SecData.Data(1,6);
         SecData.StiffenerC  = SecData.Data(1,7);
     else
-        errordlg('Number of input EGF Connection data are incorrect. Check Excel file!','Error');
+        errordlg('Number of input GF Connection data are incorrect. Check Excel file!','Error');
         return;
     end
     if count==11

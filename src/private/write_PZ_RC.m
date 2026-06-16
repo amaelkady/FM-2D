@@ -6,7 +6,7 @@ fprintf(INP,'###################################################################
 fprintf(INP,'\n');
 
 fprintf(INP,'# Command Syntax; \n');
-fprintf(INP,'# ConstructPanel_RC Axis Floor X_Axis Y_Floor E A_Panel I_Panel d_Col d_Beam transfTag ShapeID\n');
+fprintf(INP,'# Construct_Panel_RC Axis Floor X_Axis Y_Floor E A_Panel I_Panel d_Col d_Beam transfTag ShapeID\n');
 
 for Floor=NStory+1:-1:2
     for Axis=1:NBay+1
@@ -26,7 +26,7 @@ for Floor=NStory+1:-1:2
         if Axis==NBay+1;                        ShapeID=4;  end
         if Axis==NBay+1 && Floor==NStory+1;     ShapeID=34; end
 
-        fprintf(INP,'ConstructPanel_RC %2d %2d $Axis%d $Floor%d $E $A_Stiff $I_Stiff %5.2f %5.2f $trans_selected %2d; ',Axis,Floor,Axis,Floor,columndepth,beamdepth, ShapeID);
+        fprintf(INP,'Construct_Panel_RC %2d %2d $Axis%d $Floor%d $E $A_Stiff $I_Stiff %5.2f %5.2f $trans_selected %2d; ',Axis,Floor,Axis,Floor,columndepth,beamdepth, ShapeID);
 
     end
     fprintf(INP,'\n');

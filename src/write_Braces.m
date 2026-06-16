@@ -31,17 +31,17 @@ fprintf(INP,'\n');
 
 fprintf(INP,'# CREATE THE BRACE SECTIONS\n');
 fprintf(INP,'# COMMAND SYNTAX \n');
-fprintf(INP,'# FiberRHSS $BraceSecType $FatigueMatID $h_brace $t_brace $nFiber $nFiber $nFiber $nFiber;\n');
+fprintf(INP,'# Fiber_RHSS $BraceSecType $FatigueMatID $h_brace $t_brace $nFiber $nFiber $nFiber $nFiber;\n');
 secID = 1;
 for Story=1:NStory
     Section=BRACES{Story,1};
     [SecData]=load_SecData (Section,Units);
     idx=find(contains(SecData.Name,Section),1,'first');
     if SecData.Type(idx) == 1
-        fprintf(INP,'FiberRHSS %5d %5d %.4f %.4f 10 4 10 4; ',secID,matFatigue(Story),SecData.h(idx),SecData.t(idx));
+        fprintf(INP,'Fiber_RHSS %5d %5d %.4f %.4f 10 4 10 4; ',secID,matFatigue(Story),SecData.h(idx),SecData.t(idx));
         secID = secID + 1;
     elseif SecData.Type(idx) == 2
-        fprintf(INP,'FiberCHSS %5d %5d %.4f %.4f 12 4; ',secID,matFatigue(Story),SecData.h(idx),SecData.t(idx));
+        fprintf(INP,'Fiber_CHSS %5d %5d %.4f %.4f 12 4; ',secID,matFatigue(Story),SecData.h(idx),SecData.t(idx));
         secID = secID + 1;
     elseif SecData.Type(idx) == 3
         fprintf(INP,'FiberWF  %5d %5d %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,matFatigue(Story),SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
@@ -54,7 +54,7 @@ fprintf(INP,'\n');
 
 fprintf(INP,'# CONSTRUCT THE BRACE MEMBERS\n');
 fprintf(INP,'# COMMAND SYNTAX \n');
-fprintf(INP,'# ConstructBrace $BraceID $NodeIDi $NodeIDj $nSegments $Imperfeection $nIntgeration $transformation;\n');
+fprintf(INP,'# Construct_Brace $BraceID $NodeIDi $NodeIDj $nSegments $Imperfeection $nIntgeration $transformation;\n');
 if FrameType==2
     for Story=1:NStory
         Fi=Story; Fj=Story+1;
@@ -65,23 +65,23 @@ if FrameType==2
                 iNode = 100000+1000*Fi+100*Axisi+41;
                 jNode = 200000+1000*Fj+100*Bay+13;
                 BraceID_L = 8100000+1000*Story+100*Bay;
-                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
+                fprintf(INP,'Construct_Brace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
                 % Right Brace
                 iNode = 100000+1000*Fi+100*Axisj+41;
                 jNode = 200000+1000*Fj+100*Bay+14;
                 BraceID_R = 8200000+1000*Story+100*Bay;
-                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+                fprintf(INP,'Construct_Brace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
             else
                 % Left Brace
                 jNode = 200000+1000*Fi+100*Bay+17;
                 iNode = 100000+1000*Fj+100*Axisi+51;
                 BraceID_L = 8100000+1000*Story+100*Bay;
-                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
+                fprintf(INP,'Construct_Brace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
                 % Right Brace
                 jNode = 200000+1000*Fi+100*Bay+16;
                 iNode = 100000+1000*Fj+100*Axisj+51;
                 BraceID_R = 8200000+1000*Story+100*Bay;
-                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+                fprintf(INP,'Construct_Brace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
             end
         end
         fprintf(INP,'\n');
@@ -136,14 +136,14 @@ if FrameType==3
             iNode = 100000+1000*Fi+100*Axisi+41;
             jNode = 200000+1000*Fj+100*Bay+13;
             BraceID_L = 8100000+1000*Story+100*Bay;
-            fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
+            fprintf(INP,'Construct_Brace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_L,iNode,jNode,Story);
             if BraceLayout==1
                 
                 % Right Brace
                 iNode = 100000+1000*Fi+100*Axisj+41;
                 jNode = 200000+1000*Fj+100*Bay+14;
                 BraceID_R = 8200000+1000*Story+100*Bay;
-                fprintf(INP,'ConstructBrace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
+                fprintf(INP,'Construct_Brace %d   %6d   %6d %5d   $nSegments $initialGI $nIntegration  $trans_Corot;\n',BraceID_R,iNode,jNode,Story);
             end
         end
         fprintf(INP,'\n');

@@ -1,7 +1,12 @@
 function write_EGFsprings (INP)
 
-global MainDirectory ProjectName ProjectPath 
-load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','GFX','EGFconnection', 'CONNECTIONS','CompositeX', 'Orientation','MF_COLUMNS','MF_BEAMS','GF_COLUMNS','GF_BEAMS','Splice', 'LAYOUT', 'MATERIALS', 'LOADS', 'nMF', 'nGC', 'TribAreaIn', 'TribAreaEx', 'HStory', 'TA_MF', 'cDL_W' , 'RoofDL' , 'cLL_W' , 'RoofLL' , 'cGL_W' , 'RoofGL', 'fy', 'TypicalDL', 'TypicalLL', 'TypicalGL','nGB', 'Units');
+global MainDirectory 
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','GFX','GFconnection', 'GF_Connection','CompositeX', 'Orientation','MF_COLUMNS','MF_BEAMS','GF_COLUMNS','GF_BEAMS','Splice', 'LAYOUT', 'MATERIALS', 'LOADS', 'nMF', 'nGC', 'TribAreaIn', 'TribAreaEx', 'HStory', 'TA_MF', 'cDL_W' , 'RoofDL' , 'cLL_W' , 'RoofLL' , 'cGL_W' , 'RoofGL', 'fy', 'TypicalDL', 'TypicalLL', 'TypicalGL','nGB', 'Units');
+
+fprintf(INP,'####################################################################################################\n');
+fprintf(INP,'#                                            EGF MEMBER SPRINGS                                    #\n');
+fprintf(INP,'####################################################################################################\n');
+fprintf(INP,'\n');
 
 %%
 for Story=NStory:-1:1
@@ -141,9 +146,9 @@ for Floor=NStory+1:-1:2
 
     if GFX==1
 
-        if EGFconnection == 2 || EGFconnection == 3
-            Connectioni=CONNECTIONS{Floor-1,1};
-            [ConData]=Load_ConData_EPC (Connectioni, EGFconnection);
+        if GFconnection ~= 1
+            Connectioni=GF_Connection{Floor-1,1};
+            [ConData]=load_PRConnParams (Connectioni, GFconnection);
         end
 
         Section=GF_COLUMNS{Story,1}; if Splice(Story,1)==1; Section = GF_COLUMNS{Floor,1}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
@@ -158,34 +163,34 @@ for Floor=NStory+1:-1:2
 
         nodeID0=(10*Floor+   (NBay+2))*10;
         nodeID1=100*Floor+10*(NBay+2)+04;
-        if     EGFconnection == 1
-            fprintf(INP,'Spring_Pinching  %7d %7d %7d [expr (%.4f/%.4f)*%.4f] $gap %d; ', SpringID_R,nodeID0,nodeID1, nGB, nMF, My_GB, ResponseID);
-        elseif EGFconnection == 2
-        elseif EGFconnection == 3
-            fprintf(INP,'Spring_FEPC      %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d %d %.4f %d %d; ', SpringID_R,nodeID0,nodeID1, ConData.dt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC),  fyP, fuP, fy, fu, fyb, fub, ConData.StiffenerC, 2, nGB/nMF, CompositeX, Units);
-        elseif EGFconnection == 4
-            fprintf(INP,'Spring_EEPC      %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d %d %.4f %d %d; ', SpringID_R,nodeID0,nodeID1, ConData.pt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC),  fyP, fuP, fy, fu, fyb, fub, ConData.StiffenerC, 4, nGB/nMF, CompositeX, Units);
+        if     GFconnection == 1
+            fprintf(INP,'Spring_Connection_ShearTab  %7d %7d %7d [expr (%.4f/%.4f)*%.4f] $gap %d; ', SpringID_R,nodeID0,nodeID1, nGB, nMF, My_GB, ResponseID);
+        elseif GFconnection == 2
+        elseif GFconnection == 3
+            fprintf(INP,'Spring_Connection_FEPC      %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $fyP $fuP $fy $fu $fyb $fub %d %d %.4f %d %d; ', SpringID_R,nodeID0,nodeID1, ConData.dt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC), ConData.StiffenerC, ConData.nrows, nGB/nMF, CompositeX, Units);
+        elseif GFconnection == 4
+            fprintf(INP,'Spring_Connection_SR_EEPC   %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $fyP $fuP $fy $fu $fyb $fub %d %d %.4f %d %d; ', SpringID_R,nodeID0,nodeID1, ConData.pt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC), ConData.StiffenerC, ConData.nrows, nGB/nMF, CompositeX, Units);
         end
 
         matID=matID+1;
         nodeID0=(10*Floor+   (NBay+3))*10;
         nodeID1=100*Floor+10*(NBay+3)+02;
-        if     EGFconnection == 1
-            fprintf(INP,'Spring_Pinching  %7d %7d %7d [expr (%.4f/%.4f)*%.4f] $gap %d; ', SpringID_L, nodeID1, nodeID0, nGB, nMF, My_GB, ResponseID);
-        elseif EGFconnection == 2
-        elseif EGFconnection == 3
-            fprintf(INP,'Spring_FEPC      %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d %d %.4f %d %d; ', SpringID_L,nodeID1,nodeID0, ConData.dt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC),  fyP, fuP, fy, fu, fyb, fub, ConData.StiffenerC, 2, nGB/nMF, CompositeX, Units);
-        elseif EGFconnection == 4
-            fprintf(INP,'Spring_EEPC      %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %d %d %.4f %d %d; ', SpringID_L,nodeID1,nodeID0, ConData.pt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC),  fyP, fuP, fy, fu, fyb, fub, ConData.StiffenerC, 4, nGB/nMF, CompositeX, Units);
+        if     GFconnection == 1
+            fprintf(INP,'Spring_Connection_ShearTab  %7d %7d %7d [expr (%.4f/%.4f)*%.4f] $gap %d; ', SpringID_L, nodeID1, nodeID0, nGB, nMF, My_GB, ResponseID);
+        elseif GFconnection == 2
+        elseif GFconnection == 3
+            fprintf(INP,'Spring_Connection_FEPC      %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $fyP $fuP $fy $fu $fyb $fub %d %d %.4f %d %d; ', SpringID_L,nodeID1,nodeID0, ConData.dt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC), ConData.StiffenerC, ConData.nrows, nGB/nMF, CompositeX, Units);
+        elseif GFconnection == 4
+            fprintf(INP,'Spring_Connection_SR_EEPC   %7d %7d %7d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f $fyP $fuP $fy $fu $fyb $fub %d %d %.4f %d %d; ', SpringID_L,nodeID1,nodeID0, ConData.pt, ConData.g, ConData.tep, SecData.tf(idxC), ConData.d_b, SecData.d(idx), SecData.d(idxC), SecData.tw(idxC), ConData.StiffenerC, ConData.nrows, nGB/nMF, CompositeX, Units);
         end
         matID=matID+1;
-
 
     else
 
         nodeID0=(10*Floor+(NBay+2))*10;
         nodeID1=100*Floor+10*(NBay+2)+04;
         fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID_R,nodeID0,nodeID1);
+        
         nodeID0=(10*Floor+(NBay+3))*10;
         nodeID1=100*Floor+10*(NBay+3)+02;
         fprintf(INP,'Spring_Rigid %7d %7d %7d; ', SpringID_L,nodeID0,nodeID1);

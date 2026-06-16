@@ -10,7 +10,7 @@ fprintf(INP,'\n');
 
 if MFconnectionOdd==2
     fprintf(INP,'# COMMAND SYNTAX \n');
-    fprintf(INP,'# Spring_Pinching $SpringID $iNode $jNode $EffectivePlasticStrength $gap $CompositeFlag\n');
+    fprintf(INP,'# Spring_Connection_ShearTab $SpringID $iNode $jNode $EffectivePlasticStrength $gap $CompositeFlag\n');
     fprintf(INP,'\n');
     fprintf(INP,'set gap 0.08;\n');
 end
@@ -64,18 +64,18 @@ if FrameType==2
                     if Axis~=1 && Axis~=NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
                     elseif Axis==1
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
                     elseif Axis==NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
                     end
 
                 elseif MFconnectionEven==3
@@ -184,18 +184,18 @@ if FrameType==2
                     if Axis~=1 && Axis~=NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
                     elseif Axis==1
                         iNode = 400000+1000*Floor+100*Axis+04;
                         jNode = 100*Floor+10*Axis+04;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
                     elseif Axis==NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
                     end
 
                 elseif MFconnectionOdd==3
@@ -283,20 +283,20 @@ if FrameType==3
                     if BraceLayout==1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
                     end
                     iNode = 400000+1000*Floor+100*Axis+04;
                     jNode = 100*Floor+10*Axis+04;
-                    fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
+                    fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
                 elseif Axis==1
                     iNode = 400000+1000*Floor+100*Axis+04;
                     jNode = 100*Floor+10*Axis+04;
-                    fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
+                    fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID04,iNode,jNode,My);
                 elseif BraceLayout==1
                     if Axis==NBay+1
                         iNode = 100*Floor+10*Axis+02;
                         jNode = 400000+1000*Floor+100*Axis+02;
-                        fprintf(INP,'Spring_Pinching  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
+                        fprintf(INP,'Spring_Connection_ShearTab  %d  %d %d %.4f $gap $Composite; ', SpringID02,iNode,jNode,My);
                     end
                 end
 

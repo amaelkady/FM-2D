@@ -1,7 +1,7 @@
 function write_BasicInput (INP)
 
 global MainDirectory 
-load(strcat(MainDirectory,'\temp_unpacked'), 'FrameType','NStory','NBay','CompositeX', 'Comp_I','Comp_I_GC','Units','E','mu0','fy','fyBrace','fyGP','Er','fyR','muR','Ec','fc','muC','EL_Multiplier','SteelMatID','TransformationX','nSegments','initialGI','nIntegration','SIGMA', 'Uncertainty', 'resource_root','Ry_column','Ry_beam','ColElementOption','BeamElementOption');
+load(strcat(MainDirectory,'\temp_unpacked'), 'FrameType','NStory','NBay','CompositeX', 'Comp_I','Comp_I_GC','Units','E','mu0','fy','fu','fyBrace','fyGP','fyP','fuP','fyb','fub','Er','fyR','muR','Ec','fc','muC','EL_Multiplier','SteelMatID','TransformationX','nSegments','initialGI','nIntegration','SIGMA', 'Uncertainty', 'resource_root','Ry_column','Ry_beam','ColElementOption','BeamElementOption','MFconnection','GFconnection');
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                              INPUT                                               #\n');
@@ -24,9 +24,23 @@ if FrameType==4
 end
 fprintf(INP,'set mu  %.3f; \n',mu0);
 if EL_Multiplier~= 1
-fprintf(INP,'set fy  [expr %.3f * %5.1f]; % yield strength is amplified to implictly create an elastic model\n',fy,EL_Multiplier);
+    fprintf(INP,'set fy  [expr %.3f * %5.1f]; % yield strength is amplified to implictly create an elastic model\n',fy,EL_Multiplier);
+    if MFconnection==3 || GFconnection >=3
+        fprintf(INP,'set fu   [expr %.3f * %5.1f];\n',fu ,EL_Multiplier); 
+        fprintf(INP,'set fyP  [expr %.3f * %5.1f];\n',fyP,EL_Multiplier); 
+        fprintf(INP,'set fuP  [expr %.3f * %5.1f];\n',fuP,EL_Multiplier); 
+        fprintf(INP,'set fyb  [expr %.3f * %5.1f];\n',fyb,EL_Multiplier); 
+        fprintf(INP,'set fub  [expr %.3f * %5.1f];\n',fub,EL_Multiplier); 
+    end
 else
-fprintf(INP,'set fy  [expr %.3f * %5.1f];\n',fy,EL_Multiplier);
+    fprintf(INP,'set fy   %.3f;\n',fy);
+    if MFconnection==3 || GFconnection >=3
+        fprintf(INP,'set fu  %.3f;\n',fu ); 
+        fprintf(INP,'set fyP %.3f;\n',fyP); 
+        fprintf(INP,'set fuP %.3f;\n',fuP); 
+        fprintf(INP,'set fyb %.3f;\n',fyb); 
+        fprintf(INP,'set fub %.3f;\n',fub); 
+    end
 end
 if FrameType~=1 && FrameType~=4
     fprintf(INP,'set fyB [expr %.3f * %5.1f];\n',fyBrace,EL_Multiplier);

@@ -45,21 +45,21 @@ if FrameType~=4
                     fprintf(INP,'element ModElasticBeam2d %8d %8d %8d  %.4f $E [expr ($n+1)/$n*%.4f*%.4f] $K11_2 $K33_2 $K44_2 $trans_selected; ',ElemID,nodeIDb,nodeIDt,SecData.Area(idx),SecData.Ix(idx), factor_I_mod);
                 elseif ColElementOption==2
                     secID=secID+1;
-                    fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
-                    fprintf(INP,'ConstructFiberColumn %d  %6d %6d %5d %d %.4f %d $trans_selected %d;\n',ElemID,nodeIDb,nodeIDt,secID, nSegments, initialGI, nIntegration,0);
+                    fprintf(INP,'Fiber_WF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+                    fprintf(INP,'Construct_FiberColumn %d  %6d %6d %5d %d %.4f %d $trans_selected %d;\n',ElemID,nodeIDb,nodeIDt,secID, nSegments, initialGI, nIntegration,0);
                 elseif ColElementOption==3
                     secID=secID+1;
-                    fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+                    fprintf(INP,'Fiber_WF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
                     fprintf(INP,'element forceBeamColumn    %7d  %7d %7d  $trans_selected   "NewtonCotes  %d %d" -iter 50 1e-5; ', ElemID, nodeIDb, nodeIDt, secID, nIntegration);
                 elseif ColElementOption==4
                     secID=secID+1; matID=matID+2;
                     if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
-                    fprintf(INP,'FiberWF_HLB %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'Fiber_WF_HLB %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
                     fprintf(INP,'element forceBeamColumn %d   %d  %d  $trans_selected   "NewtonCotes  %d 5" -iter 50 1e-5;\n', ElemID, nodeIDb, nodeIDt, secID);
                 elseif ColElementOption==5
                     secID=secID+1; matID=matID+2;
                     if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
-                    fprintf(INP,'FiberWF_HLB_Nonlocal %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'Fiber_WF_HLB_Nonlocal %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
                     fprintf(INP,'element testNonlocalElementDH %d   %d  %d  $trans_selected   Simpson  %d 15 20 1e-6 %.4f;\n', ElemID, nodeIDb, nodeIDt, secID, SecData.d(idx));
                 end
 
@@ -84,16 +84,16 @@ if FrameType~=4
                     fprintf(INP,'element ModElasticBeam2d %8d %8d %8d %.4f $E [expr ($n+1)/$n*%.4f*%.4f] $K33_1 $K11_1 $K44_1 $trans_selected;  ',ElemID02,nodeIDsplice72,nodeIDb,SecData.Area(idx1),SecData.Ix(idx1),factor_I_mod);
                 elseif ColElementOption==2
                     secID=secID+1;
-                    fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx1),SecData.bf(idx1),SecData.tf(idx1),SecData.tw(idx1));
-                    fprintf(INP,'ConstructFiberColumn %d  %6d %6d %5d %d %.4f %d $trans_selected %d;\n',ElemID02,nodeIDsplice72,nodeIDb,secID, nSegments, initialGI, nIntegration,2);
+                    fprintf(INP,'Fiber_WF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx1),SecData.bf(idx1),SecData.tf(idx1),SecData.tw(idx1));
+                    fprintf(INP,'Construct_FiberColumn %d  %6d %6d %5d %d %.4f %d $trans_selected %d;\n',ElemID02,nodeIDsplice72,nodeIDb,secID, nSegments, initialGI, nIntegration,2);
                 elseif ColElementOption==3
                     secID=secID+1;
-                    fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx1),SecData.bf(idx1),SecData.tf(idx1),SecData.tw(idx1));
+                    fprintf(INP,'Fiber_WF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx1),SecData.bf(idx1),SecData.tf(idx1),SecData.tw(idx1));
                     fprintf(INP,'element forceBeamColumn    %7d  %7d %7d  $trans_selected   "NewtonCotes  %d %d" -iter 50 1e-5; ', ElemID02, nodeIDsplice72, nodeIDb, secID, nIntegration);
                 elseif ColElementOption==4
                     secID=secID+1; matID=matID+2;
                     if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
-                    fprintf(INP,'FiberWF_HLB %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'Fiber_WF_HLB %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
                     fprintf(INP,'element forceBeamColumn %d   %d  %d  $trans_selected   "NewtonCotes  %d 5" -iter 50 1e-5;\n', ElemID02, nodeIDsplice72, nodeIDb, secID);
                 end
 
@@ -118,16 +118,16 @@ if FrameType~=4
                     fprintf(INP,'element ModElasticBeam2d %8d %8d %8d %.4f $E [expr ($n+1)/$n*%.4f*%.4f] $K33_1 $K11_1 $K44_1 $trans_selected;  ',ElemID01,nodeIDt,nodeIDsplice71,SecData.Area(idx),SecData.Ix(idx),factor_I_mod);
                 elseif ColElementOption==2
                     secID=secID+1;
-                    fprintf(INP,'FiberWF %6d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
-                    fprintf(INP,'ConstructFiberColumn %7d  %7d %7d %5d %d %.4f %d $trans_selected %d;  ',ElemID01,nodeIDt,nodeIDsplice71,secID, nSegments, initialGI, nIntegration,1);
+                    fprintf(INP,'Fiber_WF %6d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+                    fprintf(INP,'Construct_FiberColumn %7d  %7d %7d %5d %d %.4f %d $trans_selected %d;  ',ElemID01,nodeIDt,nodeIDsplice71,secID, nSegments, initialGI, nIntegration,1);
                 elseif ColElementOption==3
                     secID=secID+1;
-                    fprintf(INP,'FiberWF %6d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+                    fprintf(INP,'Fiber_WF %6d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
                     fprintf(INP,'element forceBeamColumn     %7d  %7d %7d  $trans_selected   "NewtonCotes  %d %d" -iter 50 1e-5;  ', ElemID01, nodeIDt, nodeIDsplice71, secID, nIntegration);
                 elseif ColElementOption==4
                     secID=secID+1; matID=matID+2;
                     if Units==1; transUnit=6.89476/1000; else; transUnit=1; end
-                    fprintf(INP,'FiberWF_HLB %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
+                    fprintf(INP,'Fiber_WF_HLB %5d %5d %.4f %.4f %.4f %.4f $E [expr $fy*%.2f] %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f; ', secID, matID, SecData.d(idx), SecData.bf(idx), SecData.tf(idx), SecData.tw(idx), Ry_column, Material.Qinf(SteelMatID+1,1)*transUnit, Material.b(SteelMatID+1,1), Material.Dinf(SteelMatID+1,1)*transUnit, Material.a(SteelMatID+1,1), Material.C1(SteelMatID+1,1)*transUnit, Material.gamma1(SteelMatID+1,1), Material.C2(SteelMatID+1,1)*transUnit, Material.gamma2(SteelMatID+1,1)); 
                     fprintf(INP,'element forceBeamColumn %d   %d  %d  $trans_selected   "NewtonCotes  %d 5" -iter 50 1e-5;\n', ElemID01, nodeIDt, nodeIDsplice71, secID);
                 end
 
@@ -160,11 +160,11 @@ if FrameType~=4
                     fprintf(INP,'element ModElasticBeam2d %8d %8d %8d  %.4f $E [expr ($n+1)/$n*0.90*$Comp_I*%.4f*%.4f] $K11_2 $K33_2 $K44_2 $trans_selected; ',ElemID,nodeIDr,nodeIDl,SecData.Area(idx),SecData.Ix(idx),factor_I_mod);
                 elseif BeamElementOption==2
                     secID=secID+1;
-                    fprintf(INP,'FiberWF %6d 667 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
-                    fprintf(INP,'ConstructFiberBeam %7d  %7d %7d %5d %d %.4f %d $trans_selected;  ',ElemID,nodeIDr,nodeIDl,secID, nSegments, initialGI, nIntegration);
+                    fprintf(INP,'Fiber_WF %6d 667 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+                    fprintf(INP,'Construct_FiberBeam %7d  %7d %7d %5d %d %.4f %d $trans_selected;  ',ElemID,nodeIDr,nodeIDl,secID, nSegments, initialGI, nIntegration);
                 elseif BeamElementOption==3
                     secID=secID+1;
-                    fprintf(INP,'FiberWF %6d 667 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+                    fprintf(INP,'Fiber_WF %6d 667 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
                     fprintf(INP,'element forceBeamColumn     %7d  %7d %7d  $trans_selected   "NewtonCotes  %d %d" -iter 50 1e-5;  ', ElemID, nodeIDr, nodeIDl, secID, nIntegration);
                 end
                     
@@ -230,11 +230,11 @@ if FrameType==3
             ElemID=500000+1000*Floor+100*Bay+03;
 
             secID=secID+1;
-            fprintf(INP,'FiberWF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
+            fprintf(INP,'Fiber_WF  %5d 666 %.4f %.4f %.4f %.4f 6 2 6 2; ',secID,SecData.d(idx),SecData.bf(idx),SecData.tf(idx),SecData.tw(idx));
             if BraceLayout==1
-                fprintf(INP,'ConstructFiberBeam %d  %6d %6d %5d %d %.4f %d $trans_selected %d;',ElemID,nodeID08,nodeID09,secID, 5, 0, nIntegration,0);
+                fprintf(INP,'Construct_FiberBeam %d  %6d %6d %5d %d %.4f %d $trans_selected %d;',ElemID,nodeID08,nodeID09,secID, 5, 0, nIntegration,0);
             else
-                fprintf(INP,'ConstructFiberBeam %d  %6d %6d %5d %d %.4f %d $trans_selected %d;',ElemID,nodeID08,nodeID02,secID, 5, 0, nIntegration,0);
+                fprintf(INP,'Construct_FiberBeam %d  %6d %6d %5d %d %.4f %d $trans_selected %d;',ElemID,nodeID08,nodeID02,secID, 5, 0, nIntegration,0);
             end
         end
 

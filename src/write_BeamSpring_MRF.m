@@ -1,7 +1,7 @@
 function write_BeamSpring_MRF (INP)
 
 global MainDirectory
-load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay', 'WBay','ModelELOption','MF_COLUMNS','MF_BEAMS','MFconnection','a','b','c','k_beambracing','fy','Units','BeamElementOption');
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay', 'WBay','ModelELOption','MF_COLUMNS','MF_BEAMS','MFconnection','a','b','c','k_beambracing','fy','Units','BeamElementOption','MF_EEPCs');
 
 
 fprintf(INP,'###################################################################################################\n');
@@ -76,15 +76,15 @@ for Floor=NStory+1:-1:2
                     fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $Composite %d %d; ',SpringID_R,Node40,Node04,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
                 elseif Axis==NBay+1
                     fprintf(INP,'Spring_Connection_FullyRigid %d %d %d $E $fy [expr $Comp_I*%.3f] %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $Composite %d %d; ',SpringID_L,Node02,Node20,I_RBS, SecDataB.d(idxB),SecDataB.h_tw(idxB),SecDataB.bf_tf(idxB), SecDataB.ry(idxB), L_BEAM, Ls_BEAM, Lb_BEAM, My, MFconnection, Units);
-            end
+                end
             else
                 if Axis~=1 && Axis~=NBay+1
-                    fprintf(INP,'Spring_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $E $mu %.3f %.3f %d %d %.3f $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_L, Node20, Node02, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);
-                    fprintf(INP,'Spring_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $E $mu %.3f %.3f %d %d %.3f $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_R, Node04, Node40, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);                                          
+                    fprintf(INP,'Spring_Connection_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %d %d %.3f $E $mu $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_L, Node20, Node02, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);
+                    fprintf(INP,'Spring_Connection_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %d %d %.3f $E $mu $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_R, Node04, Node40, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);                                          
                 elseif Axis==1
-                    fprintf(INP,'Spring_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $E $mu %.3f %.3f %d %d %.3f $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_R, Node04, Node40, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);  
+                    fprintf(INP,'Spring_Connection_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %d %d %.3f $E $mu $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_R, Node04, Node40, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);  
                 elseif Axis==NBay+1
-                    fprintf(INP,'Spring_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f $E $mu %.3f %.3f %d %d %.3f $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_L, Node20, Node02, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);
+                    fprintf(INP,'Spring_Connection_SR_EEPCs %d %d %d %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %d %d %.3f $E $mu $fyP $fuP $fy $fu $fub %d %d 1 $Composite 1 %d; ',SpringID_L, Node20, Node02, ConData.pt, ConData.g, ConData.tep, ConData.bep, SecDataCi.tf(idxCi), ConData.d_b, SecDataB.d(idxB), SecDataCi.d(idxCi), SecDataCi.tw(idxCi), SecDataCi.Ix(idxCi), ConData.tbp, ConData.DP,ConData.BP, ConData.tdp, ConData.StiffenerC, ConData.nrows, Units);
                 end
             end
 

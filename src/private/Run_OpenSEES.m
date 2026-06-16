@@ -124,7 +124,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 ALL_ANALYSED_SAs(AnalysisCount)=SAcurrent;                                                          % Saves all the analyzed SA values during IDA (helps avoid repeatition of analysis during the collapse point trace)
                 ALL_ANALYSED_SAs=sort(ALL_ANALYSED_SAs);
                 
-                show_Status_Dynamic(GM_No, GM, SAstep, SAcurrent, SFcurrent, DATA.SDRincrmax, DATA.PFAincrmax, DATA.SA_last_NC, DATA.SDR_last_NC, DATA.PFA_last_NC , RunTime, Collapse_Flag, SA_metric, IDA)
+                show_Status_Dynamic(GM_No, GM, SAstep, SAcurrent, SFcurrent, DATA , RunTime, Collapse_Flag, SA_metric, IDA)
                 
                 %% RUN OPENSEES MODEL
                 [RunTime]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
@@ -158,8 +158,8 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 else                                                                        						
                     
                     if ShowScope==1
-                        if    IDA==1; [FigI] = show_Scope_IDA      (AnalysisCount,SAcurrent,NumInstability_Flag,DATA.SDRincrmax,DATA.PFAincrmax,DATA.PFA_last_NC,CollapseSDR,FigI);
-                        else;         [FigD] = show_Scope_Dynamic  (NumInstability_Flag,Collapse,DATA.SDRincrmax,DATA.PFAincrmax,nGM_total,count,FigD,Ri); 
+                        if    IDA==1; [FigI] = show_Scope_IDA      (AnalysisCount,SAcurrent,NumInstability_Flag,DATA,CollapseSDR,FigI);
+                        else;         [FigD] = show_Scope_Dynamic  (NumInstability_Flag,Collapse,DATA,nGM_total,count,FigD,Ri); 
                         end
                     end
 
@@ -229,7 +229,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
             end
             
             %% Save IDA data summary
-            if IDA==1; save_Results_IDA(MainDirectory,RFpath,GM_No,GM,NStory,IncrNo,IncrDATA,RECORDERS.Delete_Flag,RECORDERS); end
+            if IDA==1; save_Results_IDA(MainDirectory,RFpath,GM_No,GM,NStory,IncrNo,IncrDATA,RECORDERS); end
             
             %% Close the scope figure at end of each GM
             if ShowScope==1 && IDA==1;   close (FigI); end

@@ -1,4 +1,4 @@
-function initialize_Project()
+function initialize_Project
 global MainDirectory ProjectName ProjectPath Units FrameType BuildingDescription resource_root
 
 if Units==1; g = 9810.0; end % mm/sec2
@@ -10,7 +10,7 @@ xx= xx(~isspace(xx)); % remove spaces from project name to get opensees file nam
 OpenSEESFileName = [xx,'.tcl'];
 clear xx;
 
-PROJECT.Version             = 5.2606;
+PROJECT.Version             = 5.260603;
 PROJECT.MainDirectory       = MainDirectory;
 PROJECT.ProjectPath         = ProjectPath;
 PROJECT.ProjectName         = ProjectName;
@@ -20,14 +20,14 @@ PROJECT.FrameType           = FrameType;
 PROJECT.BuildingDescription = BuildingDescription;
 PROJECT.resource_root       = resource_root;
 
-STATUS.Model        = 0;
-STATUS.Build        = 0;
-STATUS.Analysis     = 0;
-STATUS.Run          = 0;
-STATUS.Sigma        = 0;
+STATUS.Model                 = 0;
+STATUS.Build                 = 0;
+STATUS.Analysis              = 0;
+STATUS.Run                   = 0;
+STATUS.Sigma                 = 0;
 
-BuildOption         = 1;
-ExecutionOption     = 1;
+BuildOption                  = 1;
+ExecutionOption              = 1;
 
 ANALYSIS.g                   = g;
 ANALYSIS.Uncertainty         = 0;
@@ -75,15 +75,16 @@ PROPERTY.MGP_RigidOffset     = 0;
 LOAD.cLoad                   = 1;
 LOAD.LoadApplyOption         = 1;
 
-CONNECTION.MFconnection        = 1;
-CONNECTION.MidSpanConstraint   = 1;
-CONNECTION.a                   = 0;
-CONNECTION.b                   = 0;
-CONNECTION.c                   = 0;
-CONNECTION.SupportGFS          = 2;
-CONNECTION.Kshearstatus        = 0;
-CONNECTION.MFconnectionEven    = 1;
-CONNECTION.MFconnectionOdd     = 1;   
+CONNECTION.MFconnection      = 1;
+CONNECTION.GFconnection      = 1;
+CONNECTION.MidSpanConstraint = 1;
+CONNECTION.a                 = 0;
+CONNECTION.b                 = 0;
+CONNECTION.c                 = 0;
+CONNECTION.SupportGFS        = 2;
+CONNECTION.Kshearstatus      = 0;
+CONNECTION.MFconnectionEven  = 1;
+CONNECTION.MFconnectionOdd   = 1;   
 
 MATERIAL.Ec                  = 0;    
 MATERIAL.Er                  = 0;   
@@ -94,7 +95,7 @@ MATERIAL.fyGP                = 0;
 MATERIAL.muC                 = 0;
 MATERIAL.muR                 = 0;
     
-MODEL.DiscritizationOption = 1;
+MODEL.DiscritizationOption   = 1;
 
 RECORDERS.Time          = 0;
 RECORDERS.Disp          = 0;

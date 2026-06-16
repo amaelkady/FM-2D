@@ -1,5 +1,5 @@
-function PROPERTY=import_ExcelData(FrameType, ExcelFilePath, ExcelFileName, NStory, NBay, FloorLink, MFconnection, GFX)
-global  MainDirectory Units
+function PROPERTY=import_ExcelData(FrameType, ExcelFilePath, ExcelFileName, NStory, NBay, FloorLink, MFconnection, GFX, Units)
+global  MainDirectory
 
 cd(ExcelFilePath)
 
@@ -82,9 +82,9 @@ end
 
 if GFX == 1
     [~,~,Data] = xlsread(ExcelFileName,'GFS Connection','B2:B100');
-    CONNECTIONS=Data(1:NStory,1);
+    GF_Connection=Data(1:NStory,1);
 else
-    CONNECTIONS=NaN;
+    GF_Connection=NaN;
 end
 
 if MFconnection == 3
@@ -145,7 +145,7 @@ for i=1:size(MF_BEAMS,1)
     end
 end
 
-PROPERTY = v2struct (HStory, WBay, MF_COLUMNS, MF_BEAMS, GF_COLUMNS, GF_BEAMS, Doubler, Splice, Fs_Profile, SecData_BU, WBuilding, HBuilding, BRACES, CGP_tp, MGP_tp, CGP_L123, MGP_L123, MGP_W, MGP_RigidOffset, CGP_RigidOffset, Brace_L, MGP_Lc, CGP_Lc, MF_SL, CONNECTIONS, MF_EEPCs, SecData_Columns, SecData_Beams);
+PROPERTY = v2struct (HStory, WBay, MF_COLUMNS, MF_BEAMS, GF_COLUMNS, GF_BEAMS, Doubler, Splice, Fs_Profile, SecData_BU, WBuilding, HBuilding, BRACES, CGP_tp, MGP_tp, CGP_L123, MGP_L123, MGP_W, MGP_RigidOffset, CGP_RigidOffset, Brace_L, MGP_Lc, CGP_Lc, MF_SL, GF_Connection, MF_EEPCs, SecData_Columns, SecData_Beams);
 
 % Data-Unit sanity checks
 if (Units==1 && max(HStory)<1000) || (Units==2 && min(HStory)>1000)
