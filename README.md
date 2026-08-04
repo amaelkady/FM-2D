@@ -3,23 +3,23 @@
 </p>
 
 ## FM-2D
-Frame Modeler 2D is an open-source MATLAB-based computational platform for modeling and analyzing building assets in OpenSEES using state-of-the-art modeling and dynamic analyses guidelines. The current version supports steel MRFs, CBFs and EBFs.
+Frame Modeler 2D is an open-source MATLAB-based computational platform for modeling and analyzing building assets in OpenSees using state-of-the-art modeling and dynamic analyses guidelines. The current version supports steel MRFs, CBFs and EBFs.
 
---> Curent source code                  : v5.2607.01   (**With Parallel Computing**)
+--> Current source code                  : v5.2607.01   (**With Parallel Computing**)
 
---> Curent compiled installer executable: v5.2607.01   (**With Parallel Computing**)
+--> Current compiled installer executable: v5.2607.01   (**With Parallel Computing**)
 
---> Video tutorials on YouTube [here](https://www.youtube.com/playlist?list=PLz_XdUL-6Y_m10fBEMmzPKqI00wdzbDUN)
+--> Video tutorials on YouTube [here](https://www.youtube.com/playlist?list=PLz_XdUL-6Y_m10fBEMmzPKqI00wdzbDUN). Note that the tutorial videos are based on an older version, however, the same project definition process still applies.
 
 ## Important Notes
 
-- Make sure you run the FM2D.exe, which is located in the default installation directory "C:\Program Files\University of Southampton\FM_2D\application", as admistrator. Note that FM2D needs to be able to create (open, read, and write) files within the installation directory.
+- Make sure you run the FM2D.exe, which is located in the default installation directory "C:\Program Files\University of Southampton\FM_2D\application", as administrator. Note that FM2D needs to be able to create (open, read, and write) files within the installation directory.
 
 - If you encounter issues running OpenSees, try downloading the "lib" folder (available in FM-2D repo) and then place it in the following folder on your PC: ...\University of Southampton\FM_2D.
 
-- Users, and particularly those who plan on collaborating and contributing to FM-2D base code, are highly encouraged to 1) install GitHub Desktop Application, and 2) FORK this repository to thier own computer. This will allow the user to recieve all updates and bug fixes on time. If you are new to GitHub, please check the links below for a quick tutorial on how to fork repositories.
+- Users, and particularly those who plan on collaborating and contributing to FM-2D base code, are highly encouraged to 1) install GitHub Desktop Application, and 2) FORK this repository to their own computer. This will allow the user to receive all updates and bug fixes on time. If you are new to GitHub, please check the links below for a quick tutorial on how to fork repositories.
 
-- PULL requests will be considered while giving credit to contributers. To fork the repo click on the FORK at the top of this page.
+- PULL requests will be considered while giving credit to contributors. To fork the repo click on the FORK at the top of this page.
 
 --> Brief outline on forking, we suggest this [link](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow)
 
