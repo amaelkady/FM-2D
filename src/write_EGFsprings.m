@@ -1,7 +1,9 @@
 function write_EGFsprings (INP)
 
 global MainDirectory 
-load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','GFX','GFconnection', 'GF_Connection','CompositeX', 'Orientation','MF_COLUMNS','MF_BEAMS','GF_COLUMNS','GF_BEAMS','Splice', 'LAYOUT', 'MATERIALS', 'LOADS', 'nMF', 'nGC', 'TribAreaIn', 'TribAreaEx', 'HStory', 'TA_MF', 'cDL_W' , 'RoofDL' , 'cLL_W' , 'RoofLL' , 'cGL_W' , 'RoofGL', 'fy', 'TypicalDL', 'TypicalLL', 'TypicalGL','nGB', 'Units');
+load(strcat(MainDirectory,'\temp_unpacked'),'NStory','NBay','GFX','GFconnection', 'GF_Connection','CompositeX', 'Orientation','MF_COLUMNS','MF_BEAMS','GF_COLUMNS','GF_BEAMS','Splice', 'LOAD', 'nMF', 'nGC','nGB', 'TribAreaIn', 'TribAreaEx', 'HStory', 'TA_MF', 'fy', 'Units');
+
+v2struct(LOAD);
 
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'#                                            EGF MEMBER SPRINGS                                    #\n');
