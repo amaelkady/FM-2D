@@ -7,7 +7,7 @@ Frame Modeler 2D is an open-source MATLAB-based computational platform for model
 
 --> Current source code                  : v5.2607.01   (**With Parallel Computing**)
 
---> Current compiled installer executable: v5.2607.01   (**With Parallel Computing**)
+--> Current compiled installer executable: v6.2610   (**With Parallel Computing**)
 
 --> Video tutorials on YouTube [here](https://www.youtube.com/playlist?list=PLz_XdUL-6Y_m10fBEMmzPKqI00wdzbDUN). Note that the tutorial videos are based on an older version, however, the same project definition process still applies.
 
