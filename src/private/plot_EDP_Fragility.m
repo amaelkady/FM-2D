@@ -15,10 +15,10 @@ end
 
 EDP_data=importdata(strcat(RFpath,'\Results\',filename))*factor;
 
-EDP_max = max(EDP_data,[],2);
-EDP_max = EDP_max((GMi-GM_Start)*nRealizations+1:(GMj-GMi+1)*nRealizations,1);
+rows=get_Selected_Result_Rows(GMi,GMj,GM_Start,nRealizations,size(EDP_data,1));
+EDP_max = max(EDP_data(rows,:),[],2);
 EDP_max = sort(EDP_max);
-nTotal  = (GMj-GMi+1)*nRealizations;
+nTotal  = numel(EDP_max);
 
 % Calculate Probability of reaching EDP
 for i=1:nTotal

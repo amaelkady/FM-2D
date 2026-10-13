@@ -1,7 +1,7 @@
 function plot_EDP_vs_Realization(GMi, GMj, EDPtype)
 
 global MainDirectory
-load (strcat(MainDirectory,'\temp_unpacked'),'nRealizations','RFpath')
+load (strcat(MainDirectory,'\temp_unpacked'),'nRealizations','RFpath','GM_Start')
 
 nGM=GMj-GMi+1;
 
@@ -10,7 +10,8 @@ cd (strcat(RFpath,'\Results'));
 if strcmp(EDPtype,'SDR')==1; [EDPmax_profile]=importdata('Summary Maximum SDR.txt'); ylabelstr='\itSDR\rm_{max} [% rad]';  unit='% rad'; factor=100; end
 if strcmp(EDPtype,'RDR')==1; [EDPmax_profile]=importdata('Summary Maximum RDR.txt'); ylabelstr='\itRDR\rm_{max} [% rad]';  unit='% rad'; factor=100; end
 if strcmp(EDPtype,'PFA')==1; [EDPmax_profile]=importdata('Summary Maximum PFA.txt'); ylabelstr='\itPFA\rm_{max} [g]';      unit='g';     factor=1;  end
-EDP_vector_all=max(EDPmax_profile,[],2)*factor;
+rows=get_Selected_Result_Rows(GMi,GMj,GM_Start,nRealizations,size(EDPmax_profile,1));
+EDP_vector_all=max(EDPmax_profile(rows,:),[],2)*factor;
 cd (MainDirectory)
 
 figure('position',[100 100 450 250],'color','white');

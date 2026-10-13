@@ -33,8 +33,7 @@ if FrameType~=4
             for Axis=1:NBay+1
 
                 Section=MF_COLUMNS{Story,Axis};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
 
                 nodeIDb=100*Fi+10*Axis+03;
                 nodeIDt=100*Fj+10*Axis+01;
@@ -73,8 +72,7 @@ if FrameType~=4
                 ElemID02=600000+1000*Story+100*Axis+02;
 
                 Section=MF_COLUMNS{min(Story+1,NStory),Axis};
-                [SecData]=load_SecData (Section, Units);
-                idx1=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx1]=load_SecData(Section,Units);
 
                 nodeIDb=100*Fj+10*Axis+01;
                 nodeIDsplice72=100000+1000*Story+100*Axis+72;
@@ -107,8 +105,7 @@ if FrameType~=4
                 ElemID01=600000+1000*Story+100*Axis+01;
 
                 Section=MF_COLUMNS{Story,Axis};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
 
                 nodeIDt=100*Fi+10*Axis+03;
                 nodeIDsplice71=100000+1000*Story+100*Axis+71;
@@ -147,8 +144,7 @@ if FrameType~=4
                 Axisi=Bay; Axisj=Bay+1;
 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
 
                 nodeIDr=100*Floor+10*Axisi+04;
                 nodeIDl=100*Floor+10*Axisj+02;
@@ -179,8 +175,7 @@ if FrameType~=4
                 Axisi=Bay; Axisj=Bay+1;
 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
 
                 nodeIDr =100*Floor+10*Axisi+04;
                 nodeIDrC=200000+1000*Floor+100*Axisi+12;
@@ -221,8 +216,7 @@ if FrameType==3
         for Bay=1:NBay
             Axisj=Bay+1;
             Section=MF_SL{Floor-1,Bay};
-            [SecData]=load_SecData (Section, Units);
-            idx=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idx]=load_SecData(Section,Units);
             
             nodeID08=200000+1000*Floor+100*Bay+8;
             nodeID09=200000+1000*Floor+100*Bay+9;

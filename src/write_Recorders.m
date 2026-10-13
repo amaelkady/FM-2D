@@ -13,8 +13,11 @@ fprintf(INP,'setMaxOpenFiles 2048\n');
 fprintf(INP,'\n');
 
 fprintf(INP,'# EIGEN VECTORS\n');
+fprintf(INP,'set EigenFolder $MainFolder/EigenAnalysis;\n');
+fprintf(INP,'if {[info exists FM2D_JobResults] && $FM2D_JobResults} {set EigenFolder $MainFolder/$SubFolder/EigenAnalysis};\n');
+fprintf(INP,'file mkdir $EigenFolder;\n');
 for Story=1:NStory
-    fprintf(INP,'recorder Node -file $MainFolder/EigenAnalysis/EigenVectorsMode%d.out -node ',Story);
+    fprintf(INP,'recorder Node -file $EigenFolder/EigenVectorsMode%d.out -node ',Story);
     for Floor=2:NStory+1
         nodeID=400000+1000*Floor+100*1+04;
         fprintf(INP,'%d ', nodeID);

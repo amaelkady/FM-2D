@@ -9,16 +9,13 @@ if Units==2; unit='[in/sec]'; end
 
 noGM = GMj-GMi+1;
 
-%% Go inside the results folder and read the summary results
-cd (strcat(RFpath,'\Results'));
-PFV_MF=importdata('Summary Maximum PFV.txt');
-cd (MainDirectory)
+[PFV_MF,PFV_EGF]=read_Selected_Profile(RFpath,'PFV',GMi,GMj,GM_Start,nRealizations,FloorLink,1);
 
 %% Plot
 figure('position',[100 100 350 400],'color','white');
 grid on; box on; hold on;
 plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]); 
-for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
+for GM_No = 1:size(PFV_MF,1)
     if noGM>=3 || nRealizations>1
         plot (PFV_MF(GM_No,:), Elevation,'-','LineWidth',1,'Color',[0.7 0.7 0.7],'HandleVisibility','off');
     elseif noGM==1
@@ -27,7 +24,7 @@ for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
         plot (PFV_MF(GM_No,:), Elevation,'-*b','LineWidth',1.5);
     end
 end
-if noGM>=3 || nRealizations>1; plot (median(PFV_MF), Elevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
+if noGM>=3 || nRealizations>1; plot (median(PFV_MF,1), Elevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
 set(gca,'XLim',[0 1.5*max(max(PFV_MF))]);
 set(gca,'YLim',[0  max(Elevation)]);
 set(gca,'YTick',Elevation);
@@ -41,7 +38,7 @@ if FloorLink~=1
     figure('position',[100 100 350 400],'color','white');
     grid on; box on; hold on;
 	plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]); 
-    for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
+    for GM_No = 1:size(PFV_MF,1)
         if noGM>=3 || nRealizations>1
             plot (PFV_EGF(GM_No,:), Elevation,'-','LineWidth',1,'Color',[0.7 0.7 0.7],'HandleVisibility','off');
         elseif noGM==1
@@ -50,7 +47,7 @@ if FloorLink~=1
             plot (PFV_EGF(GM_No,:), Elevation,'-*b','LineWidth',1.5);
         end
     end
-    if noGM>=3 || nRealizations>1; plot (median(PFV_EGF), Elevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
+    if noGM>=3 || nRealizations>1; plot (median(PFV_EGF,1), Elevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
     set(gca,'XLim',[0 1.5*max(max(PFV_EGF))]);
     set(gca,'YLim',[0  max(Elevation)]);
     set(gca,'YTick',Elevation);

@@ -8,6 +8,7 @@ fprintf(INP,'#                                       SOURCING SUBROUTINES       
 fprintf(INP,'####################################################################################################\n');
 fprintf(INP,'\n');
 
+fprintf(INP,'source FM2D_RunProtocol.tcl;\n');
 fprintf(INP,'source DisplayModel3D.tcl;\n');
 fprintf(INP,'source DisplayPlane.tcl;\n');
 fprintf(INP,'source Spring_PZ.tcl;\n');

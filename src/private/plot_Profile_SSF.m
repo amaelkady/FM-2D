@@ -8,6 +8,7 @@ noGM = GMj-GMi+1;
 
 %%
 for GM_No=GMi:GMj
+for Ri=1:nRealizations
     
     if PO==1;                     SubRFname='Pushover';                         
 elseif ELF==1;                    SubRFname='ELF';                              
@@ -27,20 +28,21 @@ elseif TTH==1;                    SubRFname='Tsunami';                          
             if FrameType==2 && Axis<=NBay+1; evalc(['x2=importdata(','''',FILENAME.CGP,num2str(Story),num2str(Axis),'.out','''',')']); else; x2=zeros(size(x,1),1); end
             Column_Shear=Column_Shear+x(12:end,1)+x2(12:end,1);
         end
-        SSF(GM_No,Story)=max(abs(Column_Shear))/Ws;
+        row = (GM_No-GMi)*nRealizations + Ri;
+        SSF(row,Story) = max(abs(Column_Shear))/Ws;
         fclose all;
     end
     
     cd (MainDirectory)
 
 end
-
+end
 
 %% Plot
 figure('position',[100 100 350 400],'color','white');
 grid on; box on; hold on;
 plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]);
-for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
+for GM_No = 1:size(SSF,1)
     if noGM>=3 || nRealizations>1
         plot (SSF(GM_No,:), HalfElevation,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
     elseif noGM==1

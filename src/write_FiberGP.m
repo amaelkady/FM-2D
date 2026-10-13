@@ -21,12 +21,10 @@ if FrameType==2
             for Bay=1:NBay
                 
                 Section=BRACES{Storyi,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idxi= find(contains(SecData.Name,Section),1,'first');
+                [SecData,idxi]=load_SecData(Section,Units);
 
                 Section=BRACES{Storyj,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idxj= find(contains(SecData.Name,Section),1,'first');
+                [SecData,idxj]=load_SecData(Section,Units);
 
                 nodeID3 =200000+1000*Floor+100*Bay+3;
                 nodeID13=200000+1000*Floor+100*Bay+13;
@@ -69,12 +67,10 @@ if FrameType==2
                 Bay=max(1,Axis-1);
                 
                 Section=BRACES{Storyi,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idxi= find(contains(SecData.Name,Section),1,'first');
+                [SecData,idxi]=load_SecData(Section,Units);
 
                 Section=BRACES{Storyj,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idxj= find(contains(SecData.Name,Section),1,'first');
+                [SecData,idxj]=load_SecData(Section,Units);
 
                 SpringID11=900000+Floor*1000+Axis*100+11;
                 SpringID99=900000+Floor*1000+Axis*100+99;
@@ -119,8 +115,7 @@ if FrameType==3
         for Bay=1:NBay
             
             Section=BRACES{Storyi,Bay};
-            [SecData]=load_SecData (Section, Units);
-            idxi= find(contains(SecData.Name,Section),1,'first');
+            [SecData,idxi]=load_SecData(Section,Units);
             
             nodeID3 =200000+1000*Floor+100*Bay+3;
             nodeID13=200000+1000*Floor+100*Bay+13;
@@ -152,8 +147,7 @@ if FrameType==3
             Bay=max(1,Axis-1);
             
             Section=BRACES{Storyj,Bay};
-            [SecData]=load_SecData (Section, Units);
-            idxj= find(contains(SecData.Name,Section),1,'first');
+            [SecData,idxj]=load_SecData(Section,Units);
             
             SpringID11=900000+Floor*1000+Axis*100+11;
             

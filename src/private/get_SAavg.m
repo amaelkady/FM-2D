@@ -6,7 +6,6 @@ app.axes1.FontSize = 17;
 global ProjectPath ProjectName
 load(strcat(ProjectPath,ProjectName),'ANALYSIS')
 GM=ANALYSIS.GM;
-TFreeVibration=ANALYSIS.TFreeVibration;
 
 g=1;
 
@@ -16,32 +15,20 @@ GM_No=app.GMpopup.Value;
 app.text26.Tooltip='Period-range start';
 app.text25.Tooltip='Period-range end';
 
-GMTime=GM.dt{:,GM_No}:GM.dt{:,GM_No}:GM.duration{:,GM_No}; GMTime=GMTime';
-Duration=GM.duration{:,GM_No};
-
-MainGMTime=Duration-TFreeVibration;
-for i=1:size(GMTime,1)
-    if GMTime(i,1)>=MainGMTime
-        idexMainGM=i;
-        break
-    end
-end
-
-GAx = GM.acc{:, GM_No}(1:idexMainGM);
-dt=GM.dt{:, GM_No};
+[~,GAx,dt]=get_GM_Record(GM,GM_No);
 
 To=app.edit8.Value;
 Tend =app.edit7.Value;
+validateattributes(To,{'numeric'},{'real','finite','scalar','nonnegative'});
+validateattributes(Tend,{'numeric'},{'real','finite','scalar','>',To});
+validateattributes(zeta,{'numeric'},{'real','finite','scalar','nonnegative'});
 
 % Compute and plot elastic response spectrum
-countT=1;
-for TT=0:0.05:10
-    if TT==0; TT=0.001; end
-    GMpsaTi = cent_diff(GAx, TT, dt, zeta, g)/g;
-    if isinf(GMpsaTi)==1; GMpsaTi=max(abs(GAx)); end
-    Period(countT,1)=TT;
-    MaxAA(countT,1)=max(abs(GMpsaTi));
-    countT=countT+1;
+Period=(0:0.05:10)';
+MaxAA=zeros(size(Period));
+MaxAA(1)=max(abs(GAx)); % Zero-period ordinate is PGA.
+for countT=2:numel(Period)
+    MaxAA(countT)=get_SA_SDoF(Period(countT),dt,zeta,GAx,g)/g;
 end
 
 plot(app.axes1,Period,MaxAA/g,'-r','linewidth',1.5)
@@ -56,18 +43,19 @@ scatter(app.axes1,Tend,interp1(Period,MaxAA,Tend)/g,'ok','markerfacecolor','g')
 %% Plot Origin Lines
 plot(app.axes1,[To To],[0 interp1(Period,MaxAA,To)/g],'--k')
 plot(app.axes1,[Tend Tend],[0 interp1(Period,MaxAA,Tend)/g],'--k')
-app.axes1.YLim=[0 max(MaxAA)*1.1/g];
-app.axes1.XLim=[0 min(10,round(Tend*2))];
+app.axes1.YLim=[0 max(1e-6,max(MaxAA)*1.1/g)];
+app.axes1.XLim=[0 max(0.05,min(10,Tend*2))];
 
 % Compute SAavg
 Sa_PRODUCT=1;
-nsample=0;
-sampleStep=(Tend-To)/20;
-for Ti=To:sampleStep:Tend
-    nsample=nsample+1;
-end
-for Ti=To:sampleStep:Tend
-    Sa_Ti = cent_diff(GAx, Ti, dt, zeta, g)/g;
+periods=linspace(To,Tend,21);
+nsample=numel(periods);
+for Ti=periods
+    if Ti==0
+        Sa_Ti=max(abs(GAx));
+    else
+        Sa_Ti=get_SA_SDoF(Ti,dt,zeta,GAx,g)/g;
+    end
     Sa_PRODUCT=Sa_PRODUCT*Sa_Ti^(1/nsample);
 end
 SAavg=(Sa_PRODUCT)/g;

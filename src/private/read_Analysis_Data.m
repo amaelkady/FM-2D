@@ -26,9 +26,7 @@ A = importdata(strcat(MainDirectory,'\GM.txt'));
 acc = reshape(A.', [], 1);
 
 Time=DATA.TimeX(:,1);
-Time2 = 0:GM.dt{:,GM_No}:(length(acc)-1)*GM.dt{:,GM_No};
-Eq = [Time2' acc];
-DATA.EQ_Inter = interp1(Eq(:,1),Eq(:,2), Time(12:end,1));
+DATA.EQ_Inter = get_GM_Kinematics(acc,GM.dt{:,GM_No},Time(12:end,1),g);
 
 
 for i=1:NStory+1
@@ -40,7 +38,10 @@ for i=1:NStory+1
     if sizeRFA(i) == size(DATA.EQ_Inter,1)+11
         DATA.PFA{i} = DATA.RFA{i}(12:end,1)/g + SFcurrent * DATA.EQ_Inter(:,1);
     else
-        DATA.PFA{i} = DATA.RFA{i}(12:end,1)/g + SFcurrent * DATA.EQ_Inter(1:sizeRFA(i)-11,1);
+        rfa=DATA.RFA{i}(12:end,1)/g;
+        gfa=DATA.EQ_Inter(:,1);
+        minsize = min(length(rfa),length(gfa));
+        DATA.PFA{i} = rfa(1:minsize) + SFcurrent * gfa(1:minsize);
     end
 end
 

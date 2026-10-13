@@ -38,12 +38,12 @@ if ExecutionOption==1
             app.ProgressText.Text='Running Preliminary Eigenvalue Analysis...'; drawnow;
             CREATOR_MODEL_MRF(1,1);
             CREATOR_ANALYSIS (1,1);
-            eval(strcat('! OpenSees.exe TempModel.tcl'));
+            fclose('all'); run_exe('TempModel.tcl',1);
             
             app.ProgressText.Text='Running Preliminary Pushover Analysis'; drawnow;
             CREATOR_MODEL_MRF(2,1);
             CREATOR_ANALYSIS (2,1);
-            eval(strcat('! OpenSees.exe TempModelPO.tcl'));
+            fclose('all'); run_exe('TempModelPO.tcl',1);
             fclose all;
         end
         
@@ -51,7 +51,7 @@ if ExecutionOption==1
             app.ProgressText.Text='Running Preliminary Eigenvalue Analysis...'; drawnow;
             CREATOR_MODEL_MRF(1,0);
             CREATOR_ANALYSIS(1,0);
-            eval(strcat('! OpenSees.exe TempModel.tcl'));
+            fclose('all'); run_exe('TempModel.tcl',1);
             fclose all;
         end
         
@@ -71,7 +71,7 @@ if ExecutionOption==1
                 CREATOR_MODEL_MRF_RC_Fiber(1,0);
             end
             CREATOR_ANALYSIS(1,0);
-            eval(strcat('! OpenSees.exe TempModel.tcl'));
+            fclose('all'); run_exe('TempModel.tcl',1);
             fclose all;
         end
         
@@ -89,7 +89,7 @@ if ExecutionOption==1
         app.ProgressText.Text='Running Preliminary Eigenvalue Analysis...'; drawnow;
         CREATOR_MODEL_CBF (1,0); 
         CREATOR_ANALYSIS  (1,0);
-        eval(strcat('! OpenSees.exe TempModel.tcl'));
+        fclose('all'); run_exe('TempModel.tcl',1);
         fclose all;
 
         app.ProgressText.Text='Creating Main tcl File...'; drawnow;
@@ -101,7 +101,7 @@ if ExecutionOption==1
     if EV==1
         app.ProgressText.Text='Running Eigenvalue Analysis...'; drawnow;
         %evalc(strcat(['! OpenSEES.exe ', OpenSEESFileName]));
-        eval(strcat('! OpenSees.exe TempModel.tcl'));
+        fclose('all'); run_exe('TempModel.tcl',1);
         process_EigenAnalysis;
     else
         app.Image.Visible      = 'on';
@@ -123,7 +123,7 @@ else
     elseif FrameType==4; if DiscritizationOption==1; CREATOR_MODEL_MRF_RC(1,0); else; CREATOR_MODEL_MRF_RC_Fiber(1,0); end
     else                 CREATOR_MODEL_CBF(1,0); end
     CREATOR_ANALYSIS (1,0);
-    eval(strcat('! OpenSees.exe TempModel.tcl'));
+    fclose('all'); run_exe('TempModel.tcl',1);
     fclose all;
     
     cd(ProjectPath)

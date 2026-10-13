@@ -80,8 +80,7 @@ if FrameType~=4
                 nodeID=100*Floor+10*Axis+01;
                 Bay=max(1,Axis-1);
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
                 fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
             end
         elseif Floor~=1 && Floor~=NStory+1
@@ -89,8 +88,7 @@ if FrameType~=4
                 nodeID=100*Floor+10*Axis+03;
                 Bay=max(1,Axis-1);
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
                 fprintf(INP,'node %d  $Axis%d [expr $Floor%d + %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
             end
             fprintf(INP,'\n');
@@ -98,8 +96,7 @@ if FrameType~=4
                 nodeID=100*Floor+10*Axis+01;
                 Bay=max(1,Axis-1);
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idx=find(contains(SecData.Name,Section),1,'first');
+                [SecData,idx]=load_SecData(Section,Units);
                 fprintf(INP,'node %d  $Axis%d [expr $Floor%d - %5.2f/2]; ',nodeID,Axis,Floor,SecData.d(idx));
             end
         elseif Floor==1
@@ -119,8 +116,7 @@ if FrameType==2 || FrameType==3
         Story=Floor-1;
         for Axis=1:NBay+1
             Section=MF_COLUMNS{Story,Axis};
-            [SecData]=load_SecData (Section, Units);
-            idx=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idx]=load_SecData(Section,Units);
             if Axis==1
                 nodeID=100*Floor+10*Axis+04;
                 fprintf(INP,'node %d   [expr $Axis%d + %5.2f/2] $Floor%d; ',nodeID,Axis,SecData.d(idx),Floor);
@@ -151,8 +147,7 @@ if FrameType==1
         for Axis=1:NBay+1
             Story=Floor-1;
             Section=MF_COLUMNS{Story,Axis};
-            [SecData]=load_SecData (Section,Units);
-            idx=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idx]=load_SecData(Section,Units);
 
             nodeID04=100*Floor+10*Axis+04;
             nodeID02=100*Floor+10*Axis+02;
@@ -175,8 +170,7 @@ if FrameType==1
         Story=Floor-1;
         for Axis=1:NBay+1
             Section=MF_COLUMNS{Story,Axis};
-            [SecData]=load_SecData (Section,Units);
-            idx=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idx]=load_SecData(Section,Units);
 
             nodeID40=1000*Floor+100*Axis+40;
             nodeID20=1000*Floor+100*Axis+20;
@@ -477,8 +471,7 @@ if FrameType==3
             Storyi=max(1,Floor-1);    Storyj=min(NStory,Floor);
             Story=Floor-1;
             Section=MF_COLUMNS{Story,Axis};
-            [SecData]=load_SecData (Section,Units);
-            idx=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idx]=load_SecData(Section,Units);
 
             for Bay=1:NBay
                 Axisi=Bay; Axisj=Bay+1;

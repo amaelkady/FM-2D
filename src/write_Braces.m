@@ -14,8 +14,7 @@ fprintf(INP,'# FatigueMat $MatID $BraceSecType $fy $E $L_brace $ry_brace $ht_bra
 matID=100;
 for Story=1:NStory
     Section=BRACES{Story,1};
-    [SecData]=load_SecData (Section, Units);
-    idx=find(contains(SecData.Name,Section),1,'first');
+    [SecData,idx]=load_SecData(Section,Units);
     if SecData.Type(idx) == 3
         fprintf(INP,'FatigueMat %d %d [expr $fyB * %.2f] $E %.4f %.4f 0.0 %.4f %.4f;',matID,SecData.Type(idx),Ry_brace,Brace_L(Story,1),SecData.ry(idx),SecData.h_t(idx),SecData.b_t(idx));
         matFatigue(Story) = matID+1;
@@ -35,8 +34,7 @@ fprintf(INP,'# Fiber_RHSS $BraceSecType $FatigueMatID $h_brace $t_brace $nFiber 
 secID = 1;
 for Story=1:NStory
     Section=BRACES{Story,1};
-    [SecData]=load_SecData (Section,Units);
-    idx=find(contains(SecData.Name,Section),1,'first');
+    [SecData,idx]=load_SecData(Section,Units);
     if SecData.Type(idx) == 1
         fprintf(INP,'Fiber_RHSS %5d %5d %.4f %.4f 10 4 10 4; ',secID,matFatigue(Story),SecData.h(idx),SecData.t(idx));
         secID = secID + 1;

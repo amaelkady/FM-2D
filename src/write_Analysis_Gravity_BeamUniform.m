@@ -4,6 +4,7 @@ global MainDirectory
 load(strcat(MainDirectory,'\temp_unpacked'),'FrameType','WBay','PZ_Multiplier','LOAD','NStory','NBay','HStory','TAex2','TAex1','TAin1','TAin2','TA_MF','TribAreaEx','TribAreaIn','Perimeter','nMF','MassTot','Units');
 
 v2struct(LOAD);
+CladdingHeight=get_Cladding_Tributary_Heights(HStory(1:NStory));
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                      STATIC GRAVITY ANALYSIS                                    #\n');
@@ -16,9 +17,6 @@ if exist('cLLroof_W')==0 % added Aug2024 for the design code load combinations
     cLLroof_W = cLL_W;
 end
 
-if NStory==1
-    HStory(2)=HStory(1);
-end
 
 fprintf(INP,'pattern Plain 100 Linear {\n');
 fprintf(INP,'\n');
@@ -30,11 +28,11 @@ for Floor=NStory+1:-1:2
         if Axis~=1 && Axis~=NBay+1; continue; end 
         Bay=max(1,Axis-1);
         if Floor~=NStory+1 && Floor~=2
-            if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * (TribAreaEx - (0.5*WBay(Bay)*TAex2)) + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1)) * (TAex1 - 0.5*WBay(Bay)); end
+            if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * (TribAreaEx - (0.5*WBay(Bay)*TAex2)) + cCL_W * Cladding * CladdingHeight(Story) * (TAex1 - 0.5*WBay(Bay)); end
         elseif Floor==NStory+1
-            if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * RoofDL    + cLLroof_W * RoofLL    + cGL_W * RoofGL)    * (TribAreaEx - (0.5*WBay(Bay)*TAex2)) + cCL_W * Cladding * (0.5*HStory(Story))                     * (TAex1 - 0.5*WBay(Bay)); end
+            if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * RoofDL    + cLLroof_W * RoofLL    + cGL_W * RoofGL)    * (TribAreaEx - (0.5*WBay(Bay)*TAex2)) + cCL_W * Cladding * CladdingHeight(Story)                     * (TAex1 - 0.5*WBay(Bay)); end
         elseif Floor==2
-            if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * (TribAreaEx - (0.5*WBay(Bay)*TAex2)) + cCL_W * Cladding * (0.5*HStory(2)+0.5*HStory(Story))       * (TAex1 - 0.5*WBay(Bay)); end
+            if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * (TribAreaEx - (0.5*WBay(Bay)*TAex2)) + cCL_W * Cladding * CladdingHeight(Story)       * (TAex1 - 0.5*WBay(Bay)); end
         end
         
         if PZ_Multiplier==1  && FrameType~=4
@@ -57,11 +55,11 @@ for Floor=NStory+1:-1:2
     for Bay=1:NBay
 
         if Floor~=NStory+1 && Floor~=2
-            Loaduniform  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * TAin2 + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1));
+            Loaduniform  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * TAin2 + cCL_W * Cladding * CladdingHeight(Story);
         elseif Floor==NStory+1
-            Loaduniform  = (cDL_W * RoofDL	  + cLLroof_W * RoofLL    + cGL_W * RoofGL)    * TAin2 + cCL_W * Cladding * (0.5*HStory(Story));
+            Loaduniform  = (cDL_W * RoofDL	  + cLLroof_W * RoofLL    + cGL_W * RoofGL)    * TAin2 + cCL_W * Cladding * CladdingHeight(Story);
         elseif Floor==2
-            Loaduniform  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * TAin2 + cCL_W * Cladding * (0.5*HStory(2)+0.5*HStory(Story));
+            Loaduniform  = (cDL_W * TypicalDL + cLL_W * TypicalLL     + cGL_W * TypicalGL) * TAin2 + cCL_W * Cladding * CladdingHeight(Story);
         end
 
         elementID=500000+1000*Floor+100*Bay;
@@ -80,24 +78,24 @@ for Floor=NStory+1:-1:2
     for Axis=NBay+2:NBay+3
         SumLoadMF  = 0.0;
         if Floor~=NStory+1 && Floor~=2
-                                          Load_ToT   = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TA_MF      + cCL_W * Cladding * (HStory(2))* (Perimeter/nMF);
+                                          Load_ToT   = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TA_MF      + cCL_W * Cladding * CladdingHeight(Story)* (Perimeter/nMF);
             for AxisX=1:NBay+1
-                if AxisX>1  && AxisX < NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaIn + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1)) * (TAin1); end
-                if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1)) * (TAex1); end
+                if AxisX>1  && AxisX < NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaIn + cCL_W * Cladding * CladdingHeight(Story) * (TAin1); end
+                if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * CladdingHeight(Story) * (TAex1); end
                 SumLoadMF  = SumLoadMF + Load;
             end
         elseif Floor==NStory+1
-                                           Load_ToT  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TA_MF      + cCL_W * Cladding * (0.5*HStory(2)) * (Perimeter/nMF);
+                                           Load_ToT  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TA_MF      + cCL_W * Cladding * CladdingHeight(Story) * (Perimeter/nMF);
             for AxisX=1:NBay+1
-                if AxisX>1  && AxisX < NBay+1; Load  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TribAreaIn + cCL_W * Cladding * 0.5*HStory(Story) * (TAin1); end
-                if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TribAreaEx + cCL_W * Cladding * 0.5*HStory(Story) * (TAex1); end
+                if AxisX>1  && AxisX < NBay+1; Load  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TribAreaIn + cCL_W * Cladding * CladdingHeight(Story) * (TAin1); end
+                if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * RoofDL + cLLroof_W * RoofLL + cGL_W * RoofGL) * TribAreaEx + cCL_W * Cladding * CladdingHeight(Story) * (TAex1); end
                 SumLoadMF  = SumLoadMF + Load;
             end
         elseif Floor==2
-                                          Load_ToT   = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TA_MF      + cCL_W * Cladding * ((HStory(2)*0.5+HStory(1)*0.5)) * (Perimeter/nMF);
+                                          Load_ToT   = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TA_MF      + cCL_W * Cladding * CladdingHeight(Story) * (Perimeter/nMF);
             for AxisX=1:NBay+1
-                if AxisX>1  && AxisX < NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaIn + cCL_W * Cladding * (HStory(2)*0.5+HStory(Story)*0.5) * (TAin1); end
-                if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * (HStory(2)*0.5+HStory(Story)*0.5) * (TAex1); end
+                if AxisX>1  && AxisX < NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaIn + cCL_W * Cladding * CladdingHeight(Story) * (TAin1); end
+                if AxisX==1 || AxisX ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * CladdingHeight(Story) * (TAex1); end
                 SumLoadMF  = SumLoadMF + Load;
             end
         end
@@ -121,7 +119,9 @@ fprintf(INP,'test NormDispIncr 1.0e-5 60 ;\n');
 fprintf(INP,'algorithm Newton;\n');
 fprintf(INP,'integrator LoadControl 0.1;\n');
 fprintf(INP,'analysis Static;\n');
-fprintf(INP,'analyze 10;\n');
+fprintf(INP,'FM2D_BeginStage GRAVITY;\n');
+fprintf(INP,'set gravityOK [FM2D_AnalyzeStaticChecked 10];\n');
+fprintf(INP,'if {$gravityOK != 0} {error "Gravity analysis failed: solver code $gravityOK"};\n');
 fprintf(INP,'\n');
 
 fprintf(INP,'loadConst -time 0.0;\n');

@@ -24,7 +24,7 @@ else
 end
 CREATOR_ANALYSIS(1,0);
 
-! OpenSEES.exe TempModel.tcl
+fclose('all'); run_exe('TempModel.tcl',1);
 
 cd(strcat(RFpath,'\Results\EigenAnalysis'));
 fileID = fopen('EigenPeriod.out','r');

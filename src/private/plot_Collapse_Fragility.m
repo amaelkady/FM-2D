@@ -6,7 +6,10 @@ v2struct(PROJECT)
 v2struct(ANALYSIS)
 
 
+N_GM=GMj-GMi+1;
+CollapseSA=zeros(N_GM,1);
 for GM_No=GMi:GMj
+    row=GM_No-GMi+1;
     if Parallel==0; SubRFname = GM.name{GM_No}; else; SubRFname = [GM.name{GM_No},'_1']; end                  
 
     % Go inside the results folder and read results
@@ -14,12 +17,11 @@ for GM_No=GMi:GMj
 
     %% Read IDA Data
     x=importdata('IDA SDR.txt');
-    CollapseSA(GM_No,1)=x(end,1);
+    CollapseSA(row,1)=x(end,1);
     cd (MainDirectory)
 end
 
 CollapseSA=sort (CollapseSA,1);    % Sort the Collapse SA Vector in Asscending Order
-N_GM=GMj-GMi+1;
 
 % Calculate Probability of Collapse Given a SA Level
 for GM_No=1:N_GM

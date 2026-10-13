@@ -16,8 +16,7 @@ for Story=NStory:-1:1
     Zy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis}; if Splice(Story,1)==1; Section = MF_COLUMNS{Story+1,Axis}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         Iy_MFcolumns(Story,1)=0; %Iy_MFcolumns(Story,1)+SecData.Iy(idx);
         Zy_MFcolumns(Story,1)=0; %Zy_MFcolumns(Story,1)+SecData.Zy(idx);
     end
@@ -32,8 +31,7 @@ for Floor=NStory+1:-1:1
 
     if GFX==1
         Section=GF_COLUMNS{Story,1}; if Splice(Story,1)==1; Section = GF_COLUMNS{Floor,1}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         if Orientation==1
             I_GC = nGC *  SecData.Iy(idx)/nMF/2;
             Z_GC = nGC *  SecData.Zy(idx)/nMF/2;
@@ -154,12 +152,10 @@ for Floor=NStory+1:-1:2
         end
 
         Section=GF_COLUMNS{Story,1}; if Splice(Story,1)==1; Section = GF_COLUMNS{Floor,1}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
-        [SecData]=load_SecData (Section, Units);
-        idxC=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idxC]=load_SecData(Section,Units);
 
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         Z_GB =  SecData.Zx(idx)/nMF;
         My_GB =	1.1 * fy * Z_GB;
 

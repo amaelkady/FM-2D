@@ -11,7 +11,11 @@ fprintf(INP,'\n');
 
 if ModelELOption==1 && BeamElementOption==1
 fprintf(INP,'# Command Syntax \n');
-fprintf(INP,'# Spring_Connection_FullyRigid SpringID iNode jNode E fy Ix d htw bftf ry L Ls Lb My CompositeFLAG MFconnection Units; \n');
+if MFconnection~=3
+    fprintf(INP,'# Spring_Connection_FullyRigid SpringID iNode jNode E fy Ix d htw bftf ry L Ls Lb My CompositeFLAG MFconnection Units; \n');
+else
+    fprintf(INP,'# Spring_Connection_SR_EEPC SpringID NodeI NodeJ  pt g tep bep tcf d_b hb hc tcw Ic tbp DP BP tdp E mu0 fyP fuP fyC fuC fub StiffenerC nrows ampfactor CompositeFlag PZ_remove_flag Units; \n');
+end
 fprintf(INP,'\n');
 else
 fprintf(INP,'# Command Syntax \n');
@@ -25,16 +29,13 @@ for Floor=NStory+1:-1:2
         Bay=max(1,Axis-1);
         Axisi=Bay; Axisj=Bay+1;
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecDataB]=load_SecData (Section,Units);
-        idxB= find(contains(SecDataB.Name,Section),1,'first');
+        [SecDataB,idxB]=load_SecData(Section,Units);
 
         Section=MF_COLUMNS{Story,Axisi};
-        [SecDataCi]=load_SecData (Section,Units);
-        idxCi= find(contains(SecDataCi.Name,Section),1,'first');
+        [SecDataCi,idxCi]=load_SecData(Section,Units);
 
         Section=MF_COLUMNS{Story,Axisj};
-        [SecDataCj]=load_SecData (Section,Units);
-        idxCj= find(contains(SecDataCj.Name,Section),1,'first');
+        [SecDataCj,idxCj]=load_SecData(Section,Units);
 
         if MFconnection==3
             ConnectionID=1; % extended endplate

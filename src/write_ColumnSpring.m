@@ -18,16 +18,13 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis}; if Splice(Fi-1,1)==1; Section = MF_COLUMNS{Fi,Axis}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
             SectionC=Section;
-            [SecDataC]=load_SecData (Section, Units);
-            idx=find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idx]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi,Bay};
-            [SecDataB1]=load_SecData (Section, Units);
-            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
+            [SecDataB1,idxB1]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB2]=load_SecData (Section, Units);
-            idxB2=find(contains(SecDataB2.Name,Section),1,'first');
+            [SecDataB2,idxB2]=load_SecData(Section,Units);
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB2.d(idxB2);
             Ls_Col =  L_Col*0.5;
@@ -60,22 +57,20 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis}; if Splice(Fi-1,1)==1; Section = MF_COLUMNS{Fi,Axis}; end % to account for the fact that whenever there is a splice, the larger/bottom section is specified in Excel
             SectionC=Section;
-            [SecDataC]=load_SecData (Section, Units);
-            idx=find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idx]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB1]=load_SecData (Section, Units);
-            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
+            [SecDataB1,idxB1]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi-1,Bay};
             [SecData]=load_SecData (Section, Units);
-            idxB2=find(contains(SecDataB2.Name,Section),1,'first');
+            idxB2=get_Section_Index(SecDataB2,Section);
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB2.d(idxB2);
             if Fi==2
                 Section=MF_BEAMS{Fi-1,Bay};
                 [SecData]=load_SecData (Section, Units);
-                idxB1=find(contains(SecDataB1.Name,Section),1,'first');
+                idxB1=get_Section_Index(SecDataB1,Section);
                 L_Col  =  HStory(Si-1) - 0.5*SecDataB1.d(idxB1);
             end
             Ls_Col  = L_Col*0.5;
@@ -109,16 +104,13 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis};
             SectionC=Section;
-            [SecDataC]=load_SecData (Section, Units);
-            idx=find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idx]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB1]=load_SecData (Section, Units);
-            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
+            [SecDataB1,idxB1]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi-2,Bay};
-            [SecDataB2]=load_SecData (Section, Units);
-            idxB2=find(contains(SecDataB2.Name,Section),1,'first');
+            [SecDataB2,idxB2]=load_SecData(Section,Units);
 
             L_Col  = HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB2.d(idxB2);
             Ls_Col = L_Col*0.5;
@@ -152,12 +144,10 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis};
             SectionC=Section;
-            [SecDataC]=load_SecData (Section, Units);
-            idx=find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idx]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi-1,Bay};
-            [SecDataB1]=load_SecData (Section, Units);
-            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
+            [SecDataB1,idxB1]=load_SecData(Section,Units);
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1) - 0.5*SecDataB1.d(idxB1);
             Ls_Col  = L_Col*0.5;
@@ -191,12 +181,10 @@ for Fi=NStory+1:-1:1
 
             Section=MF_COLUMNS{Si,Axis};
             SectionC=Section;
-            [SecDataC]=load_SecData (Section, Units);
-            idx=find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idx]=load_SecData(Section,Units);
 
             Section=MF_BEAMS{Fi,Bay};
-            [SecDataB1]=load_SecData (Section, Units);
-            idxB1=find(contains(SecDataB1.Name,Section),1,'first');
+            [SecDataB1,idxB1]=load_SecData(Section,Units);
 
             L_Col  =  HStory(Si) - 0.5*SecDataB1.d(idxB1);
             Ls_Col =  L_Col*0.5;

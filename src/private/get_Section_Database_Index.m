@@ -12,8 +12,7 @@ XSecID.X=NaN;
 for Story=1:NStory
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,"first");
+        [SecData,idx]=load_SecData(Section,Units);
   
         Column_Index(Story,Axis)=idx;
 
@@ -32,8 +31,7 @@ for Floor=2:NStory+1
     for Bay=1:NBay
         
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,"first");
+        [SecData,idx]=load_SecData(Section,Units);
 
         Beam_Index(Floor-1,Bay)=idx;
 
@@ -52,8 +50,7 @@ if FrameType~=1
         for Bay=1:NBay
 
             Section=BRACES{Story,Bay};
-            [SecData]=load_SecData (Section, Units);
-            idx=find(contains(SecData.Name,Section),1,"first");
+            [SecData,idx]=load_SecData(Section,Units);
 
             Brace_Index(Story,Bay)=idx;
 

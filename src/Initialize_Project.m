@@ -10,7 +10,7 @@ xx= xx(~isspace(xx)); % remove spaces from project name to get opensees file nam
 OpenSEESFileName = [xx,'.tcl'];
 clear xx;
 
-PROJECT.Version             = 5.260701;
+PROJECT.Version             = 6.2610;
 PROJECT.MainDirectory       = MainDirectory;
 PROJECT.ProjectPath         = ProjectPath;
 PROJECT.ProjectName         = ProjectName;

@@ -25,12 +25,10 @@ if FrameType==2
                 Axisi=Bay; Axisj=Bay+1;
                 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecDataB]=load_SecData (Section, Units);
-                idx= find(contains(SecDataB.Name,Section),1,'first');
+                [SecDataB,idx]=load_SecData(Section,Units);
 
                 Section=MF_COLUMNS{Story,Axisi};
-                [SecDataC]=load_SecData (Section, Units);
-                idxCi= find(contains(SecDataC.Name,Section),1,'first');
+                [SecDataC,idxCi]=load_SecData(Section,Units);
                 
                 H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
                 L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;
@@ -105,12 +103,10 @@ if FrameType==2
                 Axisi=Bay; Axisj=Bay+1;
                 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecDataB]=load_SecData (Section, Units);
-                idx= find(contains(SecDataB.Name,Section),1,'first');
+                [SecDataB,idx]=load_SecData(Section,Units);
 
                 Section=MF_COLUMNS{Story,Axisi};
-                [SecDataC]=load_SecData (Section, Units);
-                idxCi= find(contains(SecDataC.Name,Section),1,'first');
+                [SecDataC,idxCi]=load_SecData(Section,Units);
 
                 H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
                 L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;
@@ -141,16 +137,13 @@ if FrameType==2
                 Axisi=Bay; Axisj=Bay+1;
                 
                 Section=MF_BEAMS{Floor-1,Bay};
-                [SecDataB]=load_SecData (Section, Units);
-                idx= find(contains(SecDataB.Name,Section),1,'first');
+                [SecDataB,idx]=load_SecData(Section,Units);
                 
                 Section=MF_COLUMNS{Story,Axisi};
-                [SecDataCi]=load_SecData (Section, Units);
-                idxCi= find(contains(SecDataCi.Name,Section),1,'first');
+                [SecDataCi,idxCi]=load_SecData(Section,Units);
                 
                 Section=MF_COLUMNS{Story,Axisj};
-                [SecDataCj]=load_SecData (Section, Units);
-                idxCj= find(contains(SecDataCj.Name,Section),1,'first');
+                [SecDataCj,idxCj]=load_SecData(Section,Units);
                 
                 H_BEAM =  WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj);
                 L_BEAM = (WBay(Bay) - 0.5*SecDataCi.d(idxCi) - 0.5*SecDataCj.d(idxCj))*0.5;
@@ -240,12 +233,10 @@ if FrameType==3
             Axisi=Bay; Axisj=Bay+1;
             
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecDataB]=load_SecData (Section, Units);
-            idx= find(contains(SecDataB.Name,Section),1,'first');
+            [SecDataB,idx]=load_SecData(Section,Units);
             
             Section=MF_COLUMNS{Story,Axisi};
-            [SecDataC]=load_SecData (Section, Units);
-            idxCi= find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idxCi]=load_SecData(Section,Units);
             
             H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
             L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;
@@ -332,12 +323,10 @@ if FrameType==3
             Axisi=Bay; Axisj=Bay+1;
             
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecDataB]=load_SecData (Section, Units);
-            idx= find(contains(SecDataB.Name,Section),1,'first');
+            [SecDataB,idx]=load_SecData(Section,Units);
             
             Section=MF_COLUMNS{Story,Axisi};
-            [SecDataC]=load_SecData (Section, Units);
-            idxCi= find(contains(SecDataC.Name,Section),1,'first');
+            [SecDataC,idxCi]=load_SecData(Section,Units);
             
             H_BEAM =  WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5;
             L_BEAM = (WBay(Bay)*0.5 - 0.5*SecDataC.d(idxCi) - MGP_W(Story,1)*0.5)*0.5;

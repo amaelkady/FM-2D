@@ -6,16 +6,13 @@ load(strcat(MainDirectory,'\temp_unpacked'),'CollapseSDR','GM_Start','nRealizati
 
 noGM = GMj-GMi+1;
 
-%% Go inside the results folder and read the summary results
-cd (strcat(RFpath,'\Results'));
-SDR_MF=importdata('Summary Maximum SDR.txt')*100;
-cd (MainDirectory)
+[SDR_MF,SDR_EGF]=read_Selected_Profile(RFpath,'SDR',GMi,GMj,GM_Start,nRealizations,FloorLink,100);
 
 %% Plot
 figure('position',[100 100 350 400],'color','white');
 grid on; box on; hold on;
 plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]); 
-for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
+for GM_No = 1:size(SDR_MF,1)
     if noGM>=3 || nRealizations>1
         plot (SDR_MF(GM_No,:), HalfElevation,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
     elseif noGM==1
@@ -24,7 +21,7 @@ for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
         plot (SDR_MF(GM_No,:), HalfElevation,'-*b','LineWidth',1.5);
     end
 end
-if noGM>=3|| nRealizations>1; plot (median(SDR_MF), HalfElevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
+if noGM>=3|| nRealizations>1; plot (median(SDR_MF,1), HalfElevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
 set(gca,'XLim',[0 min(1.5*max(max(SDR_MF)),CollapseSDR*100)]);
 set(gca,'YLim',[0  max(Elevation)]);
 set(gca,'YTick',Elevation);
@@ -38,7 +35,7 @@ if FloorLink~=1
     figure('position',[100 100 350 400],'color','white');
     grid on; box on; hold on;
 	plot ([0 0], [-0.1 -0.1],'-','LineWidth',1,'Color',[0.70 0.70 0.70]); 
-    for GM_No = (GMi-GM_Start)*nRealizations+1:noGM*nRealizations
+    for GM_No = 1:size(SDR_MF,1)
         if noGM>=3|| nRealizations>1
             plot (SDR_EGF(GM_No,:), HalfElevation,'-','LineWidth',1,'Color',[0.70 0.70 0.70],'HandleVisibility','off');
         elseif noGM==1
@@ -47,7 +44,7 @@ if FloorLink~=1
             plot (SDR_EGF(GM_No,:), HalfElevation,'-*b','LineWidth',1.5);
         end
     end
-    if noGM>=3|| nRealizations>1; plot (median(SDR_EGF), HalfElevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
+    if noGM>=3|| nRealizations>1; plot (median(SDR_EGF,1), HalfElevation,'-ok','LineWidth',2,'MarkerFaceColor','r'); end
     set(gca,'XLim',[0 min(1.5*max(max(SDR_EGF)),CollapseSDR*100)]);
     set(gca,'YLim',[0  max(Elevation)]);
     set(gca,'YTick',Elevation);

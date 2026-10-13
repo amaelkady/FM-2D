@@ -16,11 +16,9 @@ if SA_metric==1
     Sa = get_SA_SDoF(T1, GMdt, zeta, acc, g)/g;
 else
     Sa_PRODUCT=1;
-    nsample=0;
-    for Ti=coeff_T_lower*T1:0.01:coeff_T_upper*T1
-        nsample=nsample+1;
-    end
-    for Ti=coeff_T_lower*T1:0.01:coeff_T_upper*T1
+    periods=coeff_T_lower*T1:0.01:coeff_T_upper*T1;
+    nsample=numel(periods);
+    for Ti=periods
         Sa_Ti = get_SA_SDoF( Ti, GMdt, zeta, acc, g)/g;
         Sa_PRODUCT=Sa_PRODUCT*Sa_Ti^(1/nsample);
     end

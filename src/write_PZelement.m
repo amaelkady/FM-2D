@@ -27,14 +27,12 @@ for Floor=NStory+1:-1:2
         Bay=max(1, Axis-1);
         
         Section=MF_COLUMNS{Floor-1,Axis};
-        [SecData]=load_SecData (Section,Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         
         columndepth=SecData.d(idx);
         
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=load_SecData (Section,Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         
         beamdepth=SecData.d(idx);
         

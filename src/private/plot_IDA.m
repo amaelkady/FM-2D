@@ -19,8 +19,15 @@ figure('position',[100 100 350 300],'color','white');
 hold on; grid on; box on;
 
 noGM = GMj-GMi+1;
+IMmax=zeros(noGM,1);MAXedp=zeros(noGM,1);
+if strcmp(EDPtype,'SDR')==1 || strcmp(EDPtype,'RDR')==1
+    IM_Interp=zeros(noGM,numel(EDP_Vector));
+else
+    EDP_Interp=zeros(noGM,numel(IM_Vector));
+end
 
 for GM_No=GMi:GMj
+    row=GM_No-GMi+1;
     
     % Go inside the results folder and read results
     cd (strcat(RFpath,'\Results\',GM.name{GM_No}));
@@ -29,14 +36,14 @@ for GM_No=GMi:GMj
     x=importdata(filename);
     IM=x(:,1);
     EDPdata=max(x(:,2:end),[],2);
-    IMmax(GM_No)=x(end,1);
-    MAXedp(GM_No)=max(EDPdata);
+    IMmax(row)=x(end,1);
+    MAXedp(row)=max(EDPdata);
     
     if strcmp(EDPtype,'SDR')==1 || strcmp(EDPtype,'RDR')==1
         for i=1:length(EDP_Vector)
             for j=1:size(IM,1)-1
                 if EDP_Vector(i)>EDPdata(j,1) && EDP_Vector(i)<=EDPdata(j+1,1)
-                    IM_Interp (GM_No,i)=IM(j,1)+(EDP_Vector(i)-EDPdata(j,1))*(IM(j+1,1)-IM(j,1))/(EDPdata(j+1,1)-EDPdata(j,1));
+                    IM_Interp (row,i)=IM(j,1)+(EDP_Vector(i)-EDPdata(j,1))*(IM(j+1,1)-IM(j,1))/(EDPdata(j+1,1)-EDPdata(j,1));
                     break;
                 end
             end
@@ -47,20 +54,20 @@ for GM_No=GMi:GMj
         for i=1:length(IM_Vector)
             for j=1:size(IM,1)-1
                 if IM_Vector(i)>IM(j,1) && IM_Vector(i)<=IM(j+1,1)
-                    EDP_Interp (GM_No,i)=EDPdata(j,1)+(IM_Vector(i)-IM(j,1))*(EDPdata(j+1,1)-EDPdata(j,1))/(IM(j+1,1)-IM(j,1));
+                    EDP_Interp (row,i)=EDPdata(j,1)+(IM_Vector(i)-IM(j,1))*(EDPdata(j+1,1)-EDPdata(j,1))/(IM(j+1,1)-IM(j,1));
                     break;
                 end
             end
         end
     end
     
-    if GM_No==1; plot (EDPdata, IM,'-','LineWidth',1,'Color',[0.7 0.7 0.7],'HandleVisibility','on'); end
-    if GM_No>1;  plot (EDPdata, IM,'-','LineWidth',1,'Color',[0.7 0.7 0.7],'HandleVisibility','off'); end
+    if row==1; plot (EDPdata, IM,'-','LineWidth',1,'Color',[0.7 0.7 0.7],'HandleVisibility','on'); end
+    if row>1;  plot (EDPdata, IM,'-','LineWidth',1,'Color',[0.7 0.7 0.7],'HandleVisibility','off'); end
 end
 
 
 if strcmp(EDPtype,'SDR')==1 || strcmp(EDPtype,'RDR')==1
-    Median50_EDP  =  median(IM_Interp);
+    Median50_EDP  =  median(IM_Interp,1);
     if noGM>=3; plot(EDP_Vector,Median50_EDP, '-r' , 'linewidth',2.6); end
     
     set(gca,'FontName','Times','FontSize',15);
@@ -72,7 +79,7 @@ if strcmp(EDPtype,'SDR')==1 || strcmp(EDPtype,'RDR')==1
     legend('individual record','median')
     if noGM>=3; L=legend('individual record','median'); set(L,'FontSize',12,'Location','northoutside','Orientation','horizontal'); end
 else
-    Median50_EDP  =  median(EDP_Interp);
+    Median50_EDP  =  median(EDP_Interp,1);
     if noGM>=3; plot(Median50_EDP,IM_Vector, '-r' , 'linewidth',2.6); end    
     
     set(gca,'FontName','Times','FontSize',16);

@@ -17,6 +17,7 @@ clc; fclose('all');
 
 global MainDirectory
 load(strcat(MainDirectory,'\temp_unpacked'));
+if MaxRunTime<=0,MaxRunTime=10;end % Use the launcher's default for an unset limit.
 
 OpenSEESFileNameX=[' ',PROJECT.OpenSEESFileName];
 
@@ -34,14 +35,18 @@ cd (MainDirectory);
 if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
 
     count=0;
+    Jobs=[];
+    if Uncertainty==1 && IDA==0
+        Jobs=get_Dynamic_Jobs(load(fullfile(MainDirectory,'temp_unpacked.mat')));
+    end
     
     %% LOOP OVER GMs
     for GM_No = GM_Start : GM_Last
 
             count=count+1;
-            timeGM=tic;
             
         for Ri = 1 : nRealizations
+            realizationClock=tic;
         
             tic;
             RunTime=0;
@@ -86,7 +91,7 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
             %% GET CURRENT GM DATA AND WRITE IT IN A TEXT FILE 'GMinfo.txt'
             if Uncertainty==0;subfoldername=GM.name{:,GM_No}; else; subfoldername=[GM.name{:,GM_No},'_',num2str(Ri)]; end
             fileID=fopen('GMinfo.txt','wt');
-            fprintf(fileID,'%d\n%s\n%d\n%f\n%s', GM_No, GM.name{:,GM_No}, GM.npoints{:,GM_No}, GM.dt{:,GM_No},subfoldername);
+            fprintf(fileID,'%d\n%s\n%d\n%.17g\n%s', GM_No, GM.name{:,GM_No}, GM.npoints{:,GM_No}, GM.dt{:,GM_No},subfoldername);
             
             %% IDA MAIN LOOP
             while SAcurrent < 10.0                                                                                  % Run as long as Collapse is not reached (Arbitrary High Value Since Algorithm Stops at Collapse)
@@ -117,9 +122,8 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 elseif IDA~=1 && Uncertainty==0; app.ProgressText.Text=['Running Dynamic Analysis: GM #',num2str(GM_No), ' at SF=',num2str(round(SFcurrent*10)/10)]; drawnow;
                 elseif IDA~=1 && Uncertainty==1; app.ProgressText.Text=['Running Dynamic Analysis: GM #',num2str(GM_No), ' at R= #',num2str(Ri),', SF=',num2str(round(SFcurrent*10)/10)]; drawnow; end
                 
-                fileID3=fopen('CollapseState.txt','wt');     														% Create/Open and Clear contents of CollapseState.txt file each increment
                 fileID4=fopen('SF.txt','wt');                														% Create/Open and Clear contents of SF.txt file each increment
-                fprintf(fileID4,'%f',SFcurrent);             														% Write value of the Scale Factor of the current GM to SF.txt file
+                fprintf(fileID4,'%.17g',SFcurrent);             														% Write value of the Scale Factor of the current GM to SF.txt file
                 
                 ALL_ANALYSED_SAs(AnalysisCount)=SAcurrent;                                                          % Saves all the analyzed SA values during IDA (helps avoid repeatition of analysis during the collapse point trace)
                 ALL_ANALYSED_SAs=sort(ALL_ANALYSED_SAs);
@@ -127,8 +131,20 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 show_Status_Dynamic(GM_No, GM, SAstep, SAcurrent, SFcurrent, DATA , RunTime, Collapse_Flag, SA_metric, IDA)
                 
                 %% RUN OPENSEES MODEL
-                [RunTime]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
+                fclose(fileID4);
+                remainingMinutes=MaxRunTime-toc(realizationClock)/60;
+                if remainingMinutes<=0
+                    error('FM2D:Timeout','Ground-motion realization exceeded its runtime limit.');
+                end
+                Job=struct();
+                if ~isempty(Jobs)
+                    Job=Jobs((GM_No-GM_Start)*nRealizations+Ri);
+                    Job.ModelFile=strtrim(OpenSEESFileNameX);
+                end
+                [RunTime,RunResult]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus,remainingMinutes,Job);
                 
+                RunResultFolder=fullfile(RFpath,'Results',subfoldername);
+                save(fullfile(RunResultFolder,'RunResult.mat'),'RunResult');
                 %% READ OPENSEES OUTPUT FILES
                 [DATA] = read_Analysis_Data (MainDirectory,RFpath,GM_No,GM,NStory,FILENAME,g,SFcurrent,DATA,RECORDERS, subfoldername);
                 
@@ -136,12 +152,10 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 if DATA.SDRincrmax > 0.5 || DATA.PFAincrmax > 20; NumInstability_Flag = 1; else; NumInstability_Flag = 0; end
                 
                 %% CHECK IF COLLAPSE OCCURED AND IF IT DID, TRACE COLLAPSE POINT
-                fileID 	 = 	  fopen('CollapseState.txt','r');                                      					% Open 'CollapseState.txt'
-                Collapse = textread('CollapseState.txt','%d');                              						% Read Value of Collapse Index (reads 1 in case of collapse)
-                if isempty(Collapse); Collapse=0; end
+                Collapse=double(RunResult.State=="COLLAPSE");
                 
                 %% In case of Collapse
-                if Collapse == 1  && DATA.SDRincrmax > 0.15  %&& DATA.SDRincrmax < 1.0 && DATA.PFAincrmax < 10
+                if Collapse == 1 
 
                     %% Collapse point tracing
                     if AnalysisCount~=1
@@ -215,17 +229,15 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
 
                     if Collapse ~= 1  && IDA_Slope > IDAslopeLimit;                             break; end  % If IDA slope limit is reached
                     if Collapse ~= 1  && DATA.SDR_last_NC > CollapseSDR;                        break; end  % If collapse SDR limit is reached
-                    if DATA.SDR_last_NC>0.1 && RunTime>0.50*60*60;                              break; end  % If SDR is larger than 10% but run time exceeds 1 hour (this is a fail safe)
                     if Collapse ~= 1 &&  AnalysisCount~=1 && SAcurrent==DATA.SA_last_NC+0.01;   break; end  % If the tracing algorithm rolled back to last NC point
                    %if Collapse == 1  && AnalysisCount>10;                                      break; end  % If number of analysis runs exceeds 10 (implies an infinite loop)
                 
                 elseif Dynamic_TargetSA==1 || Dynamic_TargetSF==1
                 
-                    if Collapse_Flag==999 || IncrNo>=3 || toc(timeGM)/60>MaxRunTime;            break; end  % If collapse occurs or re-run increments >=3 or GM run time exceeds maximum specified runtime
+                    if Collapse_Flag==999 || IncrNo>=3;            break; end  % If collapse occurs or re-run increments >=3
                 
                 end
 
-                if RunTime>1.0*60*60;                                                           break; end  % If run time exceeds 1 hour (this is a fail safe)
             end
             
             %% Save IDA data summary
@@ -260,7 +272,11 @@ elseif PO == 1 || ELF==1
     if ELF==1; app.ProgressText.Text='Running ELF Analysis...';      drawnow; end
     
     % RUN OPENSEES MODEL
-    [~]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
+    [~,StaticResult]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
+    if StaticResult.State=="NONCONVERGED"
+        app.ProgressText.Text=sprintf('Stopped due to nonconvergence at %.3f mm; results available.',StaticResult.Reached);
+        drawnow;
+    end
     
 elseif TTH==1
 
@@ -279,3 +295,4 @@ end
 
 cd (MainDirectory)
 fclose all;
+

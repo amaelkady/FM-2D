@@ -17,8 +17,7 @@ for Story=NStory:-1:1
     Zy_MFcolumns(Story,1)=0;
     for Axis=1:NBay+1
         Section=MF_COLUMNS{Story,Axis};
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         Iy_MFcolumns(Story,1)=0; %Iy_MFcolumns(Story,1)+SecData.Iy(idx);
         Zy_MFcolumns(Story,1)=0; %Zy_MFcolumns(Story,1)+SecData.Zy(idx);
     end
@@ -32,8 +31,7 @@ for Story=NStory:-1:1
         A_GC=100000.; I_GC=100000000.; Z_GC=100000000.;
     else
         Section=GF_COLUMNS{Story,1};
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         A_GC = nGC *  SecData.Area(idx)/nMF/2;
         if Orientation==1
             I_GC = nGC *  SecData.Iy(idx)/nMF/2;
@@ -57,8 +55,7 @@ for Story=NStory:-1:1
             A_GC=100000.; I_GC=100000000.; Z_GC=100000000.;
         else
             Section=GF_COLUMNS{min(Story+1,NStory),1};
-            [SecData]=load_SecData (Section, Units);
-            idx1=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idx1]=load_SecData(Section,Units);
             A_GC = nGC *  SecData.Area(idx1)/nMF/2;
             if Orientation==1
                 I_GC = nGC *  SecData.Iy(idx1)/nMF/2;
@@ -96,8 +93,7 @@ for Floor=NStory+1:-1:2
         A_GB=100000.; I_GB=100000000.; Z_GB=100000000.;
     else
         Section=GF_BEAMS{Floor-1,1};
-        [SecData]=load_SecData (Section, Units);
-        idx=find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         A_GB = nGB *  SecData.Area(idx)/nMF;
         I_GB = nGB *  SecData.Ix(idx)/nMF;
     end

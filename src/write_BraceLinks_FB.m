@@ -18,8 +18,7 @@ if FrameType==2
 
 
                 Section=BRACES{Storyi,Bay};
-                [SecData]=load_SecData (Section, Units);
-                idxi= find(contains(SecData.Name,Section),1,'first');
+                [SecData,idxi]=load_SecData(Section,Units);
 
                 nodeID1=200000+1000*Floor+100*Bay+1;
                 nodeID2=200000+1000*Floor+100*Bay+2;
@@ -103,8 +102,7 @@ if FrameType==2
                     ElemID99=700000+Floor*1000+Axis*100+99;
 
                     Section=BRACES{Storyi,Bay};
-                    [SecData]=load_SecData (Section, Units);
-                    idxi= find(contains(SecData.Name,Section),1,'first');
+                    [SecData,idxi]=load_SecData(Section,Units);
 
                     if Floor~=1 && Floor~=NStory+1
 

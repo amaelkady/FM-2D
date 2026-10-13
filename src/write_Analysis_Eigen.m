@@ -8,9 +8,14 @@ fprintf(INP,'#                                        EIGEN VALUE ANALYSIS      
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'\n');
 
+fprintf(INP,'FM2D_BeginStage EIGEN;\n');
+
 fprintf(INP,'set pi [expr 2.0*asin(1.0)];\n');
 fprintf(INP,'set nEigen %d;\n', NStory);
 fprintf(INP,'set lambdaN [eigen [expr $nEigen]];\n');
+fprintf(INP,'if {[llength $lambdaN] != $nEigen} {error "Incomplete eigenvalue analysis"};\n');
+fprintf(INP,'foreach lambda $lambdaN {if {!($lambda > 0) || $lambda == Inf} {error "Invalid eigenvalue"}};\n');
+
 for i=1:NStory
     fprintf(INP,'set lambda%d [lindex $lambdaN %d];\n',i,i-1);
 end
@@ -24,9 +29,9 @@ for i=1:min(3,NStory)
     fprintf(INP,'puts "T%d = $T%d s";\n',i,i);
 end
 
-fprintf(INP,'cd $RFpath;\n');
-fprintf(INP,'cd "Results"\n');
-fprintf(INP,'cd "EigenAnalysis"\n');
+fprintf(INP,'if {![info exists EigenFolder]} {set EigenFolder $MainFolder/EigenAnalysis};\n');
+fprintf(INP,'file mkdir $EigenFolder;\n');
+fprintf(INP,'cd $EigenFolder;\n');
 fprintf(INP,'set fileX [open "EigenPeriod.out" w];\n');
 for i=1:NStory
     fprintf(INP,'puts $fileX $T%d;',i);
@@ -53,7 +58,9 @@ if AnalysisTypeID==1
     fprintf(INP,'algorithm Newton;\n');
     fprintf(INP,'integrator LoadControl 1;\n');
     fprintf(INP,'analysis Static;\n');
-    fprintf(INP,'analyze 1;\n');
+    fprintf(INP,'set eigenOK [analyze 1];\n');
+    fprintf(INP,'if {$eigenOK != 0} {error "Eigen recorder step failed"};\n');
+    fprintf(INP,'FM2D_FinishStage COMPLETED [llength $lambdaN] $nEigen;\n');
     fprintf(INP,'\n');
 end
 

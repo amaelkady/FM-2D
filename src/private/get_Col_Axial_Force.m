@@ -4,6 +4,7 @@ global  MainDirectory
 load(strcat(MainDirectory,'\temp_unpacked'), 'RFpath', 'NStory', 'NBay', 'LOAD','FILENAME','HStory','TAex1', 'TAin1', 'TribAreaEx', 'TribAreaIn','Pscale');
 
 v2struct(LOAD);
+CladdingHeight=get_Cladding_Tributary_Heights(HStory(1:NStory));
 
 % For PM_Option=1
 %   the columns Mp capacity will be reduced baced on an axial load
@@ -39,11 +40,11 @@ else
         for Floor=NStory+1:-1:2
             Story=Floor-1;
             if Floor~=NStory+1
-                if Axis>1  && Axis < NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaIn + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1)) * (TAin1); end
-                if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * (0.5*HStory(Story)+0.5*HStory(Story+1)) * (TAex1); end
+                if Axis>1  && Axis < NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaIn + cCL_W * Cladding * CladdingHeight(Story) * (TAin1); end
+                if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * TypicalDL + cLL_W * TypicalLL + cGL_W * TypicalGL) * TribAreaEx + cCL_W * Cladding * CladdingHeight(Story) * (TAex1); end
             elseif Floor==NStory+1
-                if Axis>1  && Axis < NBay+1; Load  = (cDL_W * RoofDL	+ cLL_W * RoofLL    + cGL_W * RoofGL)    * TribAreaIn + cCL_W * Cladding * (0.5*HStory(Story)) * (TAin1); end
-                if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * RoofDL    + cLL_W * RoofLL    + cGL_W * RoofGL)    * TribAreaEx + cCL_W * Cladding * (0.5*HStory(Story)) * (TAex1); end
+                if Axis>1  && Axis < NBay+1; Load  = (cDL_W * RoofDL	+ cLL_W * RoofLL    + cGL_W * RoofGL)    * TribAreaIn + cCL_W * Cladding * CladdingHeight(Story) * (TAin1); end
+                if Axis==1 || Axis ==NBay+1; Load  = (cDL_W * RoofDL    + cLL_W * RoofLL    + cGL_W * RoofGL)    * TribAreaEx + cCL_W * Cladding * CladdingHeight(Story) * (TAex1); end
             end
             Pfloor(Story,Axis)=Load;
             

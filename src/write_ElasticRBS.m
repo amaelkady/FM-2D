@@ -20,8 +20,7 @@ for Floor=NStory+1:-1:2
         Bay=max(1, Axis-1);
 
         Section=MF_BEAMS{Floor-1,Bay};
-        [SecData]=load_SecData (Section,Units);
-        idx= find(contains(SecData.Name,Section),1,'first');
+        [SecData,idx]=load_SecData(Section,Units);
         
         A_RBS  =SecData.Area(idx) - 4 * c * SecData.bf(idx)*SecData.tf(idx);
         I_RBS  =SecData.Ix(idx) - 4 * c * SecData.bf(idx)*SecData.tf(idx)*((SecData.d(idx)-SecData.tf(idx))/2)^2 - 4 *c * SecData.bf(idx)*SecData.tf(idx)^3/12;

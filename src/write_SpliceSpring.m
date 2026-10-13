@@ -28,7 +28,7 @@ for Si=NStory:-1:1
            
                 % if Axis <= NBay+1; Section = MF_COLUMNS{Si+1,Axis}; else; Section = GF_COLUMNS{Si+1,1}; end
                 % [SecDataC]=load_SecData (Section, Units);
-                % idx=find(contains(SecData.Name,Section),1,'first');
+                % idx=get_Section_Index(SecData,Section);
                 % 
                 % Mpe  = 1.1*SecDataC.Zx(idx) * fy;
                 % Py   =     SecDataC.Area(idx) * fy;

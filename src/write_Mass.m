@@ -2,6 +2,7 @@ function write_Mass(INP)
 
 global MainDirectory
 load(strcat(MainDirectory,'\temp_unpacked'));
+CladdingHeight=get_Cladding_Tributary_Heights(HStory(1:NStory));
 
 fprintf(INP,'###################################################################################################\n');
 fprintf(INP,'#                                              NODAL MASS                                         #\n');
@@ -18,22 +19,18 @@ for Floor=NStory+1:-1:2
     Story=Floor-1;
     
     if Floor==NStory+1
-        Loadmf =  (cDL_M * RoofDL    + cLL_M * RoofLL    + cGL_M * RoofGL)    * TA_MF    + cCL_M *Cladding * (HStory(Story)*0.5) * (Perimeter/nMF);
-    elseif Floor==1
-        Loadmf =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TA_MF    + cCL_M *Cladding * ((HStory(Story)*0.5+HStory(Story+1)*0.5)) * (Perimeter/nMF);
+        Loadmf =  (cDL_M * RoofDL    + cLL_M * RoofLL    + cGL_M * RoofGL)    * TA_MF    + cCL_M *Cladding * CladdingHeight(Story) * (Perimeter/nMF);
     else
-        Loadmf =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TA_MF    + cCL_M *Cladding * (HStory(Story)) * (Perimeter/nMF);
+        Loadmf =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TA_MF    + cCL_M *Cladding * CladdingHeight(Story) * (Perimeter/nMF);
     end
     
     for Axis=1:NBay+1
-        if Axis==1 || Axis==NBay+3; TribArea=TribAreaEx; TA1=TAin1; else TribArea=TribAreaIn;  TA1=TAex1; end
+        if Axis==1 || Axis==NBay+1; TribArea=TribAreaEx; TA1=TAex1; else; TribArea=TribAreaIn;  TA1=TAin1; end
         
         if Floor==NStory+1
-            Loadcol =  (cDL_M * RoofDL    + cLL_M * RoofLL    + cGL_M * RoofGL)    * TribArea + cCL_M *Cladding * (HStory(Story)*0.5) * TA1;
-        elseif Floor==1
-            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * ((HStory(Story)*0.5+HStory(Story+1)*0.5)) * TA1;
+            Loadcol =  (cDL_M * RoofDL    + cLL_M * RoofLL    + cGL_M * RoofGL)    * TribArea + cCL_M *Cladding * CladdingHeight(Story) * TA1;
         else
-            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * (HStory(Story)) * TA1;
+            Loadcol =  (cDL_M * TypicalDL + cLL_M * TypicalLL + cGL_M * TypicalGL) * TribArea + cCL_M *Cladding * CladdingHeight(Story) * TA1;
         end
         
         Mass = Loadcol / g;

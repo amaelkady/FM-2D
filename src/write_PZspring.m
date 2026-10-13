@@ -23,12 +23,10 @@ if PZ_Multiplier==1
             Bay=max(1,Axis-1);
             
             Section=MF_COLUMNS{Story,Axis};
-            [SecData]=load_SecData (Section,Units);
-            idxC=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idxC]=load_SecData(Section,Units);
             
             Section=MF_BEAMS{Floor-1,Bay};
-            [SecData]=load_SecData (Section,Units);
-            idxB=find(contains(SecData.Name,Section),1,'first');
+            [SecData,idxB]=load_SecData(Section,Units);
 
             node1=400000+Floor*1000+Axis*100+09;
             node2=400000+Floor*1000+Axis*100+10;
