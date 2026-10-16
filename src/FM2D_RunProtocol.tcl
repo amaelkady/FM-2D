@@ -58,7 +58,7 @@ proc FM2D_RunModel {modelFile} {
     lassign $FM2D_Outcome state stage reached target
     set message "Analysis terminated with a validated outcome"
     if {$state eq "NONCONVERGED"} {
-        set message "Static analysis stopped after convergence recovery was exhausted; results available through $reached; target $target was not reached"
+        set message "$stage analysis stopped after convergence recovery was exhausted; partial results available through $reached; target $target was not reached"
     }
     FM2D_WriteStatus $state $stage $reached $target $message
     return 0

@@ -142,7 +142,7 @@ end
 
 %% 6. Validate the terminal outcome and retain failure diagnostics
 % The reader checks process exit, run identity, stage and reached/target
-% values. It accepts completed runs, dynamic collapse and usable static
+% values. It accepts completed runs, dynamic collapse and usable static/dynamic
 % NONCONVERGED outcomes under their respective validation rules.
 try
     Result = read_RunOutcome(statusFile, runId, exitCode);
@@ -168,6 +168,7 @@ end
 
 %% 7. Save and return the validated run result
 Result.RunTime = RunTime;
+Result.WorkingDirectory = pwd;
 Result.LogFile = logFile;
 if ~isempty(fieldnames(Job))
     Result.Job = Job;

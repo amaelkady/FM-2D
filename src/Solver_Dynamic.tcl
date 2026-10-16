@@ -105,7 +105,11 @@ proc Solver_Dynamic {dt dt_step GMtime numStories DriftLimit MFFloorNodes EGFFlo
             }
         }
         if {$ok != 0} {
-            error "Dynamic analysis incomplete after adaptive recovery: reached [getTime]; target $GMtime; minimum step $minStep; solver code $ok"
+            set reached [getTime]
+            if {$reached <= 0} {error "Dynamic analysis failed before the first accepted step; solver code $ok"}
+            puts "Dynamic non-convergence after adaptive recovery: reached $reached; target $GMtime; minimum step $minStep; solver code $ok"
+            FM2D_FinishStage NONCONVERGED $reached $GMtime
+            return 0
         }
         if {$CollapseFlag eq "YES"} {
             FM2D_FinishStage COLLAPSE [getTime] $GMtime
