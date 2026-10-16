@@ -145,6 +145,16 @@ if IDA == 1 || Dynamic_TargetSF==1 || Dynamic_TargetSA==1
                 
                 RunResultFolder=fullfile(RFpath,'Results',subfoldername);
                 save(fullfile(RunResultFolder,'RunResult.mat'),'RunResult');
+                if RunResult.State=="NONCONVERGED"
+                    if IDA==1
+                        error('FM2D:IDANonconvergence', ...
+                            'GM %d did not converge. Partial results are saved; this is not a collapse point.',GM_No);
+                    end
+                    warning('FM2D:PartialDynamicRun', ...
+                        'GM %d, realization %d stopped at %.6g / %.6g s. Partial results are retained.', ...
+                        GM_No,Ri,RunResult.Reached,RunResult.Target);
+                    break
+                end
                 %% READ OPENSEES OUTPUT FILES
                 [DATA] = read_Analysis_Data (MainDirectory,RFpath,GM_No,GM,NStory,FILENAME,g,SFcurrent,DATA,RECORDERS, subfoldername);
                 
