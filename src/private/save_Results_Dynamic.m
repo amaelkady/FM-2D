@@ -8,6 +8,13 @@ clc;
 count=0;
 seenRunIds=strings(0,1);
 RunGM=[]; RunRi=[]; RunReached=[]; RunTarget=[];
+% Timeouts keep their row and outcome, without reading force-killed recorders.
+if Uncertainty==0, nRealizations=1; end
+nRuns=(GM_Last-GM_Start+1)*nRealizations;
+SDR_All=NaN(nRuns,NStory); RDR_All=SDR_All;
+PFA_All=NaN(nRuns,NStory+1); PFV_All=PFA_All;
+SDR_All_EGF=SDR_All; RDR_All_EGF=RDR_All;
+PFA_All_EGF=PFA_All; PFV_All_EGF=PFV_All;
 for GM_No=GM_Start:GM_Last
 
     GMdt  = GM.dt  {:,GM_No};
@@ -35,7 +42,7 @@ for GM_No=GM_Start:GM_Last
 
         metadata=load('RunResult.mat','RunResult');
         RunResult=metadata.RunResult;
-        if ~ismember(RunResult.State,["COMPLETED","COLLAPSE","NONCONVERGED"])
+        if ~ismember(RunResult.State,["COMPLETED","COLLAPSE","NONCONVERGED","TIMEOUT"])
             error('FM2D:InvalidSummaryRun','Cannot summarize a failed or incomplete run.');
         end
         if RunResult.State=="NONCONVERGED" && (~all(isfield(RunResult,{'Stage','Reached','Target'})) || RunResult.Stage~="DYNAMIC" || ...
@@ -45,10 +52,10 @@ for GM_No=GM_Start:GM_Last
         end
         if Parallel==1 && Uncertainty==1
             if ~isfield(RunResult,'Job') || RunResult.Job.GM_No~=GM_No || RunResult.Job.Ri~=Ri || ...
-                    any(seenRunIds==string(RunResult.RunId))
+                    (RunResult.State~="TIMEOUT" && (~isfield(RunResult,'RunId') || any(seenRunIds==string(RunResult.RunId))))
                 error('FM2D:DuplicateSummaryRun','Expected a unique run for GM %d, realization %d.',GM_No,Ri);
             end
-            seenRunIds(end+1,1)=string(RunResult.RunId);
+            if RunResult.State~="TIMEOUT", seenRunIds(end+1,1)=string(RunResult.RunId); end
             SF_GM=RunResult.Job.SF;
         end
         RunStates(count)=string(RunResult.State);
@@ -56,6 +63,7 @@ for GM_No=GM_Start:GM_Last
         RunReached(count)=NaN; RunTarget(count)=NaN;
         if isfield(RunResult,'Reached'), RunReached(count)=RunResult.Reached; end
         if isfield(RunResult,'Target'), RunTarget(count)=RunResult.Target; end
+        if RunResult.State=="TIMEOUT", continue; end
         %% Read Time Data
         dumVar=importdata('Time.out');
         time=dumVar(:,1);
