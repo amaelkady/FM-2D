@@ -56,7 +56,7 @@ set Lmda_C  [expr 1761  * pow(($bt),-2.31) * pow((1-$PgPye),4.91)];
 if {$PgPye <= 0.2} {
 	set My  [expr 1.2*$My*(1-$PgPye/2)];
 } else {
-	set My  [expr 1.2*$My*(9/8)*(1-$PgPye)];
+	set My  [expr 1.2*$My*(9./8.)*(1-$PgPye)];
 }
 
 set McMy  1.2;

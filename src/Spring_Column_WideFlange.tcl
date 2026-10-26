@@ -73,7 +73,7 @@ if {$Lmda  > 3.0} {set Lmda  3.0}
 if {$PgPye <= 0.2} {
 	set My  [expr 1.15*$My*(1-$PgPye/2)];
 } else {
-	set My  [expr 1.15*$My*(9/8)*(1-$PgPye)];
+	set My  [expr 1.15*$My*(9./8.)*(1-$PgPye)];
 }
 
 set McMy   [expr 12.5 * pow(($htw),-0.200) * pow(($Lb/$ry),-0.400) * pow((1-$PgPye),0.400)];
