@@ -59,6 +59,7 @@ if {$Units == 1} {
 }
 
 
+# Concentrated spring stiffness; the elastic member supplies the remaining rotation.
 set n 100.0;
 set K  [expr ($n+1.0) * 6 * $E * $Ix / $L];
 
@@ -84,7 +85,7 @@ if {$ConnectionType == 1} {
 		set McMyP 1.09;
 		set McMyN 1.09;
 		
-		# Corrected rotations to account for elastic deformations
+		# Convert whole-member backbone rotations to concentrated-spring rotations
 		set theta_y  [expr $My/(6 * $E * $Ix / $L)];
 		set theta_p  [expr $theta_p  - ($McMyP-1.0)*$My/(6 * $E * $Ix / $L)];
 		set theta_pc [expr $theta_pc + $theta_y + ($McMyP-1.0)*$My/(6 * $E * $Ix / $L)];
@@ -112,7 +113,7 @@ if {$ConnectionType == 1} {
 		set McMyP 1.30;
 		set McMyN 1.05;
 
-		# Corrected rotations to account for elastic deformations
+		# Convert whole-member backbone rotations to concentrated-spring rotations
 		set theta_y    [expr $My/(6 * $E * $Ix / $L)];
 		set theta_p_p  [expr $theta_p  - ($McMyP-1.0)*$My/(6 * $E * $Ix / $L)];
 		set theta_p_n  [expr $theta_p  - ($McMyN-1.0)*$My/(6 * $E * $Ix / $L)];
@@ -128,8 +129,8 @@ if {$ConnectionType == 1} {
 		set D_P 1.15;
 		set D_N 1.0;
 
-		set Res_P 0.3;
-		set Res_N 0.2;
+		set MresMy_P 0.3;
+		set MresMy_N 0.2;
 		
 		set c 1.0;
 
@@ -151,7 +152,7 @@ if {$ConnectionType == 1} {
 		set theta_pc  [expr 7.500 * pow(($htw),-0.610) * pow(($bftf),-0.710) *  pow(($Lb/$ry),-0.110) 					     *  pow(($c1 * $d/533),-0.161) * pow(($c2 * $Fy* $c4/355),-0.320)];
 		set Lmda      [expr 536   * pow(($htw),-1.260) * pow(($bftf),-0.525) *  pow(($Lb/$ry),-0.130) 					     							   * pow(($c2 * $Fy* $c4/355),-0.291)];
 	} else {
-		set theta_p   [expr 0.0865 * pow(($htw),-0.360) * pow(($bftf),-0.140) 					 	  *  pow(($Ls/$d),0.340) *  pow(($c1 * $d/533),-0.721) * pow(($c2 * $Fy* $c4/355),-0.230)];
+		set theta_p   [expr 0.0865 * pow(($htw),-0.365) * pow(($bftf),-0.140) 					 	  *  pow(($Ls/$d),0.340) *  pow(($c1 * $d/533),-0.721) * pow(($c2 * $Fy* $c4/355),-0.230)];
 		set theta_pc  [expr 5.6300 * pow(($htw),-0.565) * pow(($bftf),-0.800) 					   	 						 *  pow(($c1 * $d/533),-0.280) * pow(($c2 * $Fy* $c4/355),-0.430)];
 		set Lmda      [expr 495    * pow(($htw),-1.340) * pow(($bftf),-0.595) 					   								   						   * pow(($c2 * $Fy* $c4/355),-0.360)];
 
@@ -164,8 +165,10 @@ if {$ConnectionType == 1} {
 		set McMyP    1.11;
 		set McMyN    1.11;
 
-		# Corrected rotations to account for elastic deformations
+		# Convert whole-member backbone rotations to concentrated-spring rotations
 		set theta_y  [expr $My/(6 * $E * $Ix / $L)];
+		set theta_p  [expr $theta_p - ($McMyP-1.0)*$theta_y];
+		set theta_pc [expr $theta_pc + $McMyP*$theta_y];
 		set theta_p_P   $theta_p;
 		set theta_p_N   $theta_p;
 		set theta_pc_P  $theta_pc;
@@ -189,7 +192,7 @@ if {$ConnectionType == 1} {
 		set McMyP 1.30;
 		set McMyN 1.05;
 
-		# Corrected rotations to account for elastic deformations
+		# Convert whole-member backbone rotations to concentrated-spring rotations
 		set theta_y    [expr $My/(6 * $E * $Ix / $L)];
 		set theta_p_p  [expr $theta_p  - ($McMyP-1.0)*$My/(6 * $E * $Ix / $L)];
 		set theta_p_n  [expr $theta_p  - ($McMyN-1.0)*$My/(6 * $E * $Ix / $L)];
