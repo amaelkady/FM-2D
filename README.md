@@ -1,3 +1,5 @@
+# *You can now run FM-2D in your browser through the [web app](https://amaelkady.github.io/fm2d-web-app/builder/FM2D_Model_Builder.html) version*
+
 <p align="center">
   <img width="800" src="misc\Screenshot.png" alt="FM-2D Main Console">
 </p>
