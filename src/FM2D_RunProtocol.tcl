@@ -8,7 +8,8 @@ proc FM2D_WriteStatus {state stage reached target message} {
     # Standalone exported Tcl can run without the MATLAB driver.
     if {![info exists FM2D_RunId] || ![info exists FM2D_StatusFile]} {return}
     set message [string map [list "\n" " " "\r" " "] $message]
-    set f [open $FM2D_StatusFile w]
+    set pending "${FM2D_StatusFile}.tmp"
+    set f [open $pending w]
     puts $f $FM2D_RunId
     puts $f $state
     puts $f $stage
@@ -16,6 +17,7 @@ proc FM2D_WriteStatus {state stage reached target message} {
     puts $f $target
     puts $f $message
     close $f
+    file rename -force $pending $FM2D_StatusFile
 }
 
 # --- FM2D_BeginStage ---
@@ -23,7 +25,7 @@ proc FM2D_WriteStatus {state stage reached target message} {
 proc FM2D_BeginStage {stage} {
     global FM2D_Stage FM2D_Outcome
     set FM2D_Stage $stage
-    unset -nocomplain FM2D_Outcome
+    unset -nocomplain FM2D_Outcome ::FM2D_StaticControl ::FM2D_StaticProgress
     FM2D_WriteStatus STARTED $stage 0 0 "Analysis in progress"
     FM2D_CheckDeadline
 }
@@ -44,10 +46,28 @@ proc FM2D_RunModel {modelFile} {
     set FM2D_Stage MODEL
     unset -nocomplain FM2D_Outcome
     FM2D_WriteStatus STARTED MODEL 0 0 "Analysis in progress"
+    # A hard stop must not discard buffered responses from accepted pushover steps.
+    if {[info exists ::FM2D_AllowPartialStaticTimeout] && $::FM2D_AllowPartialStaticTimeout} {
+        rename recorder FM2D_NativeRecorder
+        proc recorder {kind args} {
+            if {$kind in {Node Element Drift}} {set args [linsert $args 0 -closeOnWrite]}
+            uplevel 1 [list FM2D_NativeRecorder $kind {*}$args]
+        }
+    }
     if {[catch {uplevel #0 [list source $modelFile]; FM2D_CheckDeadline} message options]} {
         set state FAILED
         if {[dict exists $options -errorcode] && [dict get $options -errorcode] eq "FM2D TIMEOUT"} {set state TIMEOUT}
-        FM2D_WriteStatus $state $FM2D_Stage 0 0 $message
+        if {$state eq "TIMEOUT" && $FM2D_Stage eq "STATIC" && [info exists ::FM2D_StaticProgress]} {
+            lassign $::FM2D_StaticProgress reached target
+            catch {remove recorders}
+            FM2D_WriteStatus TIMEOUT STATIC $reached $target $message
+            if {[info exists ::FM2D_AllowPartialStaticTimeout] && $::FM2D_AllowPartialStaticTimeout} {
+                puts "Analysis terminated due to runtime limit; recorded pushover results retained."
+                return 0
+            }
+        } else {
+            FM2D_WriteStatus $state $FM2D_Stage 0 0 $message
+        }
         puts stderr $message
         return 1
     }
@@ -86,8 +106,18 @@ proc FM2D_AnalyzeStaticChecked {nSteps} {
     for {set step 0} {$step<$nSteps} {incr step} {
         FM2D_CheckDeadline
         set result [analyze 1]
+        if {$result == 0} {FM2D_RecordStaticProgress}
         FM2D_CheckDeadline
         if {$result !=0} {return $result}
     }
     return 0
+}
+
+# Track only accepted static steps; atomic checkpoints also survive a hard stop.
+proc FM2D_RecordStaticProgress {} {
+    if {![info exists ::FM2D_StaticControl]} {return}
+    lassign $::FM2D_StaticControl node dof target
+    set reached [nodeDisp $node $dof]
+    set ::FM2D_StaticProgress [list $reached $target]
+    FM2D_WriteStatus RUNNING STATIC $reached $target "Pushover in progress"
 }

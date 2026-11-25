@@ -282,7 +282,13 @@ elseif PO == 1 || ELF==1
     if ELF==1; app.ProgressText.Text='Running ELF Analysis...';      drawnow; end
     
     % RUN OPENSEES MODEL
-    [~,StaticResult]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus);
+    Job=struct('AllowPartialStaticTimeout',PO==1);
+    [~,StaticResult]=run_exe(OpenSEESFileNameX,ShowOpenseesStatus,[],Job);
+    setappdata(app.figure1,'FM2D_StaticRunOutcome',StaticResult);
+    if StaticResult.State=="TIMEOUT"
+        app.ProgressText.Text='Analysis terminated due to runtime limit; recorded results retained.';
+        drawnow;
+    end
     if StaticResult.State=="NONCONVERGED"
         app.ProgressText.Text=sprintf('Stopped due to nonconvergence at %.3f mm; results available.',StaticResult.Reached);
         drawnow;

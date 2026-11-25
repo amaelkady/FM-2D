@@ -103,6 +103,9 @@ proc FM2D_ReportStaticProgress {reached target stepSize} {
 proc Solver_Static {CtrlNode CtrlDOF d_incr d_max  HBuilding} {
 
 FM2D_BeginStage STATIC
+set ::FM2D_StaticControl [list $CtrlNode $CtrlDOF $d_max]
+set ::FM2D_StaticProgress [list 0 $d_max]
+FM2D_WriteStatus RUNNING STATIC 0 $d_max "Pushover in progress"
 set recoveryExhausted 0
     unset -nocomplain ::FM2D_StaticLastReport
 global RoofDisp ok;                        # global variable to monitor roof disp

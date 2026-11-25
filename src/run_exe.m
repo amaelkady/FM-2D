@@ -7,6 +7,7 @@ function [RunTime, Result] = run_exe(OpenSEESFileName, ShowOpenseesStatus, timeo
 %                       disables the limit. If omitted, use MaxRunTime from
 %                       temp_unpacked.mat, or ten minutes as the fallback.
 %   Job               : Optional GM/realization metadata and sampling Seed.
+%                       AllowPartialStaticTimeout retains final pushover results.
 %
 %   RunTime is elapsed process time in seconds. Result contains the validated
 %   outcome, reached/target values, run identity and log location. Each call
@@ -17,13 +18,14 @@ mainDir = fileparts(mfilename('fullpath'));
 if nargin < 4
     Job = struct();
 end
+allowStaticTimeout = isfield(Job,'AllowPartialStaticTimeout') && Job.AllowPartialStaticTimeout;
 seeded = isfield(Job,'Seed') && ~isempty(Job.Seed);
 if seeded
     validateattributes(Job.Seed, {'numeric'}, ...
         {'scalar','integer','positive','<=',2147483646});
 end
 
-if nargin < 3
+if nargin < 3 || isempty(timeoutMinutes)
     timeoutMinutes = 10;
     configFile = fullfile(mainDir, 'temp_unpacked.mat');
 
@@ -82,6 +84,7 @@ end
 cleanup = onCleanup(@() fclose(f));
 
 fprintf(f, 'set FM2D_RunId %s\n', tclString(runId));
+fprintf(f, 'set FM2D_AllowPartialStaticTimeout %d\n', allowStaticTimeout);
 fprintf(f, 'set FM2D_StatusFile %s\n', tclString(statusFile));
 fprintf(f, 'set FM2D_CollapseDir %s\n', tclString(runFolder));
 if seeded
@@ -103,9 +106,11 @@ clear cleanup % Close the driver before OpenSees reads it.
 % Preserve the caller's working directory for existing model-relative paths.
 % The supervisor captures output and terminates this child on timeout.
 exe = fullfile(mainDir, 'OpenSees.exe');
+% Let Tcl close recorder streams before the hard stop (final pushover only).
+processLimit = timeoutSeconds + 2*double(allowStaticTimeout);
 try
     ProcessResult = run_Process_WithDeadline( ...
-        exe, ['"' driver '"'], pwd, timeoutSeconds, ...
+        exe, ['"' driver '"'], pwd, processLimit, ...
         ShowOpenseesStatus == 1, logFile);
 catch ME
     % A launch/supervision exception may occur before Tcl writes any status.
@@ -123,11 +128,14 @@ exitCode = ProcessResult.ExitCode;
 % A terminated child may leave STARTED or no status at all. Replace it with
 % TIMEOUT, retaining the last known stage only when its run identity matches.
 if ProcessResult.TimedOut
-    stage = 'MODEL';
+    stage = 'MODEL'; reached = NaN; target = NaN;
     if isfile(statusFile)
         lines = splitlines(string(fileread(statusFile)));
         if numel(lines) >= 3 && lines(1) == string(runId)
             stage = char(lines(3));
+            if numel(lines) >= 5
+                reached = str2double(lines(4)); target = str2double(lines(5));
+            end
         end
     end
 
@@ -135,8 +143,8 @@ if ProcessResult.TimedOut
     if f < 0
         error('FM2D:FileError', 'Cannot save timeout status.');
     end
-    fprintf(f, '%s\nTIMEOUT\n%s\nNaN\nNaN\nAnalysis runtime limit exceeded\n', ...
-        runId, stage);
+    fprintf(f, '%s\nTIMEOUT\n%s\n%.17g\n%.17g\nAnalysis runtime limit exceeded\n', ...
+        runId, stage, reached, target);
     fclose(f);
 end
 
@@ -145,7 +153,7 @@ end
 % values. It accepts completed runs, dynamic collapse and usable static/dynamic
 % NONCONVERGED outcomes under their respective validation rules.
 try
-    Result = read_RunOutcome(statusFile, runId, exitCode);
+    Result = read_RunOutcome(statusFile, runId, exitCode, allowStaticTimeout);
 catch ME
     failure = struct('RunId', runId, 'ExitCode', exitCode, ...
         'LogFile', logFile, 'Error', ME.message, ...
